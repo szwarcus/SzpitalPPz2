@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Configurations>Debug;Release;KarolConfiguration;DawidConfiguration;DawidDebug;JakubDebug;KarolDebug</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hospital.Core\Hospital.Core.csproj" />
+    <ProjectReference Include="..\Hospital.Model\Hospital.Model.csproj" />
+  </ItemGroup>
+
+</Project>

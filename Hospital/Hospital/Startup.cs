@@ -35,7 +35,16 @@ namespace Hospital
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(ProjectConfigurationHelper.GetConnectionString(Configuration)));
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            {
+                options.Password.RequiredLength = 4;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+            })
+
+          
                     .AddEntityFrameworkStores<ApplicationDbContext>()
                     .AddDefaultTokenProviders();
 

@@ -8,6 +8,7 @@ namespace Hospital.Model.Configurations
     {
         public void Configure(EntityTypeBuilder<Specialization> builder)
         {
+            builder.HasKey(x => x.Id);
         }
     }
 }

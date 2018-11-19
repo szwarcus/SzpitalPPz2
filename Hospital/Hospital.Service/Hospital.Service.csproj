@@ -8,6 +8,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Hospital.Core\Hospital.Core.csproj" />
     <ProjectReference Include="..\Hospital.Model\Hospital.Model.csproj" />
+    <ProjectReference Include="..\Hospital.Repository\Hospital.Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DoctorServices\" />
+    <Folder Include="AdminServices\" />
   </ItemGroup>
 
 </Project>

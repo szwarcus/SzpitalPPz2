@@ -38,4 +38,10 @@
     <ProjectReference Include="..\Hospital.Service\Hospital.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Patient\Controllers\" />
+    <Folder Include="Areas\Patient\Views\" />
+    <Folder Include="Areas\Patient\ViewModels\" />
+  </ItemGroup>
+
 </Project>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hospital.ViewModel
 {
-    public class RegisterViewModel
+    public class RegisterVM
     {
         [Required]
         [DataType(DataType.Text)]

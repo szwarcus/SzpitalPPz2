@@ -1,4 +1,5 @@
 ﻿using Hospital.Model.Entities;
+using Hospital.Model.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,11 +9,7 @@ namespace Hospital.Model.Configurations
     {
         public void Configure(EntityTypeBuilder<Doctor> builder)
         {
-            builder.HasKey(x => x.DoctorId);
-
-            builder.HasOne(x => x.User)
-                   .WithOne(x => x.Doctor)
-                   .IsRequired();
+            builder.HasKey(x => x.Id);
         }
     }
 }

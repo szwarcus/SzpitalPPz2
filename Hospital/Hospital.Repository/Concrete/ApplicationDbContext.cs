@@ -6,9 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hospital.Repository.Concrete
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationIdentityRole, string>
     {
         public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<Patient> Patients { get; set; }
         public DbSet<Specialization> Specializations { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -23,6 +24,7 @@ namespace Hospital.Repository.Concrete
 
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
             builder.ApplyConfiguration(new DoctorConfiguration());
+            builder.ApplyConfiguration(new PatientConfiguration());
             builder.ApplyConfiguration(new SpecializationConfiguration());
         }
     }

@@ -28,7 +28,7 @@ namespace Hospital.Service.PatientServices.Concrete
                 return result;
             }
 
-            var user = new ApplicationUser(model.SystemRole)
+            var appUser = new ApplicationUser(model.SystemRole)
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
@@ -37,15 +37,18 @@ namespace Hospital.Service.PatientServices.Concrete
                 PhoneNumber = model.PhoneNumber,
             };
 
-            //result = await _userRepository.CreateAsync(user, model.Password);
+            var user = await _userRepository.CreateAsync(appUser, model.Password);
 
-            //if (!result)
-            //{
-            //    return result;
-            //}
+            if (user == null)
+            {
+                return false;
+            }
 
-            var patient = new Patient();
-            patient.User = user;
+            var patient = new Patient()
+            {
+                User = user,
+                UserId = user.Id
+            };
 
             await _patientRepository.Insert(patient);
 

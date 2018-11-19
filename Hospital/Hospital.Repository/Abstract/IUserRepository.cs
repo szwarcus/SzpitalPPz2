@@ -5,6 +5,6 @@ namespace Hospital.Repository.Abstract
 {
     public interface IUserRepository
     {
-        Task<bool> CreateAsync(ApplicationUser applicationUser, string password);
+        Task<ApplicationUser> CreateAsync(ApplicationUser applicationUser, string password);
     }
 }

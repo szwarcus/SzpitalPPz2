@@ -68,8 +68,6 @@ namespace Hospital
             services.AddScoped<IDbInitializer, DbInitializer>();
 
             // repositories
-            services.AddScoped<IBaseRepository, BaseRepository>();
-            services.AddScoped<IPatientRepository, PatientRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 

@@ -12,15 +12,20 @@ namespace Hospital.Model.Identity
         public GenderType Gender { get; set; }
 
         public DateTime Created { get; set; }
-        public string RoleName { get; private set; }
+        public string SystemRoleName { get; private set; }
 
         public virtual Doctor Doctor { get; set; }
         public virtual Patient Patient { get; set; }
 
+        public ApplicationUser()
+        {
+            Created = DateTime.UtcNow;
+        }
+
         public ApplicationUser(string roleName)
         {
             Created = DateTime.UtcNow;
-            RoleName = roleName;
+            SystemRoleName = roleName;
         }
     }
 }

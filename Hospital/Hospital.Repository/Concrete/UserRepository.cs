@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Hospital.Model.Identity;
 using Hospital.Repository.Abstract;
 using Microsoft.AspNetCore.Identity;
@@ -7,23 +8,19 @@ namespace Hospital.Repository.Concrete
 {
     public class UserRepository : IUserRepository
     {
-        private SignInManager<ApplicationUser> _signInManager;
         private RoleManager<ApplicationIdentityRole> _roleManager;
         private UserManager<ApplicationUser> _userManager;
 
-        public UserRepository(SignInManager<ApplicationUser> signInManager, 
-                              RoleManager<ApplicationIdentityRole> roleManager,
+        public UserRepository(RoleManager<ApplicationIdentityRole> roleManager,
                               UserManager<ApplicationUser> userManager)
         {
-            _signInManager = signInManager;
             _roleManager = roleManager;
             _userManager = userManager;
         }
-
-
-        public async Task<bool> CreateAsync(ApplicationUser entity, string password)
+        
+        public async Task<ApplicationUser> CreateAsync(ApplicationUser entity, string password)
         {
-            var result = false;
+            ApplicationUser result = null;
 
             var user = await _userManager.FindByEmailAsync(entity.Email);
 
@@ -33,19 +30,20 @@ namespace Hospital.Repository.Concrete
             }
 
             var createAsyncResult = await _userManager.CreateAsync(entity, password);
+            // do poprawy znajdowanie użytkownika, moze jest metoda zeby go pobrac przy tworzeniu od razu jedna metoda
 
-            if (createAsyncResult.Succeeded && Role.Exists(entity.RoleName))
+            if (createAsyncResult.Succeeded && Role.Exists(entity.SystemRoleName))
             {
-                var roleExists = await _roleManager.RoleExistsAsync(entity.RoleName);
+                var roleExists = await _roleManager.RoleExistsAsync(entity.SystemRoleName);
 
                 if (!roleExists)
                 {
-                    await _roleManager.CreateAsync(new ApplicationIdentityRole(entity.RoleName));
+                    await _roleManager.CreateAsync(new ApplicationIdentityRole(entity.SystemRoleName));
                 }
 
-                await _userManager.AddToRoleAsync(entity, entity.RoleName);
+                await _userManager.AddToRoleAsync(entity, entity.SystemRoleName);
 
-                result = true;
+                result = await _userManager.FindByEmailAsync(entity.Email);
             }
 
             return result;

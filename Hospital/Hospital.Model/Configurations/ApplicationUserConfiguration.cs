@@ -13,6 +13,9 @@ namespace Hospital.Model.Configurations
             builder.Property(x => x.FirstName).HasMaxLength(50);
             builder.Property(x => x.LastName).HasMaxLength(50);
 
+            builder.Property(x => x.SystemRoleName).HasMaxLength(50)
+                                                   .IsRequired();
+
             builder.HasOne(x => x.Doctor)
                    .WithOne(x => x.User)
                    .HasForeignKey<Doctor>(x => x.UserId)

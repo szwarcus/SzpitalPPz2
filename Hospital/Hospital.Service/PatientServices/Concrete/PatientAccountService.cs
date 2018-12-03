@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using AutoMapper;
 using Hospital.Model.Entities;
 using Hospital.Model.Identity;
 using Hospital.Repository.Abstract;
@@ -9,48 +10,38 @@ namespace Hospital.Service.PatientServices.Concrete
 {
     public class PatientAccountService : IPatientAccountService
     {
-        private IUserRepository _userRepository;
-        private IRepository<Patient> _patientRepository;
+        private IUserRepository userRepository;
+        private IRepository<Patient> patientRepository;
+        private IMapper mapper;
 
-        public PatientAccountService(IUserRepository userRepository,
+        public PatientAccountService(IMapper mapper,
+                                     IUserRepository userRepository,
                                      IRepository<Patient> patientRepository)
         {
-            _userRepository = userRepository;
-            _patientRepository = patientRepository;
+            this.userRepository = userRepository;
+            this.patientRepository = patientRepository;
+            this.mapper = mapper;
         }
 
         public async Task<bool> Register(RegisterPatientInDTO model)
         {
-            var result = false;
-
             if (model == null)
             {
-                return result;
+                return false;
             }
 
-            var appUser = new ApplicationUser(model.SystemRole)
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                UserName = model.UserName,
-                Email = model.Email,
-                PhoneNumber = model.PhoneNumber,
-            };
-
-            var user = await _userRepository.CreateAsync(appUser, model.Password);
+            var appUser = mapper.Map<ApplicationUser>(model);
+            
+            var user = await userRepository.CreateAsync(appUser, model.Password);
 
             if (user == null)
             {
                 return false;
             }
 
-            var patient = new Patient()
-            {
-                User = user,
-                UserId = user.Id
-            };
+            var patient = new Patient { User = user };
 
-            await _patientRepository.Insert(patient);
+            await patientRepository.Insert(patient);
 
             return true;
         }

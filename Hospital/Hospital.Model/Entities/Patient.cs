@@ -1,4 +1,5 @@
-﻿using Hospital.Model.Identity;
+﻿using System.Collections.Generic;
+using Hospital.Model.Identity;
 
 namespace Hospital.Model.Entities
 {
@@ -6,5 +7,7 @@ namespace Hospital.Model.Entities
     {
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
+
+        public virtual ICollection<Visit> Visits { get; set; }
     }
 }

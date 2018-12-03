@@ -5,6 +5,7 @@ using Hospital.Model.Identity;
 using Hospital.ViewModel;
 using Hospital.Service.PatientServices.InDTOs;
 using Hospital.Service.PatientServices.Abstract;
+using AutoMapper;
 
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,23 +14,26 @@ namespace Hospital.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<ApplicationIdentityRole> _roleManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly RoleManager<ApplicationIdentityRole> roleManager;
 
-        private IPatientAccountService _patientAccountService;
+        private readonly IMapper mapper;
+
+        private IPatientAccountService patientAccountService;
 
         public AccountController(SignInManager<ApplicationUser> signInManager, 
                                  UserManager<ApplicationUser> userManager,
                                  RoleManager<ApplicationIdentityRole> roleManager,
+                                 IMapper mapper,
                                  IPatientAccountService patientAccountService
                                  )
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _roleManager = roleManager;
-
-            _patientAccountService = patientAccountService;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.roleManager = roleManager;
+            this.mapper = mapper;
+            this.patientAccountService = patientAccountService;
         }
 
         #region GetMethods
@@ -66,14 +70,19 @@ namespace Hospital.Controllers
                 return View();
             }
 
-            var user = await _userManager.FindByEmailAsync(model.Email);
+            var user = await userManager.FindByEmailAsync(model.Email);
 
-            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+            if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
             {
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
 
                 if (result.Succeeded)
                 {
+                    // if doctor
+                    
+                    // if patient
+                    
+                    // if nurse
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -93,16 +102,10 @@ namespace Hospital.Controllers
                 return View();
             }
 
-            var result = await _patientAccountService.Register(new RegisterPatientInDTO
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Email = model.Email,
-                UserName = model.Nick,
-                PhoneNumber = model.Phone,
-                SystemRole = Role.Patient,
-                Password = model.Password
-            });
+            var dtoModel = mapper.Map<RegisterPatientInDTO>(model);
+            dtoModel.SystemRole = Role.Patient;
+
+            var result = await patientAccountService.Register(dtoModel);
 
             if (!result)
             {
@@ -116,7 +119,7 @@ namespace Hospital.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout( )
         {
-            await _signInManager.SignOutAsync();
+            await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
         #endregion

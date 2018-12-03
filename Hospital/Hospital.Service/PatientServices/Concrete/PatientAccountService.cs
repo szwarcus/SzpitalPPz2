@@ -2,8 +2,10 @@
 using Hospital.Model.Entities;
 using Hospital.Model.Identity;
 using Hospital.Repository.Abstract;
+using Hospital.Service.Helpers.Email;
 using Hospital.Service.PatientServices.Abstract;
 using Hospital.Service.PatientServices.InDTOs;
+
 
 namespace Hospital.Service.PatientServices.Concrete
 {
@@ -11,12 +13,15 @@ namespace Hospital.Service.PatientServices.Concrete
     {
         private IUserRepository _userRepository;
         private IRepository<Patient> _patientRepository;
+       
 
         public PatientAccountService(IUserRepository userRepository,
-                                     IRepository<Patient> patientRepository)
+                                     IRepository<Patient> patientRepository
+                                    )
         {
             _userRepository = userRepository;
             _patientRepository = patientRepository;
+           
         }
 
         public async Task<bool> Register(RegisterPatientInDTO model)
@@ -43,7 +48,7 @@ namespace Hospital.Service.PatientServices.Concrete
             {
                 return false;
             }
-
+        
             var patient = new Patient()
             {
                 User = user,
@@ -54,5 +59,15 @@ namespace Hospital.Service.PatientServices.Concrete
 
             return true;
         }
+
+
+        public async Task<bool> ConfirmEmail(ConfirmEmailPatientInDTO model)
+        {      
+            if (model.user == null)
+                return false;
+
+            return await _userRepository.ConfirmEmailAsync(model.user, model.token);
+        }
+
     }
 }

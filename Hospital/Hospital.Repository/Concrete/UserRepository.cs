@@ -17,7 +17,16 @@ namespace Hospital.Repository.Concrete
             _roleManager = roleManager;
             _userManager = userManager;
         }
-        
+
+        public async Task<bool> ConfirmEmailAsync(ApplicationUser user, string token)
+        {  
+            if (user == null)
+                return false;
+            var result = await _userManager.ConfirmEmailAsync(user,token);
+
+            return result.Succeeded ? true : false; 
+        }
+
         public async Task<ApplicationUser> CreateAsync(ApplicationUser entity, string password)
         {
             ApplicationUser result = null;
@@ -33,7 +42,7 @@ namespace Hospital.Repository.Concrete
             // do poprawy znajdowanie użytkownika, moze jest metoda zeby go pobrac przy tworzeniu od razu jedna metoda
 
             if (createAsyncResult.Succeeded && Role.Exists(entity.SystemRoleName))
-            {
+            {     
                 var roleExists = await _roleManager.RoleExistsAsync(entity.SystemRoleName);
 
                 if (!roleExists)
@@ -48,5 +57,12 @@ namespace Hospital.Repository.Concrete
 
             return result;
         }
+
+        public async Task<ApplicationUser> FindAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            return user;
+        }
+
     }
 }

@@ -13,6 +13,7 @@ using Hospital.Repository.Concrete;
 using Hospital.Repository.Abstract;
 using Hospital.Service.PatientServices.Abstract;
 using Hospital.Service.PatientServices.Concrete;
+using Hospital.Service.Helpers.Email;
 
 namespace Hospital
 {
@@ -47,6 +48,7 @@ namespace Hospital
                         options.Password.RequireUppercase = false;
                         options.Password.RequireNonAlphanumeric = false;
                         options.Password.RequireDigit = false;
+                        options.SignIn.RequireConfirmedEmail = true;
                     })
                     .AddEntityFrameworkStores<ApplicationDbContext>()
                     .AddDefaultTokenProviders();
@@ -73,6 +75,7 @@ namespace Hospital
 
             // api services
             services.AddScoped<IPatientAccountService, PatientAccountService>();
+            services.AddTransient<IEmailSender, EmailSender>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

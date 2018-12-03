@@ -5,6 +5,7 @@ using Hospital.Model.Identity;
 using Hospital.ViewModel;
 using Hospital.Service.PatientServices.InDTOs;
 using Hospital.Service.PatientServices.Abstract;
+using Hospital.Service.Helpers.Email;
 
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,11 +19,13 @@ namespace Hospital.Controllers
         private readonly RoleManager<ApplicationIdentityRole> _roleManager;
 
         private IPatientAccountService _patientAccountService;
+        private readonly IEmailSender _emailSender;
 
         public AccountController(SignInManager<ApplicationUser> signInManager, 
                                  UserManager<ApplicationUser> userManager,
                                  RoleManager<ApplicationIdentityRole> roleManager,
-                                 IPatientAccountService patientAccountService
+                                 IPatientAccountService patientAccountService,
+                                 IEmailSender emailSender
                                  )
         {
             _userManager = userManager;
@@ -30,6 +33,7 @@ namespace Hospital.Controllers
             _roleManager = roleManager;
 
             _patientAccountService = patientAccountService;
+            _emailSender = emailSender;
         }
 
         #region GetMethods
@@ -40,6 +44,7 @@ namespace Hospital.Controllers
 
         public IActionResult Register()
         {
+            
             return View();
         }
 
@@ -52,6 +57,32 @@ namespace Hospital.Controllers
                 IsAuthenticated = User.Identity.IsAuthenticated,
                 Username = User.Identity.IsAuthenticated ? User.Identity.Name : string.Empty
             });
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string token)
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail( string userId , string token)
+        {
+         
+            var user = await _userManager.FindByIdAsync(userId);
+            if(user == null)
+                return View("Error");
+            if( await _userManager.IsEmailConfirmedAsync(user) == true) /// trzeba wyswietlic informacje ze mail został już potwierdzony
+                return View("Error");
+            var result = await _patientAccountService.ConfirmEmail(new ConfirmEmailPatientInDTO() { user = user, token = token });
+
+            return View(result ? "ConfirmEmail" : "Error");
+
         }
         #endregion
 
@@ -74,11 +105,15 @@ namespace Hospital.Controllers
 
                 if (result.Succeeded)
                 {
+                   if(await _userManager.IsEmailConfirmedAsync(user))
                     return RedirectToAction("Index", "Home");
+                   else
+                        ModelState.AddModelError("", "Not Email Confirmed");
+
                 }
             }
-
-            ModelState.AddModelError("", "User name or password not found");
+            else
+                 ModelState.AddModelError("", "User name or password not found");
 
             return View();
         }
@@ -110,6 +145,13 @@ namespace Hospital.Controllers
                 return View();
             }
 
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            var tokeN = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var link = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token=tokeN },protocol:HttpContext.Request.Scheme);
+            var res = await _emailSender.SendEmailAsync(user.Email, link, "Confirm");
+            if(!res)
+                return View();
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -118,6 +160,42 @@ namespace Hospital.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendPasswordResetLink(string email)
+        {
+            if (email == "")
+            {
+                return View();
+            }
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return View();
+
+            var tokeN = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var link = Url.Action("ResetPassword", "Account", new { userId = user.Id, token = tokeN }, protocol: HttpContext.Request.Scheme);
+            var res = await _emailSender.SendEmailAsync(user.Email, link, "Reset Password");
+            if (!res)
+                return View();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> ResetPassword(ResetPasswordVM model)
+        {
+            var user = await _userManager.FindByIdAsync(model.UserId);
+            if (user == null)
+                return View("Error");
+            if (model.Password != model.ConfirmPassword)
+                return View("Error");
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+            if (result.Succeeded)
+                return RedirectToAction("Index", "Home");
+            else
+                return View("Error");
+
         }
         #endregion
     }

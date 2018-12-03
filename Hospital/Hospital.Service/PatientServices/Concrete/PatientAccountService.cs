@@ -3,10 +3,8 @@ using AutoMapper;
 using Hospital.Model.Entities;
 using Hospital.Model.Identity;
 using Hospital.Repository.Abstract;
-using Hospital.Service.Helpers.Email;
 using Hospital.Service.PatientServices.Abstract;
 using Hospital.Service.PatientServices.InDTOs;
-
 
 namespace Hospital.Service.PatientServices.Concrete
 {
@@ -54,7 +52,7 @@ namespace Hospital.Service.PatientServices.Concrete
             if (model.user == null)
                 return false;
 
-            return await _userRepository.ConfirmEmailAsync(model.user, model.token);
+            return await userRepository.ConfirmEmailAsync(model.user, model.token);
         }
 
     }

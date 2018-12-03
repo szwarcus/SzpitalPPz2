@@ -20,7 +20,7 @@ namespace Hospital.Controllers
         private readonly RoleManager<ApplicationIdentityRole> roleManager;
 
         private readonly IMapper mapper;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailSender emailSender;
 
         private IPatientAccountService patientAccountService;
 
@@ -28,13 +28,15 @@ namespace Hospital.Controllers
                                  UserManager<ApplicationUser> userManager,
                                  RoleManager<ApplicationIdentityRole> roleManager,
                                  IMapper mapper,
-                                 IPatientAccountService patientAccountService
+                                 IPatientAccountService patientAccountService,
                                  IEmailSender emailSender
                                  )
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
+
+            this.emailSender = emailSender;
             this.mapper = mapper;
             this.patientAccountService = patientAccountService;
         }
@@ -150,7 +152,7 @@ namespace Hospital.Controllers
             var user = await userManager.FindByEmailAsync(model.Email);
             var tokeN = await userManager.GenerateEmailConfirmationTokenAsync(user);
             var link = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token=tokeN },protocol:HttpContext.Request.Scheme);
-            var res = await _emailSender.SendEmailAsync(user.Email, link, "Confirm");
+            var res = await emailSender.SendEmailAsync(user.Email, link, "Confirm");
             if(!res)
                 return View();
 
@@ -177,7 +179,7 @@ namespace Hospital.Controllers
 
             var tokeN = await userManager.GeneratePasswordResetTokenAsync(user);
             var link = Url.Action("ResetPassword", "Account", new { userId = user.Id, token = tokeN }, protocol: HttpContext.Request.Scheme);
-            var res = await _emailSender.SendEmailAsync(user.Email, link, "Reset Password");
+            var res = await emailSender.SendEmailAsync(user.Email, link, "Reset Password");
             if (!res)
                 return View();
 

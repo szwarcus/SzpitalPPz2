@@ -27,6 +27,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" PrivateAssets="All" />
   </ItemGroup>
@@ -39,9 +40,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Doctor\Controllers\" />
+    <Folder Include="Areas\Doctor\ViewModels\" />
+    <Folder Include="Areas\Doctor\Views\Home\" />
     <Folder Include="Areas\Patient\Controllers\" />
-    <Folder Include="Areas\Patient\Views\" />
     <Folder Include="Areas\Patient\ViewModels\" />
+    <Folder Include="Areas\Patient\Views\Home\" />
   </ItemGroup>
 
 </Project>

@@ -10,11 +10,6 @@ namespace Hospital.ViewModel
     {
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Pseudonim")]
-        public string Nick { get; set; }
-
-        [Required]
-        [DataType(DataType.Text)]
         [Display(Name="Imię")]
         public string FirstName { get; set; }
 
@@ -41,7 +36,5 @@ namespace Hospital.ViewModel
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Numer Telefonu")]
         public string Phone { get; set; }
-
-        
     }
 }

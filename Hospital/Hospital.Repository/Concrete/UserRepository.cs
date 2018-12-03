@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Hospital.Model.Identity;
 using Hospital.Repository.Abstract;
 using Microsoft.AspNetCore.Identity;
@@ -39,7 +38,6 @@ namespace Hospital.Repository.Concrete
             }
 
             var createAsyncResult = await _userManager.CreateAsync(entity, password);
-            // do poprawy znajdowanie użytkownika, moze jest metoda zeby go pobrac przy tworzeniu od razu jedna metoda
 
             if (createAsyncResult.Succeeded && Role.Exists(entity.SystemRoleName))
             {     

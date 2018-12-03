@@ -1,4 +1,5 @@
-﻿using Hospital.Model.Identity;
+﻿using System.Collections.Generic;
+using Hospital.Model.Identity;
 
 namespace Hospital.Model.Entities
 {
@@ -7,6 +8,16 @@ namespace Hospital.Model.Entities
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
 
-        // specialization to add
+        public long SpecializationId { get; set; }
+        public virtual Specialization Specialization { get; set; }
+
+        public long HarmonogramId { get; set; }
+        public virtual Harmonogram Harmonogram { get; set; }
+
+        public virtual ICollection<Visit> Visits { get; set; }
+        /*
+         * to do
+         * certificate to do
+         */
     }
 }

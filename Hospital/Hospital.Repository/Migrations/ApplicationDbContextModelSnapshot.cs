@@ -27,15 +27,65 @@ namespace Hospital.Repository.Migrations
 
                     b.Property<DateTime>("Created");
 
+                    b.Property<long>("HarmonogramId");
+
+                    b.Property<long>("SpecializationId");
+
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("HarmonogramId")
+                        .IsUnique();
+
+                    b.HasIndex("SpecializationId");
 
                     b.HasIndex("UserId")
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Doctors");
+
+                    b.HasData(
+                        new { Id = 1L, Created = new DateTime(2018, 12, 3, 13, 29, 10, 154, DateTimeKind.Utc), HarmonogramId = 1L, SpecializationId = 1L, UserId = "9f2cfdcb-9f4d-4d65-a81c-43deacf27741" }
+                    );
+                });
+
+            modelBuilder.Entity("Hospital.Model.Entities.Harmonogram", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<TimeSpan>("FridayEnd");
+
+                    b.Property<TimeSpan>("FridayStart");
+
+                    b.Property<TimeSpan>("MondayEnd");
+
+                    b.Property<TimeSpan>("MondayStart");
+
+                    b.Property<TimeSpan>("ThursdayEnd");
+
+                    b.Property<TimeSpan>("ThursdayStart");
+
+                    b.Property<TimeSpan>("TuesdayEnd");
+
+                    b.Property<TimeSpan>("TuesdayStart");
+
+                    b.Property<TimeSpan>("WednesdayEnd");
+
+                    b.Property<TimeSpan>("WednesdayStart");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Harmonograms");
+
+                    b.HasData(
+                        new { Id = 1L, Created = new DateTime(2018, 12, 3, 13, 29, 10, 155, DateTimeKind.Utc), FridayEnd = new TimeSpan(0, 0, 0, 0, 0), FridayStart = new TimeSpan(0, 0, 0, 0, 0), MondayEnd = new TimeSpan(0, 0, 0, 0, 0), MondayStart = new TimeSpan(0, 0, 0, 0, 0), ThursdayEnd = new TimeSpan(0, 0, 0, 0, 0), ThursdayStart = new TimeSpan(0, 0, 0, 0, 0), TuesdayEnd = new TimeSpan(0, 0, 0, 0, 0), TuesdayStart = new TimeSpan(0, 0, 0, 0, 0), WednesdayEnd = new TimeSpan(0, 0, 0, 0, 0), WednesdayStart = new TimeSpan(0, 0, 0, 0, 0) }
+                    );
                 });
 
             modelBuilder.Entity("Hospital.Model.Entities.Patient", b =>
@@ -55,6 +105,10 @@ namespace Hospital.Repository.Migrations
                         .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Patients");
+
+                    b.HasData(
+                        new { Id = 1L, Created = new DateTime(2018, 12, 3, 13, 29, 10, 156, DateTimeKind.Utc), UserId = "9f2cfdcb-9f4d-4d65-a81c-43deacf27742" }
+                    );
                 });
 
             modelBuilder.Entity("Hospital.Model.Entities.Specialization", b =>
@@ -70,6 +124,35 @@ namespace Hospital.Repository.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Specializations");
+
+                    b.HasData(
+                        new { Id = 1L, Created = new DateTime(2018, 12, 3, 13, 29, 10, 157, DateTimeKind.Utc), Name = "Dentysta" }
+                    );
+                });
+
+            modelBuilder.Entity("Hospital.Model.Entities.Visit", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("Description");
+
+                    b.Property<long>("DoctorId");
+
+                    b.Property<long>("PatientId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("Visits");
                 });
 
             modelBuilder.Entity("Hospital.Model.Identity.ApplicationIdentityRole", b =>
@@ -103,27 +186,39 @@ namespace Hospital.Repository.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<string>("City")
+                        .HasMaxLength(50);
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
                     b.Property<DateTime>("Created");
 
+                    b.Property<DateTime>("DateOfBirth");
+
                     b.Property<string>("Email")
-                        .HasMaxLength(256);
+                        .HasMaxLength(50);
 
                     b.Property<bool>("EmailConfirmed");
 
                     b.Property<string>("FirstName")
-                        .HasMaxLength(50);
+                        .HasMaxLength(30);
 
                     b.Property<int>("Gender");
 
+                    b.Property<bool>("IsActive");
+
+                    b.Property<DateTime>("LastLoginTime");
+
                     b.Property<string>("LastName")
-                        .HasMaxLength(50);
+                        .HasMaxLength(30);
 
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NIP")
+                        .HasMaxLength(30);
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
@@ -131,13 +226,26 @@ namespace Hospital.Repository.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256);
 
+                    b.Property<string>("PESEL")
+                        .HasMaxLength(20);
+
                     b.Property<string>("PasswordHash");
 
-                    b.Property<string>("PhoneNumber");
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(20);
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("PostalCode")
+                        .HasMaxLength(10);
+
+                    b.Property<string>("Province")
+                        .HasMaxLength(30);
+
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<string>("Street")
+                        .HasMaxLength(30);
 
                     b.Property<string>("SystemRoleName")
                         .IsRequired()
@@ -146,7 +254,7 @@ namespace Hospital.Repository.Migrations
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
-                        .HasMaxLength(256);
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
@@ -159,6 +267,11 @@ namespace Hospital.Repository.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new { Id = "9f2cfdcb-9f4d-4d65-a81c-43deacf27741", AccessFailedCount = 0, City = "Toruń", ConcurrencyStamp = "c0bd7e85-027b-42cf-9703-ac059423921e", Created = new DateTime(2018, 12, 3, 13, 29, 10, 149, DateTimeKind.Utc), DateOfBirth = new DateTime(2018, 12, 3, 13, 29, 10, 150, DateTimeKind.Utc), Email = "doctor@test.com", EmailConfirmed = false, FirstName = "Marian", Gender = 0, IsActive = false, LastLoginTime = new DateTime(2018, 12, 3, 13, 29, 10, 149, DateTimeKind.Utc), LastName = "Nowak", LockoutEnabled = false, PESEL = "11111111111", PasswordHash = "AQAAAAEAACcQAAAAECKLtts8yfs643jZ79ss7Oj7shA9VVpWxwCwDN361Rn93O6aHWvMzquScKdHxFdLQQ==", PhoneNumber = "123456789", PhoneNumberConfirmed = false, PostalCode = "87-100", Province = "Kujawsko Pomorskie", Street = "Szeroka 10", SystemRoleName = "Doctor", TwoFactorEnabled = false, UserName = "doctor@test.com" },
+                        new { Id = "9f2cfdcb-9f4d-4d65-a81c-43deacf27742", AccessFailedCount = 0, City = "Toruń", ConcurrencyStamp = "9abf304a-db42-4fe3-9179-bbdc94e2b649", Created = new DateTime(2018, 12, 3, 13, 29, 10, 150, DateTimeKind.Utc), DateOfBirth = new DateTime(2018, 12, 3, 13, 29, 10, 150, DateTimeKind.Utc), Email = "patient@test.com", EmailConfirmed = false, FirstName = "Piotr", Gender = 0, IsActive = false, LastLoginTime = new DateTime(2018, 12, 3, 13, 29, 10, 150, DateTimeKind.Utc), LastName = "Kiepski", LockoutEnabled = false, PESEL = "11111111112", PasswordHash = "AQAAAAEAACcQAAAAECKLtts8yfs643jZ79ss7Oj7shA9VVpWxwCwDN361Rn93O6aHWvMzquScKdHxFdLQQ==", PhoneNumber = "123456780", PhoneNumberConfirmed = false, PostalCode = "87-100", Province = "Kujawsko Pomorskie", Street = "Szeroka 10", SystemRoleName = "Patient", TwoFactorEnabled = false, UserName = "patient@test.com" }
+                    );
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -249,6 +362,16 @@ namespace Hospital.Repository.Migrations
 
             modelBuilder.Entity("Hospital.Model.Entities.Doctor", b =>
                 {
+                    b.HasOne("Hospital.Model.Entities.Harmonogram", "Harmonogram")
+                        .WithOne("Doctor")
+                        .HasForeignKey("Hospital.Model.Entities.Doctor", "HarmonogramId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Hospital.Model.Entities.Specialization", "Specialization")
+                        .WithMany("Doctors")
+                        .HasForeignKey("SpecializationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Hospital.Model.Identity.ApplicationUser", "User")
                         .WithOne("Doctor")
                         .HasForeignKey("Hospital.Model.Entities.Doctor", "UserId");
@@ -259,6 +382,19 @@ namespace Hospital.Repository.Migrations
                     b.HasOne("Hospital.Model.Identity.ApplicationUser", "User")
                         .WithOne("Patient")
                         .HasForeignKey("Hospital.Model.Entities.Patient", "UserId");
+                });
+
+            modelBuilder.Entity("Hospital.Model.Entities.Visit", b =>
+                {
+                    b.HasOne("Hospital.Model.Entities.Doctor", "Doctor")
+                        .WithMany("Visits")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Hospital.Model.Entities.Patient", "Patient")
+                        .WithMany("Visits")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

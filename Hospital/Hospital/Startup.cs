@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using AutoMapper;
 using Hospital.Helpers;
 using Hospital.Model.Identity;
 using Hospital.Repository.Concrete;
@@ -14,6 +15,7 @@ using Hospital.Repository.Abstract;
 using Hospital.Service.PatientServices.Abstract;
 using Hospital.Service.PatientServices.Concrete;
 using Hospital.Service.Helpers.Email;
+using Hospital.Infrastructure;
 
 namespace Hospital
 {
@@ -77,6 +79,11 @@ namespace Hospital
             services.AddScoped<IPatientAccountService, PatientAccountService>();
             services.AddTransient<IEmailSender, EmailSender>();
 
+            services.AddAutoMapper(x =>
+            {
+                x.AddProfile(new MappingDtoVM());
+                x.AddProfile(new MappingDtoEntity());
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

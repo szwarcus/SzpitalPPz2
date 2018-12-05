@@ -77,7 +77,7 @@ namespace Hospital
 
             // api services
             services.AddScoped<IPatientAccountService, PatientAccountService>();
-            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IEmailSender, SendGridEmailSender>();
 
             services.AddAutoMapper(x =>
             {

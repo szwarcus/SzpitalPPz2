@@ -65,7 +65,7 @@ namespace Hospital.Controllers
         }
 
         [HttpGet]
-        public IActionResult ResetPassword(string token)
+        public IActionResult ResetPassword(string token, string userId)
         {
             return View();
         }
@@ -104,26 +104,31 @@ namespace Hospital.Controllers
 
             var user = await userManager.FindByEmailAsync(model.Email);
 
-            if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
+            if (user != null)
             {
-                var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
-
-                if (result.Succeeded)
+                if (await userManager.CheckPasswordAsync(user, model.Password))
                 {
-                    // if doctor
-                    
-                    // if patient
-                    
-                    // if nurse
-                   if(await userManager.IsEmailConfirmedAsync(user))
-                    return RedirectToAction("Index", "Home");
-                   else
-                        ModelState.AddModelError("", "Not Email Confirmed");
+                    var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
 
+                    if (result.Succeeded)
+                    {
+                        // if doctor
+
+                        // if patient
+
+                        // if nurse
+                        if (await userManager.IsEmailConfirmedAsync(user))
+                            return RedirectToAction("Index", "Home");
+                        else
+                            ModelState.AddModelError(nameof(model.Email), "Not Email Confirmed");
+
+                    }
                 }
+                else
+                    ModelState.AddModelError(nameof(model.Password), "Nieprawidłowe hasło");
             }
             else
-                 ModelState.AddModelError("", "User name or password not found");
+                 ModelState.AddModelError(nameof(model.Email), "Nie ma użytkownika o podanym emailu");
 
             return View();
         }
@@ -167,33 +172,40 @@ namespace Hospital.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendPasswordResetLink(string email)
+        public async Task<IActionResult> SendPasswordResetLink(ForgotPasswordVM model)
         {
-            if (email == "")
+            if (!ModelState.IsValid)
             {
-                return View();
+                return View("ForgotPassword");
             }
-            var user = await userManager.FindByEmailAsync(email);
+            var user = await userManager.FindByEmailAsync(model.Email);
             if (user == null)
-                return View();
+            {
+                ModelState.AddModelError(nameof(model.Email), "Nie ma użytkownika o podanym emailu");
+                return View("ForgotPassword");
+            }
 
             var tokeN = await userManager.GeneratePasswordResetTokenAsync(user);
-            var link = Url.Action("ResetPassword", "Account", new { userId = user.Id, token = tokeN }, protocol: HttpContext.Request.Scheme);
+            var link = Url.Action("ResetPassword", "Account", new ResetPasswordVM { UserId = user.Id, Token = tokeN }, protocol: HttpContext.Request.Scheme);
             var res = await emailSender.SendEmailAsync(user.Email, link, "Reset Password");
             if (!res)
-                return View();
+                return View("ForgotPassword");
 
             return RedirectToAction("Index", "Home");
         }
-
+        [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordVM model)
         {
+
+            if (model.Password != model.ConfirmPassword)
+                ModelState.AddModelError(nameof(model.ConfirmPassword), "Podane hasła są różne!");
+
+            if (!ModelState.IsValid)
+                return View();
+
             var user = await userManager.FindByIdAsync(model.UserId);
             if (user == null)
                 return View("Error");
-            if (model.Password != model.ConfirmPassword)
-                return View("Error");
-
             var result = await userManager.ResetPasswordAsync(user, model.Token, model.Password);
             if (result.Succeeded)
                 return RedirectToAction("Index", "Home");

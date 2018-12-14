@@ -12,5 +12,7 @@ namespace Hospital.Model.Entities
 
         public DateTime Date { get; set; }
         public string Description { get; set; }
+
+        public Prescription Prescription { get; set; }
     }
 }

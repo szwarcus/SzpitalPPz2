@@ -13,6 +13,13 @@ namespace Hospital.Repository.Concrete
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Specialization> Specializations { get; set; }
         public DbSet<Visit> Visits { get; set; }
+        public DbSet<Nurse> Nurses { get; set; }
+        public DbSet<Vaccine> Vaccines { get; set; }
+        public DbSet<VaccineApplied> VaccineApplieds{ get; set; }
+        public DbSet<NurseSpecialization> NurseSpecializations{ get; set; }
+        public DbSet<Prescription> Prescriptions{ get; set; }
+        public DbSet<Medicament> Medicaments{ get; set; }
+        public DbSet<PrescriptionMedicament> PrescriptionMedicaments{ get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -30,6 +37,14 @@ namespace Hospital.Repository.Concrete
             builder.ApplyConfiguration(new PatientConfiguration());
             builder.ApplyConfiguration(new SpecializationConfiguration());
             builder.ApplyConfiguration(new VisitConfiguration());
+            builder.ApplyConfiguration(new NurseConfigurations());
+            builder.ApplyConfiguration(new VaccineConfigurations());
+            builder.ApplyConfiguration(new VaccineAppliedConfigurations());
+            builder.ApplyConfiguration(new NurseSpecializationConfiguration());
+            builder.ApplyConfiguration(new MedicamentConfiguration());
+            builder.ApplyConfiguration(new PrescriptionConfiguration());
+            builder.ApplyConfiguration(new PrescriptionMedicamentConfiguration());
+
         }
     }
 }

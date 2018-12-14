@@ -19,6 +19,10 @@ namespace Hospital.Model.Configurations
                    .WithMany(x => x.Visits)
                    .HasForeignKey(x => x.DoctorId)
                    .IsRequired();
+
+           builder.HasOne(x => x.Prescription)
+                 .WithOne(x => x.Visit)
+                 .HasForeignKey<Prescription>(x => x.VisitId);
         }
     }
 }

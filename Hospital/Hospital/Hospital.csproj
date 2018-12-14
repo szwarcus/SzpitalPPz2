@@ -43,9 +43,13 @@
     <Folder Include="Areas\Doctor\Controllers\" />
     <Folder Include="Areas\Doctor\ViewModels\" />
     <Folder Include="Areas\Doctor\Views\Home\" />
-    <Folder Include="Areas\Patient\Controllers\" />
     <Folder Include="Areas\Patient\ViewModels\" />
-    <Folder Include="Areas\Patient\Views\Home\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\Patient\Views\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>

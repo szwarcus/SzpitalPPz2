@@ -72,7 +72,26 @@ namespace Hospital.Model.Configurations
                     Province = "Kujawsko Pomorskie",
                     PostalCode = "87-100",
                     Street = "Szeroka 10"
-                });
+                },
+                new ApplicationUser(Role.Nurse)
+                {
+                    Id = "9f2cfdcb-9f4d-4d65-a81c-43deacf27743",
+                    UserName = "nurse@test.com",
+                    PasswordHash = "AQAAAAEAACcQAAAAECKLtts8yfs643jZ79ss7Oj7shA9VVpWxwCwDN361Rn93O6aHWvMzquScKdHxFdLQQ==", //Admin1.
+                    Email = "nurse@test.com",
+                    FirstName = "Katarzyna",
+                    LastName = "Boczek",
+                    City = "Toruń",
+                    DateOfBirth = DateTime.UtcNow,
+                    Gender = GenderType.Female,
+                    PESEL = "11111181112",
+                    PhoneNumber = "123256780",
+                    Province = "Kujawsko Pomorskie",
+                    PostalCode = "87-100",
+                    Street = "Długa 11"
+                }
+                );
+
         }
     }
 }

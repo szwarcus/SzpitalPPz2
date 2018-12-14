@@ -9,5 +9,6 @@ namespace Hospital.Model.Entities
         public virtual ApplicationUser User { get; set; }
 
         public virtual ICollection<Visit> Visits { get; set; }
+        public virtual ICollection<VaccineApplied> VaccineApplieds { get; set; }
     }
 }

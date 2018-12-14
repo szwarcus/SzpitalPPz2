@@ -4,14 +4,16 @@ using Hospital.Repository.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hospital.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181213182548_Update")]
+    partial class Update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,7 +49,7 @@ namespace Hospital.Repository.Migrations
                     b.ToTable("Doctors");
 
                     b.HasData(
-                        new { Id = 1L, Created = new DateTime(2018, 12, 13, 20, 56, 9, 569, DateTimeKind.Utc), HarmonogramId = 1L, SpecializationId = 1L, UserId = "9f2cfdcb-9f4d-4d65-a81c-43deacf27741" }
+                        new { Id = 1L, Created = new DateTime(2018, 12, 13, 18, 25, 46, 655, DateTimeKind.Utc), HarmonogramId = 1L, SpecializationId = 1L, UserId = "9f2cfdcb-9f4d-4d65-a81c-43deacf27741" }
                     );
                 });
 
@@ -84,25 +86,8 @@ namespace Hospital.Repository.Migrations
                     b.ToTable("Harmonograms");
 
                     b.HasData(
-                        new { Id = 1L, Created = new DateTime(2018, 12, 13, 20, 56, 9, 571, DateTimeKind.Utc), FridayEnd = new TimeSpan(0, 0, 0, 0, 0), FridayStart = new TimeSpan(0, 0, 0, 0, 0), MondayEnd = new TimeSpan(0, 0, 0, 0, 0), MondayStart = new TimeSpan(0, 0, 0, 0, 0), ThursdayEnd = new TimeSpan(0, 0, 0, 0, 0), ThursdayStart = new TimeSpan(0, 0, 0, 0, 0), TuesdayEnd = new TimeSpan(0, 0, 0, 0, 0), TuesdayStart = new TimeSpan(0, 0, 0, 0, 0), WednesdayEnd = new TimeSpan(0, 0, 0, 0, 0), WednesdayStart = new TimeSpan(0, 0, 0, 0, 0) }
+                        new { Id = 1L, Created = new DateTime(2018, 12, 13, 18, 25, 46, 657, DateTimeKind.Utc), FridayEnd = new TimeSpan(0, 0, 0, 0, 0), FridayStart = new TimeSpan(0, 0, 0, 0, 0), MondayEnd = new TimeSpan(0, 0, 0, 0, 0), MondayStart = new TimeSpan(0, 0, 0, 0, 0), ThursdayEnd = new TimeSpan(0, 0, 0, 0, 0), ThursdayStart = new TimeSpan(0, 0, 0, 0, 0), TuesdayEnd = new TimeSpan(0, 0, 0, 0, 0), TuesdayStart = new TimeSpan(0, 0, 0, 0, 0), WednesdayEnd = new TimeSpan(0, 0, 0, 0, 0), WednesdayStart = new TimeSpan(0, 0, 0, 0, 0) }
                     );
-                });
-
-            modelBuilder.Entity("Hospital.Model.Entities.Medicament", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Medicaments");
                 });
 
             modelBuilder.Entity("Hospital.Model.Entities.Nurse", b =>
@@ -126,7 +111,7 @@ namespace Hospital.Repository.Migrations
                     b.ToTable("Nurses");
 
                     b.HasData(
-                        new { Id = 1L, Created = new DateTime(2018, 12, 13, 20, 56, 9, 578, DateTimeKind.Utc), NurseSpecializationId = 1L, UserId = "9f2cfdcb-9f4d-4d65-a81c-43deacf27741" }
+                        new { Id = 1L, Created = new DateTime(2018, 12, 13, 18, 25, 46, 667, DateTimeKind.Utc), NurseSpecializationId = 1L, UserId = "9f2cfdcb-9f4d-4d65-a81c-43deacf27741" }
                     );
                 });
 
@@ -145,7 +130,7 @@ namespace Hospital.Repository.Migrations
                     b.ToTable("NurseSpecializations");
 
                     b.HasData(
-                        new { Id = 1L, Created = new DateTime(2018, 12, 13, 20, 56, 9, 588, DateTimeKind.Utc), Name = "Onkologiczna" }
+                        new { Id = 1L, Created = new DateTime(2018, 12, 13, 18, 25, 46, 676, DateTimeKind.Utc), Name = "Onkologiczna" }
                     );
                 });
 
@@ -168,43 +153,8 @@ namespace Hospital.Repository.Migrations
                     b.ToTable("Patients");
 
                     b.HasData(
-                        new { Id = 1L, Created = new DateTime(2018, 12, 13, 20, 56, 9, 571, DateTimeKind.Utc), UserId = "9f2cfdcb-9f4d-4d65-a81c-43deacf27742" }
+                        new { Id = 1L, Created = new DateTime(2018, 12, 13, 18, 25, 46, 658, DateTimeKind.Utc), UserId = "9f2cfdcb-9f4d-4d65-a81c-43deacf27742" }
                     );
-                });
-
-            modelBuilder.Entity("Hospital.Model.Entities.Prescription", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Comments");
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<DateTime>("DueDate");
-
-                    b.Property<long>("VisitId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("VisitId")
-                        .IsUnique();
-
-                    b.ToTable("Prescriptions");
-                });
-
-            modelBuilder.Entity("Hospital.Model.Entities.PrescriptionMedicament", b =>
-                {
-                    b.Property<long>("PrescriptionId");
-
-                    b.Property<long>("MedicamentId");
-
-                    b.HasKey("PrescriptionId", "MedicamentId");
-
-                    b.HasIndex("MedicamentId");
-
-                    b.ToTable("PrescriptionMedicaments");
                 });
 
             modelBuilder.Entity("Hospital.Model.Entities.Specialization", b =>
@@ -222,7 +172,7 @@ namespace Hospital.Repository.Migrations
                     b.ToTable("Specializations");
 
                     b.HasData(
-                        new { Id = 1L, Created = new DateTime(2018, 12, 13, 20, 56, 9, 572, DateTimeKind.Utc), Name = "Dentysta" }
+                        new { Id = 1L, Created = new DateTime(2018, 12, 13, 18, 25, 46, 660, DateTimeKind.Utc), Name = "Dentysta" }
                     );
                 });
 
@@ -245,7 +195,7 @@ namespace Hospital.Repository.Migrations
                     b.ToTable("Vaccines");
 
                     b.HasData(
-                        new { Id = 1L, Created = new DateTime(2018, 12, 13, 20, 56, 9, 579, DateTimeKind.Utc), Description = "Grypa", Dosage = "(X ml/kg ", Name = "VaxigripTetra" }
+                        new { Id = 1L, Created = new DateTime(2018, 12, 13, 18, 25, 46, 669, DateTimeKind.Utc), Description = "Grypa", Dosage = "(X ml/kg ", Name = "VaxigripTetra" }
                     );
                 });
 
@@ -415,9 +365,9 @@ namespace Hospital.Repository.Migrations
                     b.ToTable("AspNetUsers");
 
                     b.HasData(
-                        new { Id = "9f2cfdcb-9f4d-4d65-a81c-43deacf27741", AccessFailedCount = 0, City = "Toruń", ConcurrencyStamp = "ed79543f-6875-4bc5-9c70-e0cc07fcb76f", Created = new DateTime(2018, 12, 13, 20, 56, 9, 565, DateTimeKind.Utc), DateOfBirth = new DateTime(2018, 12, 13, 20, 56, 9, 565, DateTimeKind.Utc), Email = "doctor@test.com", EmailConfirmed = false, FirstName = "Marian", Gender = 0, IsActive = false, LastLoginTime = new DateTime(2018, 12, 13, 20, 56, 9, 565, DateTimeKind.Utc), LastName = "Nowak", LockoutEnabled = false, PESEL = "11111111111", PasswordHash = "AQAAAAEAACcQAAAAECKLtts8yfs643jZ79ss7Oj7shA9VVpWxwCwDN361Rn93O6aHWvMzquScKdHxFdLQQ==", PhoneNumber = "123456789", PhoneNumberConfirmed = false, PostalCode = "87-100", Province = "Kujawsko Pomorskie", Street = "Szeroka 10", SystemRoleName = "Doctor", TwoFactorEnabled = false, UserName = "doctor@test.com" },
-                        new { Id = "9f2cfdcb-9f4d-4d65-a81c-43deacf27742", AccessFailedCount = 0, City = "Toruń", ConcurrencyStamp = "ee04850c-4fa2-419f-a4aa-9bc4489cfd1c", Created = new DateTime(2018, 12, 13, 20, 56, 9, 565, DateTimeKind.Utc), DateOfBirth = new DateTime(2018, 12, 13, 20, 56, 9, 565, DateTimeKind.Utc), Email = "patient@test.com", EmailConfirmed = false, FirstName = "Piotr", Gender = 0, IsActive = false, LastLoginTime = new DateTime(2018, 12, 13, 20, 56, 9, 565, DateTimeKind.Utc), LastName = "Kiepski", LockoutEnabled = false, PESEL = "11111111112", PasswordHash = "AQAAAAEAACcQAAAAECKLtts8yfs643jZ79ss7Oj7shA9VVpWxwCwDN361Rn93O6aHWvMzquScKdHxFdLQQ==", PhoneNumber = "123456780", PhoneNumberConfirmed = false, PostalCode = "87-100", Province = "Kujawsko Pomorskie", Street = "Szeroka 10", SystemRoleName = "Patient", TwoFactorEnabled = false, UserName = "patient@test.com" },
-                        new { Id = "9f2cfdcb-9f4d-4d65-a81c-43deacf27743", AccessFailedCount = 0, City = "Toruń", ConcurrencyStamp = "8906892e-779c-4720-9bc4-584e111d9e7e", Created = new DateTime(2018, 12, 13, 20, 56, 9, 565, DateTimeKind.Utc), DateOfBirth = new DateTime(2018, 12, 13, 20, 56, 9, 565, DateTimeKind.Utc), Email = "nurse@test.com", EmailConfirmed = false, FirstName = "Katarzyna", Gender = 1, IsActive = false, LastLoginTime = new DateTime(2018, 12, 13, 20, 56, 9, 565, DateTimeKind.Utc), LastName = "Boczek", LockoutEnabled = false, PESEL = "11111181112", PasswordHash = "AQAAAAEAACcQAAAAECKLtts8yfs643jZ79ss7Oj7shA9VVpWxwCwDN361Rn93O6aHWvMzquScKdHxFdLQQ==", PhoneNumber = "123256780", PhoneNumberConfirmed = false, PostalCode = "87-100", Province = "Kujawsko Pomorskie", Street = "Długa 11", SystemRoleName = "Nurse", TwoFactorEnabled = false, UserName = "nurse@test.com" }
+                        new { Id = "9f2cfdcb-9f4d-4d65-a81c-43deacf27741", AccessFailedCount = 0, City = "Toruń", ConcurrencyStamp = "3bfb720b-5092-457b-a0f9-394be984efce", Created = new DateTime(2018, 12, 13, 18, 25, 46, 650, DateTimeKind.Utc), DateOfBirth = new DateTime(2018, 12, 13, 18, 25, 46, 651, DateTimeKind.Utc), Email = "doctor@test.com", EmailConfirmed = false, FirstName = "Marian", Gender = 0, IsActive = false, LastLoginTime = new DateTime(2018, 12, 13, 18, 25, 46, 650, DateTimeKind.Utc), LastName = "Nowak", LockoutEnabled = false, PESEL = "11111111111", PasswordHash = "AQAAAAEAACcQAAAAECKLtts8yfs643jZ79ss7Oj7shA9VVpWxwCwDN361Rn93O6aHWvMzquScKdHxFdLQQ==", PhoneNumber = "123456789", PhoneNumberConfirmed = false, PostalCode = "87-100", Province = "Kujawsko Pomorskie", Street = "Szeroka 10", SystemRoleName = "Doctor", TwoFactorEnabled = false, UserName = "doctor@test.com" },
+                        new { Id = "9f2cfdcb-9f4d-4d65-a81c-43deacf27742", AccessFailedCount = 0, City = "Toruń", ConcurrencyStamp = "19a525bf-8077-484c-847b-4e6b0c0a97a1", Created = new DateTime(2018, 12, 13, 18, 25, 46, 651, DateTimeKind.Utc), DateOfBirth = new DateTime(2018, 12, 13, 18, 25, 46, 651, DateTimeKind.Utc), Email = "patient@test.com", EmailConfirmed = false, FirstName = "Piotr", Gender = 0, IsActive = false, LastLoginTime = new DateTime(2018, 12, 13, 18, 25, 46, 651, DateTimeKind.Utc), LastName = "Kiepski", LockoutEnabled = false, PESEL = "11111111112", PasswordHash = "AQAAAAEAACcQAAAAECKLtts8yfs643jZ79ss7Oj7shA9VVpWxwCwDN361Rn93O6aHWvMzquScKdHxFdLQQ==", PhoneNumber = "123456780", PhoneNumberConfirmed = false, PostalCode = "87-100", Province = "Kujawsko Pomorskie", Street = "Szeroka 10", SystemRoleName = "Patient", TwoFactorEnabled = false, UserName = "patient@test.com" },
+                        new { Id = "9f2cfdcb-9f4d-4d65-a81c-43deacf27743", AccessFailedCount = 0, City = "Toruń", ConcurrencyStamp = "e14b7980-d150-4ede-8961-bab99c13330d", Created = new DateTime(2018, 12, 13, 18, 25, 46, 651, DateTimeKind.Utc), DateOfBirth = new DateTime(2018, 12, 13, 18, 25, 46, 651, DateTimeKind.Utc), Email = "nurse@test.com", EmailConfirmed = false, FirstName = "Katarzyna", Gender = 1, IsActive = false, LastLoginTime = new DateTime(2018, 12, 13, 18, 25, 46, 651, DateTimeKind.Utc), LastName = "Boczek", LockoutEnabled = false, PESEL = "11111181112", PasswordHash = "AQAAAAEAACcQAAAAECKLtts8yfs643jZ79ss7Oj7shA9VVpWxwCwDN361Rn93O6aHWvMzquScKdHxFdLQQ==", PhoneNumber = "123256780", PhoneNumberConfirmed = false, PostalCode = "87-100", Province = "Kujawsko Pomorskie", Street = "Długa 11", SystemRoleName = "Nurse", TwoFactorEnabled = false, UserName = "nurse@test.com" }
                     );
                 });
 
@@ -541,27 +491,6 @@ namespace Hospital.Repository.Migrations
                     b.HasOne("Hospital.Model.Identity.ApplicationUser", "User")
                         .WithOne("Patient")
                         .HasForeignKey("Hospital.Model.Entities.Patient", "UserId");
-                });
-
-            modelBuilder.Entity("Hospital.Model.Entities.Prescription", b =>
-                {
-                    b.HasOne("Hospital.Model.Entities.Visit", "Visit")
-                        .WithOne("Prescription")
-                        .HasForeignKey("Hospital.Model.Entities.Prescription", "VisitId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Hospital.Model.Entities.PrescriptionMedicament", b =>
-                {
-                    b.HasOne("Hospital.Model.Entities.Medicament", "Medicament")
-                        .WithMany("PrescriptionMedicaments")
-                        .HasForeignKey("MedicamentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Hospital.Model.Entities.Prescription", "Prescription")
-                        .WithMany("PrescriptionMedicaments")
-                        .HasForeignKey("PrescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Hospital.Model.Entities.VaccineApplied", b =>

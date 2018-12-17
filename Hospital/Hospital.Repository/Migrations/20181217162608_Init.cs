@@ -46,7 +46,6 @@ namespace Hospital.Repository.Migrations
                     Gender = table.Column<int>(nullable: false),
                     Created = table.Column<DateTime>(nullable: false),
                     LastLoginTime = table.Column<DateTime>(nullable: false),
-                    SystemRoleName = table.Column<string>(maxLength: 50, nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
                     PostalCode = table.Column<string>(maxLength: 10, nullable: true),
@@ -85,6 +84,35 @@ namespace Hospital.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Medicaments",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Created = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Medicaments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NurseSpecializations",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Created = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NurseSpecializations", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Specializations",
                 columns: table => new
                 {
@@ -96,6 +124,22 @@ namespace Hospital.Repository.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Specializations", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Vaccines",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Created = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Dosage = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vaccines", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -117,6 +161,26 @@ namespace Hospital.Repository.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Admin",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Created = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Admin", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Admin_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -225,6 +289,33 @@ namespace Hospital.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Nurses",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Created = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    NurseSpecializationId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Nurses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Nurses_NurseSpecializations_NurseSpecializationId",
+                        column: x => x.NurseSpecializationId,
+                        principalTable: "NurseSpecializations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Nurses_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Doctors",
                 columns: table => new
                 {
@@ -259,6 +350,41 @@ namespace Hospital.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "VaccineApplieds",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Created = table.Column<DateTime>(nullable: false),
+                    DateTime = table.Column<DateTime>(nullable: false),
+                    VaccineId = table.Column<long>(nullable: false),
+                    NurseId = table.Column<long>(nullable: false),
+                    PatientId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VaccineApplieds", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VaccineApplieds_Nurses_NurseId",
+                        column: x => x.NurseId,
+                        principalTable: "Nurses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_VaccineApplieds_Patients_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_VaccineApplieds_Vaccines_VaccineId",
+                        column: x => x.VaccineId,
+                        principalTable: "Vaccines",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Visits",
                 columns: table => new
                 {
@@ -287,34 +413,58 @@ namespace Hospital.Repository.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "City", "ConcurrencyStamp", "Created", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "Gender", "IsActive", "LastLoginTime", "LastName", "LockoutEnabled", "LockoutEnd", "NIP", "NormalizedEmail", "NormalizedUserName", "PESEL", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "Province", "SecurityStamp", "Street", "SystemRoleName", "TwoFactorEnabled", "UserName" },
-                values: new object[,]
+            migrationBuilder.CreateTable(
+                name: "Prescriptions",
+                columns: table => new
                 {
-                    { "9f2cfdcb-9f4d-4d65-a81c-43deacf27741", 0, "Toruń", "c0bd7e85-027b-42cf-9703-ac059423921e", new DateTime(2018, 12, 3, 13, 29, 10, 149, DateTimeKind.Utc), new DateTime(2018, 12, 3, 13, 29, 10, 150, DateTimeKind.Utc), "doctor@test.com", false, "Marian", 0, false, new DateTime(2018, 12, 3, 13, 29, 10, 149, DateTimeKind.Utc), "Nowak", false, null, null, null, null, "11111111111", "AQAAAAEAACcQAAAAECKLtts8yfs643jZ79ss7Oj7shA9VVpWxwCwDN361Rn93O6aHWvMzquScKdHxFdLQQ==", "123456789", false, "87-100", "Kujawsko Pomorskie", null, "Szeroka 10", "Doctor", false, "doctor@test.com" },
-                    { "9f2cfdcb-9f4d-4d65-a81c-43deacf27742", 0, "Toruń", "9abf304a-db42-4fe3-9179-bbdc94e2b649", new DateTime(2018, 12, 3, 13, 29, 10, 150, DateTimeKind.Utc), new DateTime(2018, 12, 3, 13, 29, 10, 150, DateTimeKind.Utc), "patient@test.com", false, "Piotr", 0, false, new DateTime(2018, 12, 3, 13, 29, 10, 150, DateTimeKind.Utc), "Kiepski", false, null, null, null, null, "11111111112", "AQAAAAEAACcQAAAAECKLtts8yfs643jZ79ss7Oj7shA9VVpWxwCwDN361Rn93O6aHWvMzquScKdHxFdLQQ==", "123456780", false, "87-100", "Kujawsko Pomorskie", null, "Szeroka 10", "Patient", false, "patient@test.com" }
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Created = table.Column<DateTime>(nullable: false),
+                    Comments = table.Column<string>(nullable: true),
+                    DueDate = table.Column<DateTime>(nullable: false),
+                    VisitId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Prescriptions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Prescriptions_Visits_VisitId",
+                        column: x => x.VisitId,
+                        principalTable: "Visits",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Harmonograms",
-                columns: new[] { "Id", "Created", "FridayEnd", "FridayStart", "MondayEnd", "MondayStart", "ThursdayEnd", "ThursdayStart", "TuesdayEnd", "TuesdayStart", "WednesdayEnd", "WednesdayStart" },
-                values: new object[] { 1L, new DateTime(2018, 12, 3, 13, 29, 10, 155, DateTimeKind.Utc), new TimeSpan(0, 0, 0, 0, 0), new TimeSpan(0, 0, 0, 0, 0), new TimeSpan(0, 0, 0, 0, 0), new TimeSpan(0, 0, 0, 0, 0), new TimeSpan(0, 0, 0, 0, 0), new TimeSpan(0, 0, 0, 0, 0), new TimeSpan(0, 0, 0, 0, 0), new TimeSpan(0, 0, 0, 0, 0), new TimeSpan(0, 0, 0, 0, 0), new TimeSpan(0, 0, 0, 0, 0) });
+            migrationBuilder.CreateTable(
+                name: "PrescriptionMedicaments",
+                columns: table => new
+                {
+                    PrescriptionId = table.Column<long>(nullable: false),
+                    MedicamentId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrescriptionMedicaments", x => new { x.PrescriptionId, x.MedicamentId });
+                    table.ForeignKey(
+                        name: "FK_PrescriptionMedicaments_Medicaments_MedicamentId",
+                        column: x => x.MedicamentId,
+                        principalTable: "Medicaments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PrescriptionMedicaments_Prescriptions_PrescriptionId",
+                        column: x => x.PrescriptionId,
+                        principalTable: "Prescriptions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
-            migrationBuilder.InsertData(
-                table: "Specializations",
-                columns: new[] { "Id", "Created", "Name" },
-                values: new object[] { 1L, new DateTime(2018, 12, 3, 13, 29, 10, 157, DateTimeKind.Utc), "Dentysta" });
-
-            migrationBuilder.InsertData(
-                table: "Doctors",
-                columns: new[] { "Id", "Created", "HarmonogramId", "SpecializationId", "UserId" },
-                values: new object[] { 1L, new DateTime(2018, 12, 3, 13, 29, 10, 154, DateTimeKind.Utc), 1L, 1L, "9f2cfdcb-9f4d-4d65-a81c-43deacf27741" });
-
-            migrationBuilder.InsertData(
-                table: "Patients",
-                columns: new[] { "Id", "Created", "UserId" },
-                values: new object[] { 1L, new DateTime(2018, 12, 3, 13, 29, 10, 156, DateTimeKind.Utc), "9f2cfdcb-9f4d-4d65-a81c-43deacf27742" });
+            migrationBuilder.CreateIndex(
+                name: "IX_Admin_UserId",
+                table: "Admin",
+                column: "UserId",
+                unique: true,
+                filter: "[UserId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -374,11 +524,49 @@ namespace Hospital.Repository.Migrations
                 filter: "[UserId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Nurses_NurseSpecializationId",
+                table: "Nurses",
+                column: "NurseSpecializationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Nurses_UserId",
+                table: "Nurses",
+                column: "UserId",
+                unique: true,
+                filter: "[UserId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Patients_UserId",
                 table: "Patients",
                 column: "UserId",
                 unique: true,
                 filter: "[UserId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrescriptionMedicaments_MedicamentId",
+                table: "PrescriptionMedicaments",
+                column: "MedicamentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Prescriptions_VisitId",
+                table: "Prescriptions",
+                column: "VisitId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VaccineApplieds_NurseId",
+                table: "VaccineApplieds",
+                column: "NurseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VaccineApplieds_PatientId",
+                table: "VaccineApplieds",
+                column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VaccineApplieds_VaccineId",
+                table: "VaccineApplieds",
+                column: "VaccineId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Visits_DoctorId",
@@ -393,6 +581,9 @@ namespace Hospital.Repository.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Admin");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -409,10 +600,31 @@ namespace Hospital.Repository.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Visits");
+                name: "PrescriptionMedicaments");
+
+            migrationBuilder.DropTable(
+                name: "VaccineApplieds");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Medicaments");
+
+            migrationBuilder.DropTable(
+                name: "Prescriptions");
+
+            migrationBuilder.DropTable(
+                name: "Nurses");
+
+            migrationBuilder.DropTable(
+                name: "Vaccines");
+
+            migrationBuilder.DropTable(
+                name: "Visits");
+
+            migrationBuilder.DropTable(
+                name: "NurseSpecializations");
 
             migrationBuilder.DropTable(
                 name: "Doctors");

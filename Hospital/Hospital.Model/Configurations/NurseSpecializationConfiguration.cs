@@ -12,13 +12,6 @@ namespace Hospital.Model.Configurations
         public void Configure(EntityTypeBuilder<NurseSpecialization> builder)
         {
             builder.HasKey(x => x.Id);
-
-            builder.HasData(
-                new NurseSpecialization
-                {
-                    Id = 1,
-                    Name = "Onkologiczna"
-                });
         }
     }
 }

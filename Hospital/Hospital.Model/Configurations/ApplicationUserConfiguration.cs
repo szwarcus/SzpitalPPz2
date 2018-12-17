@@ -1,6 +1,4 @@
-﻿using System;
-using Hospital.Core.Enums;
-using Hospital.Model.Entities;
+﻿using Hospital.Model.Entities;
 using Hospital.Model.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -22,11 +20,7 @@ namespace Hospital.Model.Configurations
             builder.Property(x => x.Province).HasMaxLength(30);
             builder.Property(x => x.PostalCode).HasMaxLength(10);
             builder.Property(x => x.Street).HasMaxLength(30);
-            builder.Property(x => x.SystemRoleName).HasMaxLength(15);
             builder.Property(x => x.UserName).HasMaxLength(50);
-
-            builder.Property(x => x.SystemRoleName).HasMaxLength(50)
-                                                   .IsRequired();
 
             builder.HasOne(x => x.Doctor)
                    .WithOne(x => x.User)
@@ -38,60 +32,15 @@ namespace Hospital.Model.Configurations
                    .HasForeignKey<Patient>(x => x.UserId)
                    .IsRequired(false);
 
-            builder.HasData(
-                new ApplicationUser(Role.Doctor)
-                {
-                    Id = "9f2cfdcb-9f4d-4d65-a81c-43deacf27741",
-                    UserName = "doctor@test.com",
-                    Email = "doctor@test.com",
-                    PasswordHash = "AQAAAAEAACcQAAAAECKLtts8yfs643jZ79ss7Oj7shA9VVpWxwCwDN361Rn93O6aHWvMzquScKdHxFdLQQ==",
-                    FirstName = "Marian",
-                    LastName = "Nowak",
-                    City = "Toruń",
-                    DateOfBirth = DateTime.UtcNow,
-                    Gender = GenderType.Male,
-                    PESEL = "11111111111",
-                    PhoneNumber = "123456789",
-                    Province = "Kujawsko Pomorskie",
-                    PostalCode = "87-100",
-                    Street = "Szeroka 10"
-                },
-                new ApplicationUser(Role.Patient)
-                {
-                    Id = "9f2cfdcb-9f4d-4d65-a81c-43deacf27742",
-                    UserName = "patient@test.com",
-                    PasswordHash = "AQAAAAEAACcQAAAAECKLtts8yfs643jZ79ss7Oj7shA9VVpWxwCwDN361Rn93O6aHWvMzquScKdHxFdLQQ==", //Admin1.
-                    Email = "patient@test.com",
-                    FirstName = "Piotr",
-                    LastName = "Kiepski",
-                    City = "Toruń",
-                    DateOfBirth = DateTime.UtcNow,
-                    Gender = GenderType.Male,
-                    PESEL = "11111111112",
-                    PhoneNumber = "123456780",
-                    Province = "Kujawsko Pomorskie",
-                    PostalCode = "87-100",
-                    Street = "Szeroka 10"
-                },
-                new ApplicationUser(Role.Nurse)
-                {
-                    Id = "9f2cfdcb-9f4d-4d65-a81c-43deacf27743",
-                    UserName = "nurse@test.com",
-                    PasswordHash = "AQAAAAEAACcQAAAAECKLtts8yfs643jZ79ss7Oj7shA9VVpWxwCwDN361Rn93O6aHWvMzquScKdHxFdLQQ==", //Admin1.
-                    Email = "nurse@test.com",
-                    FirstName = "Katarzyna",
-                    LastName = "Boczek",
-                    City = "Toruń",
-                    DateOfBirth = DateTime.UtcNow,
-                    Gender = GenderType.Female,
-                    PESEL = "11111181112",
-                    PhoneNumber = "123256780",
-                    Province = "Kujawsko Pomorskie",
-                    PostalCode = "87-100",
-                    Street = "Długa 11"
-                }
-                );
+            builder.HasOne(x => x.Nurse)
+                   .WithOne(x => x.User)
+                   .HasForeignKey<Nurse>(x => x.UserId)
+                   .IsRequired(false);
 
+            builder.HasOne(x => x.Admin)
+                   .WithOne(x => x.User)
+                   .HasForeignKey<Admin>(x => x.UserId)
+                   .IsRequired(false);
         }
     }
 }

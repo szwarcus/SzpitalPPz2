@@ -7,6 +7,7 @@ using Hospital.Service.PatientServices.InDTOs;
 using Hospital.Service.PatientServices.Abstract;
 using AutoMapper;
 using Hospital.Service.Helpers.Email;
+using Hospital.Core.Enums;
 
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -125,10 +126,14 @@ namespace Hospital.Controllers
                     }
                 }
                 else
+                {
                     ModelState.AddModelError(nameof(model.Password), "Nieprawidłowe hasło");
+                }
             }
             else
-                 ModelState.AddModelError(nameof(model.Email), "Nie ma użytkownika o podanym emailu");
+            {
+                ModelState.AddModelError(nameof(model.Email), "Nie ma użytkownika o podanym emailu");
+            }
 
             return View();
         }
@@ -144,7 +149,7 @@ namespace Hospital.Controllers
             }
 
             var dtoModel = mapper.Map<RegisterPatientInDTO>(model);
-            dtoModel.SystemRole = Role.Patient;
+            dtoModel.SystemRole = SystemRoleType.Patient;
 
             var result = await patientAccountService.Register(dtoModel);
 

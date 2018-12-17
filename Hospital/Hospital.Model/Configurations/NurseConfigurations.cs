@@ -17,16 +17,6 @@ namespace Hospital.Model.Configurations
                    .WithMany(x => x.Nurses)
                    .HasForeignKey(x => x.NurseSpecializationId)
                    .IsRequired();
-
-            builder.HasData(
-             new Nurse
-             {
-                 Id = 1,
-                 UserId = "9f2cfdcb-9f4d-4d65-a81c-43deacf27741",
-                 NurseSpecializationId = 1,
-            
-             });
-
         }
     }
 }

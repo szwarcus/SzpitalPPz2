@@ -11,7 +11,7 @@ namespace Hospital.Model.Configurations
     {
         public void Configure(EntityTypeBuilder<Medicament> builder)
         {
-            
+            builder.HasKey(x => x.Id);
         }
     }
 }

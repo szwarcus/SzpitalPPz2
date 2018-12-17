@@ -9,12 +9,6 @@ namespace Hospital.Model.Configurations
         public void Configure(EntityTypeBuilder<Harmonogram> builder)
         {
             builder.HasKey(x => x.Id);
-
-            builder.HasData(
-                new Harmonogram
-                {
-                    Id = 1
-                });
         }
     }
 }

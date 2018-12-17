@@ -10,17 +10,17 @@ namespace Hospital.Service.PatientServices.Concrete
 {
     public class PatientAccountService : IPatientAccountService
     {
-        private IUserRepository userRepository;
-        private IRepository<Patient> patientRepository;
-        private IMapper mapper;
+        private IUserRepository _userRepository;
+        private IRepository<Patient> _patientRepository;
+        private IMapper _mapper;
 
         public PatientAccountService(IMapper mapper,
                                      IUserRepository userRepository,
                                      IRepository<Patient> patientRepository)
         {
-            this.userRepository = userRepository;
-            this.patientRepository = patientRepository;
-            this.mapper = mapper;
+            _userRepository = userRepository;
+            _patientRepository = patientRepository;
+            _mapper = mapper;
         }
 
         public async Task<bool> Register(RegisterPatientInDTO model)
@@ -30,9 +30,9 @@ namespace Hospital.Service.PatientServices.Concrete
                 return false;
             }
 
-            var appUser = mapper.Map<ApplicationUser>(model);
+            var appUser = _mapper.Map<ApplicationUser>(model);
             
-            var user = await userRepository.CreateAsync(appUser, model.Password);
+            var user = await _userRepository.CreateAsync(appUser, model.SystemRole, model.Password);
 
             if (user == null)
             {
@@ -41,7 +41,7 @@ namespace Hospital.Service.PatientServices.Concrete
 
             var patient = new Patient { User = user };
 
-            await patientRepository.Insert(patient);
+            await _patientRepository.Insert(patient);
 
             return true;
         }
@@ -52,7 +52,7 @@ namespace Hospital.Service.PatientServices.Concrete
             if (model.user == null)
                 return false;
 
-            return await userRepository.ConfirmEmailAsync(model.user, model.token);
+            return await _userRepository.ConfirmEmailAsync(model.user, model.token);
         }
 
     }

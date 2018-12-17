@@ -9,14 +9,6 @@ namespace Hospital.Model.Configurations
         public void Configure(EntityTypeBuilder<Specialization> builder)
         {
             builder.HasKey(x => x.Id);
-
-            // zmienic stringa na jakiegos enuma
-            builder.HasData(
-                new Specialization
-                {
-                    Id = 1,
-                    Name = "Dentysta"
-                });
         }
     }
 }

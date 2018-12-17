@@ -21,7 +21,7 @@ namespace Hospital.Service.Helpers.Email
             var apiKey = _configuration["SendGrid:SendGridKey"];
             var client = new SendGridClient(apiKey);
 
-            var from = new EmailAddress("Hospital@Example.com");
+            var from = new EmailAddress(_configuration["SendGrid:EmailFrom"]);
             var to = new EmailAddress(email);
             var fullMessage = MailHelper.CreateSingleEmail(from,to, subject, message,"");
 

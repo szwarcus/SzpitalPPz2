@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Hospital.Core.Enums;
 using Hospital.Model.Identity;
 using Hospital.Repository.Abstract;
 using Microsoft.AspNetCore.Identity;
@@ -26,7 +27,7 @@ namespace Hospital.Repository.Concrete
             return result.Succeeded ? true : false; 
         }
 
-        public async Task<ApplicationUser> CreateAsync(ApplicationUser entity, string password)
+        public async Task<ApplicationUser> CreateAsync(ApplicationUser entity, SystemRoleType role, string password)
         {
             ApplicationUser result = null;
 
@@ -39,16 +40,16 @@ namespace Hospital.Repository.Concrete
 
             var createAsyncResult = await _userManager.CreateAsync(entity, password);
 
-            if (createAsyncResult.Succeeded && Role.Exists(entity.SystemRoleName))
-            {     
-                var roleExists = await _roleManager.RoleExistsAsync(entity.SystemRoleName);
+            if (createAsyncResult.Succeeded)
+            {
+                var roleName = role.ToString();
 
-                if (!roleExists)
+                if (!await _roleManager.RoleExistsAsync(roleName))
                 {
-                    await _roleManager.CreateAsync(new ApplicationIdentityRole(entity.SystemRoleName));
+                    await _roleManager.CreateAsync(new ApplicationIdentityRole(roleName));
                 }
 
-                await _userManager.AddToRoleAsync(entity, entity.SystemRoleName);
+                await _userManager.AddToRoleAsync(entity, roleName);
 
                 result = await _userManager.FindByEmailAsync(entity.Email);
             }

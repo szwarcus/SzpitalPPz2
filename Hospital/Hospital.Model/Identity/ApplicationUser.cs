@@ -13,7 +13,6 @@ namespace Hospital.Model.Identity
 
         public DateTime Created { get; set; }
         public DateTime LastLoginTime { get; set; }
-        public string SystemRoleName { get; private set; }
         public bool IsActive { get; set; }
 
         public DateTime DateOfBirth { get; set; }
@@ -26,6 +25,8 @@ namespace Hospital.Model.Identity
 
         public virtual Doctor Doctor { get; set; }
         public virtual Patient Patient { get; set; }
+        public virtual Admin Admin { get; set; }
+        public virtual Nurse Nurse { get; set; }
 
         /* to do
          * avatar - jpg
@@ -35,13 +36,6 @@ namespace Hospital.Model.Identity
         {
             Created = DateTime.UtcNow;
             LastLoginTime = DateTime.UtcNow;
-        }
-
-        public ApplicationUser(string roleName)
-        {
-            Created = DateTime.UtcNow;
-            LastLoginTime = DateTime.UtcNow;
-            SystemRoleName = roleName;
         }
     }
 }

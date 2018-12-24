@@ -1,15 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Hospital.Model.Entities;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Hospital.Repository.Abstract
 {
-    public interface IRepository<T> where T : BaseEntity
+    public interface IRepository<TEntity> where TEntity : BaseEntity
     {
-        IEnumerable<T> GetAll();
-        Task<T> Get(long id);
-        Task Insert(T entity);
-        Task Update(T entity);
-        Task Delete(T entity);
+        IEnumerable<TEntity> GetAllAsync();
+        Task<TResult> GetAsync<TResult>(Expression<Func<TEntity, bool>> filter,
+                                   Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy,
+                                   Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes,
+                                   Expression<Func<TEntity, TResult>> select);
+        Task InsertAsync(TEntity entity);
+        Task UpdateAsync(TEntity entity);
+        Task DeleteAsync(TEntity entity);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Hospital.Core.Enums;
 
-namespace Hospital.Service.PatientServices.InDTOs
+namespace Hospital.Service.InDTOs
 {
     public class RegisterPatientInDTO
     {

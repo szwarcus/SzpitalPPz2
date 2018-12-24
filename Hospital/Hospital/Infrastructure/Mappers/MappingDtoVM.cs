@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Hospital.Service.PatientServices.InDTOs;
+using Hospital.Service.InDTOs;
 using Hospital.ViewModel;
 
 namespace Hospital.Mappers.Infrastructure

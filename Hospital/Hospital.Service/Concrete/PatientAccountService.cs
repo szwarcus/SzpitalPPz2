@@ -3,10 +3,10 @@ using AutoMapper;
 using Hospital.Model.Entities;
 using Hospital.Model.Identity;
 using Hospital.Repository.Abstract;
-using Hospital.Service.PatientServices.Abstract;
-using Hospital.Service.PatientServices.InDTOs;
+using Hospital.Service.Abstract;
+using Hospital.Service.InDTOs;
 
-namespace Hospital.Service.PatientServices.Concrete
+namespace Hospital.Service.Concrete
 {
     public class PatientAccountService : IPatientAccountService
     {
@@ -46,7 +46,6 @@ namespace Hospital.Service.PatientServices.Concrete
             return true;
         }
 
-
         public async Task<bool> ConfirmEmail(ConfirmEmailPatientInDTO model)
         {      
             if (model.user == null)
@@ -54,6 +53,5 @@ namespace Hospital.Service.PatientServices.Concrete
 
             return await _userRepository.ConfirmEmailAsync(model.user, model.token);
         }
-
     }
 }

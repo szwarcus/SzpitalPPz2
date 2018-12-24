@@ -1,9 +1,6 @@
 ﻿using Hospital.Model.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Hospital.Service.PatientServices.InDTOs
+namespace Hospital.Service.InDTOs
 {
    public class ConfirmEmailPatientInDTO
     {

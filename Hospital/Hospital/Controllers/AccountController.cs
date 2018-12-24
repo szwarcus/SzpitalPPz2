@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Hospital.Model.Identity;
 using Hospital.ViewModel;
-using Hospital.Service.PatientServices.InDTOs;
-using Hospital.Service.PatientServices.Abstract;
+using Hospital.Service.InDTOs;
+using Hospital.Service.Abstract;
 using AutoMapper;
-using Hospital.Service.Helpers.Email;
+using Hospital.Core.Helpers.Email;
 using Hospital.Core.Enums;
 
 

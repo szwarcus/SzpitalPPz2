@@ -1,12 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Hospital.Service.Helpers.Email
+namespace Hospital.Core.Helpers.Email
 {
     public class SendGridEmailSender : IEmailSender
     {

@@ -1,13 +1,11 @@
 ﻿using System.Threading.Tasks;
-using Hospital.Model.Identity;
-using Hospital.Service.PatientServices.InDTOs;
+using Hospital.Service.InDTOs;
 
-namespace Hospital.Service.PatientServices.Abstract
+namespace Hospital.Service.Abstract
 {
     public interface IPatientAccountService
     {
         Task<bool> Register(RegisterPatientInDTO model);
         Task<bool> ConfirmEmail(ConfirmEmailPatientInDTO model);
-
     }
 }

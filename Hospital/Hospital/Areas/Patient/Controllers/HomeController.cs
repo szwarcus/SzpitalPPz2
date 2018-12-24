@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hospital.Model.Entities;
 using Hospital.Model.Identity;
-using Hospital.Service.PatientServices.Abstract;
+using Hospital.Service.Abstract;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

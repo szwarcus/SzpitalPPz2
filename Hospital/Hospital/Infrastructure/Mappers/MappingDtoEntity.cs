@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Hospital.Model.Identity;
-using Hospital.Service.PatientServices.InDTOs;
+using Hospital.Service.InDTOs;
 
 namespace Hospital.Mappers.Infrastructure
 {

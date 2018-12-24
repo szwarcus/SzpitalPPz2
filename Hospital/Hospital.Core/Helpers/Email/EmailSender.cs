@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Net.Mail;
-using Microsoft.Extensions.Configuration;
 using System.Net;
+using Microsoft.Extensions.Configuration;
 
-namespace Hospital.Service.Helpers.Email
+namespace Hospital.Core.Helpers.Email
 {
     public class EmailSender: IEmailSender
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Hospital.Model.Entities;
-using Hospital.Repository.Abstract;
 using System.Linq;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using Hospital.Model.Entities;
+using Hospital.Repository.Abstract;
 
 namespace Hospital.Repository.Concrete
 {
@@ -27,10 +27,10 @@ namespace Hospital.Repository.Concrete
             return _entities.AsEnumerable();
         }
 
-        public async Task<List<TResult>> GetAsync<TResult>(Expression<Func<TEntity, bool>> filter,
-                                                           Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy,
-                                                           Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes,
-                                                           Expression<Func<TEntity, TResult>> select,
+        public async Task<List<TResult>> GetAsync<TResult>(Expression<Func<TEntity, bool>> filter = null,
+                                                           Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+                                                           Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes = null,
+                                                           Expression<Func<TEntity, TResult>> select = null,
                                                            int skip = 0,
                                                            int take = 1) 
                                                            where TResult : class

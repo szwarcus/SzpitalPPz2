@@ -12,9 +12,9 @@ using Hospital.Helpers;
 using Hospital.Model.Identity;
 using Hospital.Repository.Concrete;
 using Hospital.Repository.Abstract;
-using Hospital.Service.PatientServices.Abstract;
-using Hospital.Service.PatientServices.Concrete;
-using Hospital.Service.Helpers.Email;
+using Hospital.Service.Abstract;
+using Hospital.Service.Concrete;
+using Hospital.Core.Helpers.Email;
 using Hospital.Mappers.Infrastructure;
 
 namespace Hospital

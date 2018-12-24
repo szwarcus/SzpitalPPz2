@@ -6,7 +6,6 @@ using Hospital.Model.Entities;
 using Hospital.Repository.Abstract;
 using System.Linq;
 using System.Linq.Expressions;
-using Hospital.Model.Extensions;
 using Microsoft.EntityFrameworkCore.Query;
 
 namespace Hospital.Repository.Concrete
@@ -28,13 +27,13 @@ namespace Hospital.Repository.Concrete
             return _entities.AsEnumerable();
         }
 
-        public async Task<IEnumerable<TResult>> GetAsync<TResult>(Expression<Func<TEntity, bool>> filter,
-                                                Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy,
-                                                Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes,
-                                                Expression<Func<TEntity, TResult>> select,
-                                                int skip = 0,
-                                                int take = 1) 
-                                                where TResult : class
+        public async Task<List<TResult>> GetAsync<TResult>(Expression<Func<TEntity, bool>> filter,
+                                                           Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy,
+                                                           Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes,
+                                                           Expression<Func<TEntity, TResult>> select,
+                                                           int skip = 0,
+                                                           int take = 1) 
+                                                           where TResult : class
         {
             return await QueryDb(filter, orderBy, includes).Skip(skip)
                                                            .Take(take)

@@ -41,7 +41,7 @@ namespace Hospital.Service.PatientServices.Concrete
 
             var patient = new Patient { User = user };
 
-            await _patientRepository.Insert(patient);
+            await _patientRepository.InsertAsync(patient);
 
             return true;
         }

@@ -22,15 +22,19 @@ namespace Hospital.Repository.Concrete
             _entities = context.Set<TEntity>();
         }
 
-        public IEnumerable<TEntity> GetAllAsync()
+        public async Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<TEntity, TResult>> select,
+                                                              Expression<Func<TEntity, bool>> filter = null,
+                                                              Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+                                                              Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes = null)
+                                                              where TResult : class
         {
-            return _entities.AsEnumerable();
+            return await QueryDb(filter, orderBy, includes).Select(select).ToListAsync();
         }
 
-        public async Task<List<TResult>> GetAsync<TResult>(Expression<Func<TEntity, bool>> filter = null,
+        public async Task<List<TResult>> GetAsync<TResult>(Expression<Func<TEntity, TResult>> select, 
+                                                           Expression<Func<TEntity, bool>> filter = null,
                                                            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
                                                            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes = null,
-                                                           Expression<Func<TEntity, TResult>> select = null,
                                                            int skip = 0,
                                                            int take = 1) 
                                                            where TResult : class
@@ -88,7 +92,7 @@ namespace Hospital.Repository.Concrete
 
             return query;
         }
-
+        
         protected bool IsEntityNull(TEntity entity)
         {
             var result = entity == null;

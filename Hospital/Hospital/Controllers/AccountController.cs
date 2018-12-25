@@ -92,6 +92,13 @@ namespace Hospital.Controllers
             return View(result ? "ConfirmEmail" : "Error");
 
         }
+
+        [HttpGet]
+        public async Task<string> GetCurrentUserId()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            return user?.Id;
+        }
         #endregion
 
         #region PostMethods
@@ -123,10 +130,11 @@ namespace Hospital.Controllers
                     }
                     else
                     {
-                        var roles = ((ClaimsIdentity)User.Identity).Claims
-                                                               .Where(c => c.Type == ClaimTypes.Role)
-                                                               .Select(c => c.Value)
-                                                               .ToList();
+                        var claimsPrincipal = await _signInManager.CreateUserPrincipalAsync(user);
+
+                        var roles = claimsPrincipal.Claims.Where(c => c.Type == ClaimTypes.Role)
+                                                          .Select(c => c.Value)
+                                                          .ToList();
 
                         if (roles != null && roles.Count > 0)
                         {
@@ -139,6 +147,10 @@ namespace Hospital.Controllers
                                 case nameof(SystemRoleType.Doctor):
                                     break;
                                 case nameof(SystemRoleType.Nurse):
+                                    break;
+                                case nameof(SystemRoleType.Admin):
+                                    // nie wiem jakie zachowanie, admin powinien inna stronka sie logowac, wiec jakis error raczej
+                                    ModelState.AddModelError(nameof(model.Email), "Your account is admin account"); // do zmiany
                                     break;
                                 default:
                                     return RedirectToAction("Index", "Home");

@@ -43,7 +43,6 @@
     <Folder Include="Areas\Doctor\Controllers\" />
     <Folder Include="Areas\Doctor\ViewModels\" />
     <Folder Include="Areas\Doctor\Views\Home\" />
-    <Folder Include="Areas\Patient\ViewModels\" />
   </ItemGroup>
 
   <ItemGroup>

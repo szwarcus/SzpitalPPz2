@@ -8,6 +8,8 @@ using Hospital.Service.Abstract;
 using AutoMapper;
 using Hospital.Core.Helpers.Email;
 using Hospital.Core.Enums;
+using System.Security.Claims;
+using System.Linq;
 
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -16,14 +18,14 @@ namespace Hospital.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly SignInManager<ApplicationUser> signInManager;
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly RoleManager<ApplicationIdentityRole> roleManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationIdentityRole> _roleManager;
 
-        private readonly IMapper mapper;
-        private readonly IEmailSender emailSender;
+        private readonly IMapper _mapper;
+        private readonly IEmailSender _emailSender;
 
-        private IPatientAccountService patientAccountService;
+        private IPatientAccountService _patientAccountService;
 
         public AccountController(SignInManager<ApplicationUser> signInManager, 
                                  UserManager<ApplicationUser> userManager,
@@ -33,13 +35,13 @@ namespace Hospital.Controllers
                                  IEmailSender emailSender
                                  )
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
-            this.roleManager = roleManager;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _roleManager = roleManager;
 
-            this.emailSender = emailSender;
-            this.mapper = mapper;
-            this.patientAccountService = patientAccountService;
+            _emailSender = emailSender;
+            _mapper = mapper;
+            _patientAccountService = patientAccountService;
         }
 
         #region GetMethods
@@ -80,12 +82,12 @@ namespace Hospital.Controllers
         public async Task<IActionResult> ConfirmEmail( string userId , string token)
         {
          
-            var user = await userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(userId);
             if(user == null)
                 return View("Error");
-            if( await userManager.IsEmailConfirmedAsync(user) == true) /// trzeba wyswietlic informacje ze mail został już potwierdzony
+            if( await _userManager.IsEmailConfirmedAsync(user) == true) /// trzeba wyswietlic informacje ze mail został już potwierdzony
                 return View("Error");
-            var result = await patientAccountService.ConfirmEmail(new ConfirmEmailPatientInDTO() { user = user, token = token });
+            var result = await _patientAccountService.ConfirmEmail(new ConfirmEmailPatientInDTO() { user = user, token = token });
 
             return View(result ? "ConfirmEmail" : "Error");
 
@@ -103,26 +105,45 @@ namespace Hospital.Controllers
                 return View();
             }
 
-            var user = await userManager.FindByEmailAsync(model.Email);
+            var user = await _userManager.FindByEmailAsync(model.Email);
 
             if (user != null)
             {
-                if (await userManager.CheckPasswordAsync(user, model.Password))
+                if (await _userManager.CheckPasswordAsync(user, model.Password))
                 {
-                    var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                    var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
 
-                    if (result.Succeeded)
+                    if (!result.Succeeded)
                     {
-                        // if doctor
+                        ModelState.AddModelError(nameof(model.Email), "Email or password incorrect"); // result to change
+                    }
+                    else if (!await _userManager.IsEmailConfirmedAsync(user))
+                    {
+                        ModelState.AddModelError(nameof(model.Email), "Not Email Confirmed");
+                    }
+                    else
+                    {
+                        var roles = ((ClaimsIdentity)User.Identity).Claims
+                                                               .Where(c => c.Type == ClaimTypes.Role)
+                                                               .Select(c => c.Value)
+                                                               .ToList();
 
-                        // if patient
+                        if (roles != null && roles.Count > 0)
+                        {
+                            var role = roles.FirstOrDefault();
 
-                        // if nurse
-                        if (await userManager.IsEmailConfirmedAsync(user))
-                            return RedirectToAction("Index", "Home");
-                        else
-                            ModelState.AddModelError(nameof(model.Email), "Not Email Confirmed");
-
+                            switch (role)
+                            {
+                                case nameof(SystemRoleType.Patient):
+                                    return RedirectToAction("Index", "Home", new { area = "Patient" });
+                                case nameof(SystemRoleType.Doctor):
+                                    break;
+                                case nameof(SystemRoleType.Nurse):
+                                    break;
+                                default:
+                                    return RedirectToAction("Index", "Home");
+                            }
+                        }
                     }
                 }
                 else
@@ -148,10 +169,10 @@ namespace Hospital.Controllers
                 return View();
             }
 
-            var dtoModel = mapper.Map<RegisterPatientInDTO>(model);
+            var dtoModel = _mapper.Map<RegisterPatientInDTO>(model);
             dtoModel.SystemRole = SystemRoleType.Patient;
 
-            var result = await patientAccountService.Register(dtoModel);
+            var result = await _patientAccountService.Register(dtoModel);
 
             if (!result)
             {
@@ -159,10 +180,10 @@ namespace Hospital.Controllers
                 return View();
             }
 
-            var user = await userManager.FindByEmailAsync(model.Email);
-            var tokeN = await userManager.GenerateEmailConfirmationTokenAsync(user);
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            var tokeN = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var link = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token=tokeN },protocol:HttpContext.Request.Scheme);
-            var res = await emailSender.SendEmailAsync(user.Email, link, "Confirm");
+            var res = await _emailSender.SendEmailAsync(user.Email, link, "Confirm");
             if(!res)
                 return View();
 
@@ -172,7 +193,7 @@ namespace Hospital.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout( )
         {
-            await signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
 
@@ -183,16 +204,16 @@ namespace Hospital.Controllers
             {
                 return View("ForgotPassword");
             }
-            var user = await userManager.FindByEmailAsync(model.Email);
+            var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
                 ModelState.AddModelError(nameof(model.Email), "Nie ma użytkownika o podanym emailu");
                 return View("ForgotPassword");
             }
 
-            var tokeN = await userManager.GeneratePasswordResetTokenAsync(user);
+            var tokeN = await _userManager.GeneratePasswordResetTokenAsync(user);
             var link = Url.Action("ResetPassword", "Account", new ResetPasswordVM { UserId = user.Id, Token = tokeN }, protocol: HttpContext.Request.Scheme);
-            var res = await emailSender.SendEmailAsync(user.Email, link, "Reset Password");
+            var res = await _emailSender.SendEmailAsync(user.Email, link, "Reset Password");
             if (!res)
                 return View("ForgotPassword");
 
@@ -208,10 +229,10 @@ namespace Hospital.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-            var user = await userManager.FindByIdAsync(model.UserId);
+            var user = await _userManager.FindByIdAsync(model.UserId);
             if (user == null)
                 return View("Error");
-            var result = await userManager.ResetPasswordAsync(user, model.Token, model.Password);
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
             if (result.Succeeded)
                 return RedirectToAction("Index", "Home");
             else

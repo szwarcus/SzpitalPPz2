@@ -5,8 +5,6 @@
 }
 
 <form asp-action="ArrangeVisit" asp-controller="Home" asp-area="Patient" method="post" class="form-horizontal">
-    @*<input type="hidden" name="DoctorUserId" value="6f2c305b-f73f-4326-a1ff-f8fcce0101dc" />*@
-
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input class="form-control" asp-for="Description" value="Wizyta z frontu" />
@@ -14,19 +12,7 @@
     </div>
 
     <div class="form-group">
-        <select name="DoctorUserId"  class="form-control col-md-offset-2">
-            @for (int i = 0; i < Model.Doctors.Count; i++)
-            {
-                if (i == 0)
-                {
-                    <option selected="selected">@Model.Doctors[i].DoctorUserId</option>
-                }
-                else
-                {
-                    <option>@Model.Doctors[i].DoctorUserId</option>
-                }
-            }
-        </select>
+        <select name="DoctorId" id="DoctorId" asp-items="@Model.Doctors" />
     </div>
 
     <div class="form-group">

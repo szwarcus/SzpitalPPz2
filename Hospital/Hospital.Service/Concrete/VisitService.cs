@@ -39,7 +39,7 @@ namespace Hospital.Service.Concrete
             if (patientList.Count == 0) return false;
 
             var doctorList = await _doctorRepository.GetAsync<Doctor>(x => x, 
-                                                                      filter: x => x.UserId == model.DoctorUserId);
+                                                                      filter: x => x.Id == model.DoctorId);
             if (doctorList.Count == 0) return false;
 
             var visit = new Visit

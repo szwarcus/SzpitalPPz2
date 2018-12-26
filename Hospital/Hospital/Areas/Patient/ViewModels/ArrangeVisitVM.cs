@@ -12,6 +12,6 @@ namespace Hospital.Areas.Patient.ViewModels
 
         public string Description { get; set; }
 
-        public string DoctorUserId { get; set; }
+        public long DoctorId { get; set; }
     }
 }

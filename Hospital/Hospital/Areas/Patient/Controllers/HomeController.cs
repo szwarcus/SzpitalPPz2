@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using Hospital.Areas.Patient.ViewModels;
 using Hospital.Core.Enums;
@@ -9,6 +8,7 @@ using Hospital.Service.Abstract;
 using Hospital.Service.InDTOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Hospital.Areas.Patient.Controllers
 {
@@ -40,15 +40,18 @@ namespace Hospital.Areas.Patient.Controllers
 
             var activeDoctors = await _doctorService.GetAllActiveDoctors();
 
-            // przerzucic do automappera
-            activeDoctors.ForEach(doctor => vModel.Doctors.Add(new DoctorVM { DoctorUserId = doctor.UserId }));
+            activeDoctors.ForEach(doctor => vModel.Doctors.Add(new SelectListItem
+            {
+                Value = doctor.DoctorId.ToString(),
+                Text = $"{doctor.FirstName} {doctor.LastName}"
+            }));
 
             return View(vModel);
         }
      
         public async Task<IActionResult> ArrangeVisit(ArrangeVisitVM model)
         {
-            if (!ModelState.IsValid || String.IsNullOrEmpty(model.DoctorUserId))
+            if (!ModelState.IsValid || model.DoctorId < 1)
             {
                 return RedirectToAction("Index", "Home"); ;
             }
@@ -59,14 +62,8 @@ namespace Hospital.Areas.Patient.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            // dodac to do automappera, zeby mapowalo vm do dto
-            var dtoModel = new ArrangeVisitInDTO
-            {
-                DoctorUserId = model.DoctorUserId,
-                PatientUserId = user.Id,
-                Date = model.VisitDate,
-                Description = model.Description
-            };
+            var dtoModel = _mapper.Map<ArrangeVisitInDTO>(model);
+            dtoModel.PatientUserId = user.Id;
 
             await _visitService.ArrangeVisit(dtoModel);
 

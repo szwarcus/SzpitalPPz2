@@ -4,7 +4,7 @@ namespace Hospital.Service.InDTOs
 {
     public class ArrangeVisitInDTO
     {
-        public string DoctorUserId { get; set; }
+        public long DoctorId { get; set; }
         public string PatientUserId { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }

@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Hospital.ViewModel
 {
-    public class RegisterVM
+    public class RegisterBaseVM
     {
-        [Required(ErrorMessage ="Podaj Imię")]
+        [Required(ErrorMessage = "Podaj Imię")]
         [DataType(DataType.Text)]
-        [Display(Name="Imię")]
+        [Display(Name = "Imię")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Podaj Nazwisko")]

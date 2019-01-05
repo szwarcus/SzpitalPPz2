@@ -172,7 +172,7 @@ namespace Hospital.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterVM model)
+        public async Task<IActionResult> RegisterPatient(RegisterPatientVM model)
         {
             // dodac info ze rejestracja sie nie powiodla
 

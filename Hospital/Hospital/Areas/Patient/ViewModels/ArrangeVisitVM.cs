@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Hospital.Areas.Patient.ViewModels
 {
@@ -13,5 +15,13 @@ namespace Hospital.Areas.Patient.ViewModels
         public string Description { get; set; }
 
         public long DoctorId { get; set; }
+
+        public List<SelectListItem> Doctors { get; set; }
+
+        public ArrangeVisitVM()
+        {
+            VisitDate = DateTime.UtcNow.AddDays(1);
+            Doctors = new List<SelectListItem>();
+        }
     }
 }

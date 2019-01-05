@@ -37,10 +37,11 @@ namespace Hospital.Areas.Patient.Controllers
         public async Task<IActionResult> Index()
         {
             var vModel = new HomeVM();
+            vModel.ArrangeVisitVM = new ArrangeVisitVM();
 
             var activeDoctors = await _doctorService.GetAllActiveDoctors();
 
-            activeDoctors.ForEach(doctor => vModel.Doctors.Add(new SelectListItem
+            activeDoctors.ForEach(doctor => vModel.ArrangeVisitVM.Doctors.Add(new SelectListItem
             {
                 Value = doctor.DoctorId.ToString(),
                 Text = $"{doctor.FirstName} {doctor.LastName}"
@@ -49,7 +50,7 @@ namespace Hospital.Areas.Patient.Controllers
             return View(vModel);
         }
      
-        public async Task<IActionResult> ArrangeVisit(ArrangeVisitVM model)
+        public async Task<IActionResult> CreateVisit(CreateVisitVM model)
         {
             if (!ModelState.IsValid || model.DoctorId < 1)
             {

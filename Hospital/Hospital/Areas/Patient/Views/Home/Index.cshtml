@@ -4,28 +4,11 @@
     Layout = "_PatientLayout";
 }
 
-<form asp-action="ArrangeVisit" asp-controller="Home" asp-area="Patient" method="post" class="form-horizontal">
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input class="form-control" asp-for="Description" value="Wizyta z frontu" />
-        </div>
-    </div>
+@*
+    TODO
+    Display actual visits
+    Display history visits
+    Display another info like Prescriptions
+*@
 
-    <div class="form-group">
-        <select name="DoctorId" id="DoctorId" asp-items="@Model.Doctors" />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="VisitDate" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="VisitDate" class="form-control" />
-            <span asp-validation-for="VisitDate" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-primary" value="Umow wizyte" />
-        </div>
-    </div>
-</form>
+<partial model="@Model.ArrangeVisitVM" name="../Home/ArrangeVisit.cshtml"/>

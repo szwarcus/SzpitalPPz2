@@ -10,7 +10,7 @@ namespace Hospital.Mappers.Infrastructure
         public MappingDtoVM()
         {
             CreateMap<RegisterPatientVM, RegisterPatientInDTO>();
-            CreateMap<ArrangeVisitVM, ArrangeVisitInDTO>()
+            CreateMap<CreateVisitVM, ArrangeVisitInDTO>()
                 .ForMember(dest => dest.Date, opts => opts.MapFrom(dest => dest.VisitDate));
         }
     }

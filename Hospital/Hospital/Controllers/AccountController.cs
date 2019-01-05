@@ -150,7 +150,8 @@ namespace Hospital.Controllers
                                     break;
                                 case nameof(SystemRoleType.Admin):
                                     // nie wiem jakie zachowanie, admin powinien inna stronka sie logowac, wiec jakis error raczej
-                                    ModelState.AddModelError(nameof(model.Email), "Your account is admin account"); // do zmiany
+                                    return RedirectToAction("Index", "Home", new { area = "Admin" });
+                                    //ModelState.AddModelError(nameof(model.Email), "Your account is admin account"); // do zmiany
                                     break;
                                 default:
                                     return RedirectToAction("Index", "Home");

@@ -1,0 +1,14 @@
+﻿@model Hospital.Areas.Admin.ViewModels.HomeVM
+
+@{
+    Layout = "_AdminLayout";
+}
+
+@*
+    TODO
+    Display actual visits
+    Display history visits
+    Display another info like Prescriptions
+*@
+
+<partial model="@Model.StatisticsVM" name="../Home/Statistics.cshtml" />

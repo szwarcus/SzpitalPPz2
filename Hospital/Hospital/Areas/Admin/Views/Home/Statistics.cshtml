@@ -1,7 +1,10 @@
 ﻿@model Hospital.Areas.Admin.ViewModels.StatisticsVM
 
 <div class="row">
-    <div class="col-md-4"><span>@Model.statisticsDictionary.ElementAt(0).Key:@Model.statisticsDictionary.ElementAt(0).Value</span></div>
+    <div class="col-md-4">
+        <p class="lead text-primary">@Model.statisticsDictionary.ElementAt(0).Key:@Model.statisticsDictionary.ElementAt(0).Value</p></br>
+        <p class="lead text-primary">@Model.statisticsDictionary.ElementAt(1).Key:@Model.statisticsDictionary.ElementAt(1).Value</p>
+    </div>
     <div class="col-md-4">
         
     </div>

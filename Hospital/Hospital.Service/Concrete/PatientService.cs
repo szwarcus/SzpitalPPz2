@@ -8,22 +8,22 @@ using Hospital.Service.OutDTOs;
 
 namespace Hospital.Service.Concrete
 {
-    public class DoctorService : IDoctorService
+    public class PatientService : IPatientService
     {
         private IMapper _mapper;
 
-        private IRepository<Doctor> _doctorRepository;
+        private IRepository<Patient> _patientRepository;
 
-        public DoctorService(IMapper mapper,
-                             IRepository<Doctor> doctorRepository)
+        public PatientService(IMapper mapper,
+                             IRepository<Patient> patientRepository)
         {
-            _doctorRepository = doctorRepository;
+            _patientRepository = patientRepository;
             _mapper = mapper;
         }
 
-        public async Task<List<UserOutDTO>> GetAllActiveDoctors()
+        public async Task<List<UserOutDTO>> GetAllActivePatients()
         {
-            var result = await _doctorRepository.GetAllAsync<UserOutDTO>(x => new UserOutDTO
+            var result = await _patientRepository.GetAllAsync<UserOutDTO>(x => new UserOutDTO
                                                                                 {
                                                                                     UserID = x.Id,
                                                                                     FirstName = x.User.FirstName,

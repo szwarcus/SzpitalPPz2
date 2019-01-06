@@ -43,7 +43,7 @@ namespace Hospital.Areas.Patient.Controllers
 
             activeDoctors.ForEach(doctor => vModel.ArrangeVisitVM.Doctors.Add(new SelectListItem
             {
-                Value = doctor.DoctorId.ToString(),
+                Value = doctor.UserID.ToString(),
                 Text = $"{doctor.FirstName} {doctor.LastName}"
             }));
 

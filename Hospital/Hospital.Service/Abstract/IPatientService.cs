@@ -4,8 +4,8 @@ using Hospital.Service.OutDTOs;
 
 namespace Hospital.Service.Abstract
 {
-    public interface IDoctorService
+    public interface IPatientService
     {
-        Task<List<UserOutDTO>> GetAllActiveDoctors();
+        Task<List<UserOutDTO>> GetAllActivePatients();
     }
 }

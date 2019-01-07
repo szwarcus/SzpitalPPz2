@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Hospital.Model.Identity;
 using Hospital.Service.OutDTOs;
 
 namespace Hospital.Service.Abstract
 {
-    public interface IPatientService
+    public interface IUserService
     {
-        Task<List<UserOutDTO>> GetAllActivePatients();
+       Task<List<ApplicationUserDTO>> GetAllUsersByRole(string roleName);
     }
 }

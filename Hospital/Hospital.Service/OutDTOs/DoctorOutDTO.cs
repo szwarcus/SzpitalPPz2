@@ -1,6 +1,6 @@
 ﻿namespace Hospital.Service.OutDTOs
 {
-    public class UserOutDTO
+    public class DoctorOutDTO
     {
         public long UserID { get; set; }
         public string FirstName { get; set; }

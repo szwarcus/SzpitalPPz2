@@ -21,14 +21,15 @@ namespace Hospital.Service.Concrete
             _mapper = mapper;
         }
 
-        public async Task<List<UserOutDTO>> GetAllActiveDoctors()
+        public async Task<List<DoctorOutDTO>> GetAllActiveDoctors()
         {
-            var result = await _doctorRepository.GetAllAsync<UserOutDTO>(x => new UserOutDTO
+            var result = await _doctorRepository.GetAllAsync<DoctorOutDTO>(x => new DoctorOutDTO
                                                                                 {
                                                                                     UserID = x.Id,
                                                                                     FirstName = x.User.FirstName,
                                                                                     LastName = x.User.LastName
                                                                                 });
+
 
             return result;
         }

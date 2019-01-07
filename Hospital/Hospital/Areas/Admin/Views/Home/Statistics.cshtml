@@ -1,12 +1,17 @@
 ﻿@model Hospital.Areas.Admin.ViewModels.StatisticsVM
 
+
 <div class="row">
     <div class="col-md-4">
-        <p class="lead text-primary">@Model.statisticsDictionary.ElementAt(0).Key:@Model.statisticsDictionary.ElementAt(0).Value</p></br>
-        <p class="lead text-primary">@Model.statisticsDictionary.ElementAt(1).Key:@Model.statisticsDictionary.ElementAt(1).Value</p>
+        <p class="text-primary">Ilość doktorów:@Model.statisticsDictionary["Doctor"]</p>
+        <p class="text-primary">Ilość pielęgniarek:@Model.statisticsDictionary["Nurse"]</p>
+        <p class="text-success">Ilość pracowników szpitala: @(Model.statisticsDictionary["Nurse"] + Model.statisticsDictionary["Doctor"])</p><br />
+        <p class="text-primary">Ilość zarejestrowanych pacjentów:@Model.statisticsDictionary["Patient"]</p>
+
     </div>
     <div class="col-md-4">
-        
+
     </div>
     <div class="col-md-4"></div>
 </div>
+<partial name="StatisticPieChart" />

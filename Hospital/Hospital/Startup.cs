@@ -76,7 +76,7 @@ namespace Hospital
             services.AddScoped<IPatientAccountService, PatientAccountService>();
             services.AddScoped<IVisitService, VisitService>();
             services.AddScoped<IDoctorService, DoctorService>();
-            services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddTransient<IEmailSender, SendGridEmailSender>();
 

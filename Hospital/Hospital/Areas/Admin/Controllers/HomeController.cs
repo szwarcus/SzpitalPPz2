@@ -19,21 +19,14 @@ namespace Hospital.Areas.Admin.Controllers
         private readonly IMapper _mapper;
         private readonly IVisitService _visitService;
         private readonly IDoctorService _doctorService;
-        private readonly IPatientService _patientService;
+        private readonly IUserService _userService;
 
         private readonly UserManager<ApplicationUser> _userManager;
 
         public HomeController(UserManager<ApplicationUser> userManager,
-                              IMapper mapper,
-                              IVisitService visitService,
-                              IDoctorService doctorService,
-                              IPatientService patientService)
+                              IUserService userService)
         {
-            _visitService = visitService;
-            _doctorService = doctorService;
-            _patientService = patientService;
-            _mapper = mapper;
-
+            _userService = userService;
             _userManager = userManager;
         }
 
@@ -41,12 +34,13 @@ namespace Hospital.Areas.Admin.Controllers
         {
             var vModel = new HomeVM();
 
-            var activeDoctors = await _doctorService.GetAllActiveDoctors();
-            var activePatients = await _patientService.GetAllActivePatients();
-            
+            var activePatients = await _userService.GetAllUsersByRole("PATIENT");
+            var activeDoctors = await _userService.GetAllUsersByRole("DOCTOR");
+            var activeNurses = await _userService.GetAllUsersByRole("NURSE");
             vModel.StatisticsVM = new StatisticsVM();
-            vModel.StatisticsVM.statisticsDictionary.Add("Ilość doktorów", activeDoctors.Count);
-            vModel.StatisticsVM.statisticsDictionary.Add("Ilość pacjentów", activePatients.Count);
+            vModel.StatisticsVM.statisticsDictionary.Add("Doctor", activeDoctors.Count);
+            vModel.StatisticsVM.statisticsDictionary.Add("Patient", activePatients.Count);
+            vModel.StatisticsVM.statisticsDictionary.Add("Nurse", activeNurses.Count);
 
             return View(vModel);
         }

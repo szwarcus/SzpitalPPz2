@@ -6,6 +6,6 @@ namespace Hospital.Service.Abstract
 {
     public interface IDoctorService
     {
-        Task<List<UserOutDTO>> GetAllActiveDoctors();
+        Task<List<DoctorOutDTO>> GetAllActiveDoctors();
     }
 }

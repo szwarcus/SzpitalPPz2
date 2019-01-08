@@ -29,6 +29,24 @@ body {
 }
 .admin-header{
     padding-top:15px;
+
+}
+
+.admin-header>li>a {
+    text-decoration: none;
+    background-color: #e2e2e2;
+    border-bottom: 3px solid #1468b2;
+}
+.admin-header>li{
+    float:left;
+}
+
+.admin-header > li > a:hover,
+.admin-header > li > a:focus {
+    text-decoration: none;
+    background-color: #1468b2;
+    color: white;
+    border-bottom: 3px solid white;
 }
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {

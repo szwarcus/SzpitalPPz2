@@ -45,6 +45,13 @@ namespace Hospital.Areas.Admin.Controllers
             return View(vModel);
         }
 
+        public  IActionResult PatientBase()
+        {
+            return View();
+        }
+
+
+
 
     }   
 }

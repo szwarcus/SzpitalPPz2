@@ -27,7 +27,9 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a asp-area="Patient" asp-controller="Home" asp-action="Index" class="navbar-brand">Hospital</a>
+                <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="navbar-brand">Hospital</a>
+
+
             </div>
             <div class="navbar-collapse collapse">
                 <partial name="_LoginPartial" />
@@ -39,14 +41,27 @@
 
         @if (SignInManager.IsSignedIn(User) && User.IsInRole(nameof(SystemRoleType.Admin)))
         {
-            <div class="navbar-header admin-header">
-                <button type="button" class="btn btn-outline-primary"><a asp-area="Admin" asp-controller="Visits" asp-action="#" class="navbar-brand">Statystyki</a></button>
-                <button type="button" class="btn btn-outline-primary"><a asp-area="Admin" asp-controller="Visits" asp-action="Visits" class="navbar-brand">Baza pacjentow</a></button>
-                <button type="button" class="btn btn-outline-primary"><a asp-area="Admin" asp-controller="Visits" asp-action="Visits" class="navbar-brand">Baza doktorów</a></button>
-                <button type="button" class="btn btn-outline-primary"><a asp-area="Admin" asp-controller="Visits" asp-action="Visits" class="navbar-brand">Baza medykamentów</a></button>
+            <div class="row">
+                <div class="col-lg-3">
+
+                </div>
+                <div class="col-lg-7">
+                       <ul class="nav admin-header">
+                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">Statystyki</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-action="PatientBase">Baza pacjentów</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Admin" asp-action="Visits">Baza doktorów</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Admin" asp-action="Visits">Baza medykamentów</a></li>
+            </ul>
+
+                </div>
+                <div class="col-lg-2"></div>
             </div>
+
+         
+
+
         }
-       
+
 
 
     </div>

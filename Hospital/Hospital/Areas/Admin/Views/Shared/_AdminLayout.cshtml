@@ -8,13 +8,27 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Hospital</title>
-    <script asp-src-include="lib/jquery/dist/jquery.js"></script>
-    <script asp-src-include="js/Chart.js"></script>
-    <script asp-src-include="lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script asp-src-include="lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/MDB/js/jquery-3.3.1.min.js"></script>
+    <script src="~/lib/MDB/js/popper.min.js"></script>
+    <script src="~/lib/MDB/js/bootstrap.min.js"></script>
+    <script src="~/lib/MDB/js/mdb.min.js"></script>
+    <script src="~/lib/MDB/js/addons/datatables.min.js"></script>
+
+    <script type="text/javascript" asp-src-include="js/Chart.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#dtBasicExample').DataTable({
+                "ordering": true,
+                "paging": true,
+                "pagingType": "numbers"// false to disable sorting (or any other option)
+            });
+            $('.dataTables_length').addClass('bs-select');
+        });</script>
+
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~lib/MDB/css/datatables.min.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -75,7 +89,6 @@
         </div>
 
         <environment include="Development">
-            <script src="~/lib/jquery/dist/jquery.js"></script>
             <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
             <script src="~/js/site.js" asp-append-version="true"></script>
         </environment>

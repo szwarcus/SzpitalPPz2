@@ -4,5 +4,35 @@
     Layout = "_AdminLayout";
 }
 
-<div class="row">
-</div>
+<table id="dtBasicExample" class="table table-borderless  " cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th class="th-sm">
+                Imię
+            </th>
+            <th class="th-sm">
+                Nazwisko
+            </th>
+            <th/>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.applicationUsers)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item._firstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item._lastName)
+                </td>
+                <td>
+                    <a asp-page="/Edit" asp-route-id="@item._userID">Edit</a> |
+                    <a asp-page="/Details" asp-route-id="@item._userID">Details</a> |
+                    <a asp-page="/Delete" asp-route-id="@item._userID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+        
+</table>

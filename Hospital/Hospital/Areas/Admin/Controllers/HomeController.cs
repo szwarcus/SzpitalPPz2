@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Hospital.Areas.Admin.ViewModels;
 using Hospital.Core.Enums;
@@ -6,6 +8,7 @@ using Hospital.Infrastructure.Attributes;
 using Hospital.Model.Identity;
 using Hospital.Service.Abstract;
 using Hospital.Service.InDTOs;
+using Hospital.Service.OutDTOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,9 +19,6 @@ namespace Hospital.Areas.Admin.Controllers
     [Roles(SystemRoleType.Admin)]
     public class HomeController : Controller
     {
-        private readonly IMapper _mapper;
-        private readonly IVisitService _visitService;
-        private readonly IDoctorService _doctorService;
         private readonly IUserService _userService;
 
         private readonly UserManager<ApplicationUser> _userManager;
@@ -45,9 +45,14 @@ namespace Hospital.Areas.Admin.Controllers
             return View(vModel);
         }
 
-        public  IActionResult PatientBase()
+        public async Task<IActionResult> PatientBase()
         {
-            return View();
+            var vModel = new HomeVM();
+
+            var activePatients = await _userService.GetAllUsersByRole("PATIENT");
+            vModel.applicationUsers = new List<ApplicationUserDTO>();
+            activePatients.ForEach(patient => vModel.applicationUsers.Add(patient));
+            return View(vModel);
         }
 
 

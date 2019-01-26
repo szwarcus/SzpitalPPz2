@@ -12,7 +12,7 @@
                 <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Witaj @UserManager.GetUserName(User)!</a>
             </li>
             <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link"  asp-controller="Account" asp-action="Logout">Wyloguj</button>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link" asp-area=""  asp-controller="Account" asp-action="Logout">Wyloguj</button>
             </li>
         </ul>
     </form>

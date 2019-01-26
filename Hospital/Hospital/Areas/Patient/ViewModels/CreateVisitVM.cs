@@ -12,5 +12,7 @@ namespace Hospital.Areas.Patient.ViewModels
         public string Description { get; set; }
 
         public long DoctorId { get; set; }
+
+        public string SpecializationName { get; set; }
     }
 }

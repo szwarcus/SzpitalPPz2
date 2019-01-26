@@ -20,7 +20,7 @@ namespace Hospital.Service.Concrete
             _mapper = mapper;
         }
 
-        public async Task<ICollection<SpecializationOutDto>> GetAll()
+        public async Task<ICollection<SpecializationOutDto>> GetAllAsync()
         {
             return await _specializationRepository.GetAllAsync<SpecializationOutDto>(x => new SpecializationOutDto { Name = x.Name });
         }

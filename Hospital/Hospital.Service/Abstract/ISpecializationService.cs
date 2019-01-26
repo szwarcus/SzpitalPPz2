@@ -6,6 +6,6 @@ namespace Hospital.Service.Abstract
 {
     public interface ISpecializationService
     {
-        Task<ICollection<SpecializationOutDto>> GetAll();
+        Task<ICollection<SpecializationOutDto>> GetAllAsync();
     }
 }

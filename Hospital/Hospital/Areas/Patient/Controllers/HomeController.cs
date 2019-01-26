@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Hospital.Areas.Patient.ViewModels;
 using Hospital.Core.Enums;
@@ -19,16 +20,19 @@ namespace Hospital.Areas.Patient.Controllers
         private readonly IMapper _mapper;
         private readonly IVisitService _visitService;
         private readonly IDoctorService _doctorService;
+        private readonly ISpecializationService _specializationService;
 
         private readonly UserManager<ApplicationUser> _userManager;
 
         public HomeController(UserManager<ApplicationUser> userManager,
                               IMapper mapper,
                               IVisitService visitService,
-                              IDoctorService doctorService)
+                              IDoctorService doctorService,
+                              ISpecializationService specializationService)
         {
             _visitService = visitService;
             _doctorService = doctorService;
+            _specializationService = specializationService;
             _mapper = mapper;
 
             _userManager = userManager;
@@ -36,16 +40,21 @@ namespace Hospital.Areas.Patient.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var vModel = new HomeVM();
-            vModel.ArrangeVisitVM = new ArrangeVisitVM();
+            var vModel = new HomeIndexVM();
 
-            var activeDoctors = await _doctorService.GetAllActiveDoctors();
+            var specializationOutDto = await _specializationService.GetAllAsync();
 
-            activeDoctors.ForEach(doctor => vModel.ArrangeVisitVM.Doctors.Add(new SelectListItem
-            {
-                Value = doctor.UserID.ToString(),
-                Text = $"{doctor.FirstName} {doctor.LastName}"
-            }));
+            vModel.ArrangeVisitVM.SpecializationNames = specializationOutDto.Select(x => x.Name).ToList();
+
+            //vModel.ArrangeVisitVM = new ArrangeVisitVM();
+
+            //var activeDoctors = await _doctorService.GetAllActiveDoctors();
+
+            //activeDoctors.ForEach(doctor => vModel.ArrangeVisitVM.Doctors.Add(new SelectListItem
+            //{
+            //    Value = doctor.UserID.ToString(),
+            //    Text = $"{doctor.FirstName} {doctor.LastName}"
+            //}));
 
             return View(vModel);
         }

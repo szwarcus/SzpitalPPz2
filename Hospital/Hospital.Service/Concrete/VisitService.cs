@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Hospital.Core.Helpers;
 using Hospital.Model.Entities;
 using Hospital.Repository.Abstract;
 using Hospital.Service.Abstract;
@@ -42,12 +44,15 @@ namespace Hospital.Service.Concrete
                                                                       filter: x => x.Id == model.DoctorId);
             if (doctorList.Count == 0) return false;
 
+            var numberInDay = VisitDateTimeHelper.DateTimeToVisitNumberInDay(model.Date);
+
             var visit = new Visit
             {
                 PatientId = patientList[0].Id,
                 DoctorId = doctorList[0].Id,
                 Date = model.Date,
                 Description = model.Description,
+                NumberInDay = numberInDay
                 //Prescription = new Prescription { } // to do
             };
 

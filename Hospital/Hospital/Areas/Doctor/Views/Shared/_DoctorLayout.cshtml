@@ -1,5 +1,7 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿
+@using Microsoft.AspNetCore.Identity
 @using Hospital.Model.Identity;
+@using Hospital.Core.Enums;
 @inject SignInManager<ApplicationUser> SignInManager
 <!DOCTYPE html>
 <html>
@@ -25,26 +27,36 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Hospital</a>
+                <a asp-area="Doctor" asp-controller="Home" asp-action="Index" class="navbar-brand">Hospital</a>
             </div>
+            @if (SignInManager.IsSignedIn(User) && User.IsInRole(nameof(SystemRoleType.Doctor)))
+            {
+
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a asp-controller="Home" asp-area="Doctor" asp-action="Index"
+                       class="dropdown-toggle" data-toggle="dropdown">Twoje Konto<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a asp-area="Doctor" asp-controller="Account" asp-action="Account">Twoje Dane</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a asp-area="Doctor" asp-controller="Account" asp-action="ChangePassword">Zmiana Hasła</a>
+                        </li>
+                        <li>
+                            <a asp-area="Doctor" asp-controller="Account" asp-action="ChangeEmail">Zmiana Emaila</a>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="#">Wizyty</a></li>
+            </ul>
+            }
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>                    
-                </ul>
                 <partial name="_LoginPartial" />
             </div>
         </div>
     </nav>
-
-    <partial name="_CookieConsentPartial" />
 
     <div class="container body-content">
         @RenderBody()

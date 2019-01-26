@@ -40,13 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Doctor\Controllers\" />
-    <Folder Include="Areas\Doctor\ViewModels\" />
-    <Folder Include="Areas\Doctor\Views\Home\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="Areas\Patient\Views\_ViewImports.cshtml">
+    <Content Update="Areas\Doctor\Views\_ViewImports.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>

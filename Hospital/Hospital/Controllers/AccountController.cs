@@ -145,7 +145,7 @@ namespace Hospital.Controllers
                                 case nameof(SystemRoleType.Patient):
                                     return RedirectToAction("Index", "Home", new { area = "Patient" });
                                 case nameof(SystemRoleType.Doctor):
-                                    break;
+                                    return RedirectToAction("Index", "Home", new { area = "Doctor" });
                                 case nameof(SystemRoleType.Nurse):
                                     break;
                                 case nameof(SystemRoleType.Admin):

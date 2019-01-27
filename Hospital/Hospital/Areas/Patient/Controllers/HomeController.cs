@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Hospital.Areas.Patient.ViewModels;
@@ -7,6 +10,7 @@ using Hospital.Infrastructure.Attributes;
 using Hospital.Model.Identity;
 using Hospital.Service.Abstract;
 using Hospital.Service.InDTOs;
+using Hospital.Service.OutDTOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -38,28 +42,46 @@ namespace Hospital.Areas.Patient.Controllers
             _userManager = userManager;
         }
 
+        #region Get Methods
         public async Task<IActionResult> Index()
         {
             var vModel = new HomeIndexVM();
 
             var specializationOutDto = await _specializationService.GetAllAsync();
 
-            vModel.ArrangeVisitVM.SpecializationNames = specializationOutDto.Select(x => x.Name).ToList();
-
-            //vModel.ArrangeVisitVM = new ArrangeVisitVM();
-
-            //var activeDoctors = await _doctorService.GetAllActiveDoctors();
-
-            //activeDoctors.ForEach(doctor => vModel.ArrangeVisitVM.Doctors.Add(new SelectListItem
-            //{
-            //    Value = doctor.UserID.ToString(),
-            //    Text = $"{doctor.FirstName} {doctor.LastName}"
-            //}));
+            specializationOutDto.Select(x => x.Name).ToList().ForEach(name =>
+            {
+                vModel.ArrangeVisitVM.Specializations.Add(new SelectListItem
+                {
+                    Text = name,
+                    Value = name
+                });
+            });
 
             return View(vModel);
         }
-     
-        public async Task<IActionResult> CreateVisit(CreateVisitVM model)
+
+        public async Task<IActionResult> Doctors(string day, string specializationName)
+        {
+            if (!ModelState.IsValid || String.IsNullOrEmpty(day) || String.IsNullOrEmpty(specializationName))
+            {
+                return Json(null);
+            }
+
+            var result = await _doctorService.GetActiveDoctorsByDayAndSpecializationAsync(specializationName, day, "yyyy-MM-dd");
+
+            return Json(result);
+        }
+        #endregion
+
+        #region Post Methods
+        /// <summary>
+        /// Creating visit by patient
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Patient/Home/Index</returns>
+        [HttpPost]
+        public async Task<IActionResult> Visit(CreateVisitVM model)
         {
             if (!ModelState.IsValid || model.DoctorId < 1)
             {
@@ -79,5 +101,6 @@ namespace Hospital.Areas.Patient.Controllers
 
             return RedirectToAction("Index", "Home", new { area = "Patient" });
         }
+        #endregion
     }
 }

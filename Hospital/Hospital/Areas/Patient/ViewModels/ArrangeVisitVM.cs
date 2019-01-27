@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -14,16 +15,15 @@ namespace Hospital.Areas.Patient.ViewModels
 
         public string Description { get; set; }
 
-        public long DoctorId { get; set; }
-
-        //public List<SelectListItem> Doctors { get; set; }
-
-        public List<string> SpecializationNames { get; set; }
+        public List<SelectListItem> Specializations { get; set; }
 
         public ArrangeVisitVM()
         {
             VisitDate = DateTime.UtcNow.AddDays(1);
+            Specializations = new List<SelectListItem>();
             //Doctors = new List<SelectListItem>();
         }
+
+        //public List<SelectListItem> Doctors { get; set; }
     }
 }

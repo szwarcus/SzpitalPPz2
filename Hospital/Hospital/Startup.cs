@@ -105,9 +105,9 @@ namespace Hospital
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
+#if Debug || KarolDebug || DawidDebug || JakubDebug
             DbInitializer.SeedData(userManager, roleManager, app);
-
+#endif
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

@@ -14,22 +14,6 @@ namespace Hospital.Repository.Concrete
     public static class DbInitializer
     {
         #region Users
-        private static ApplicationUser doctor = new ApplicationUser
-        {
-            UserName = "doctor@test.com",
-            Email = "doctor@test.com",
-            FirstName = "Marian",
-            LastName = "Nowak",
-            City = "Toruń",
-            DateOfBirth = DateTime.UtcNow,
-            Gender = GenderType.Male,
-            PESEL = "11111111111",
-            PhoneNumber = "123456789",
-            Province = "Kujawsko Pomorskie",
-            PostalCode = "87-100",
-            Street = "Szeroka 10"
-        };
-
         private static ApplicationUser patient = new ApplicationUser
         {
             UserName = "patient@test.com",
@@ -102,7 +86,7 @@ namespace Hospital.Repository.Concrete
                                             ApplicationDbContext context)
         {
             await SeedPatient(userManager, context);
-            await SeedDoctor(userManager, context);
+            await SeedDoctors(userManager, context);
             await SeedNurse(userManager, context);
             await SeedAdmin(userManager, context);
         }
@@ -120,24 +104,20 @@ namespace Hospital.Repository.Concrete
 
         private static async Task SeedOtherDataForUsers(ApplicationDbContext context)
         {
-            var harmonogram = await context.Harmonograms.Where(x => x.Id == 1)
-                                                        .FirstOrDefaultAsync();
+            await SeedSpecializations(context);
+            await SeedHarmonograms(context);
 
-            if (harmonogram != null)
+            var nurseSpecialization = await context.NurseSpecializations.Where(x => x.Id == 1)
+                                                                        .FirstOrDefaultAsync();
+
+            if (nurseSpecialization != null)
             {
                 return;
             }
 
-            await context.AddAsync(new Harmonogram {  });
-
             await context.AddAsync(new NurseSpecialization
             {
                 Name = "Onkologiczna"
-            });
-
-            await context.AddAsync(new Specialization
-            {
-                Name = "Dentysta"
             });
 
             await context.AddAsync(new Vaccine()
@@ -152,7 +132,62 @@ namespace Hospital.Repository.Concrete
 
         private static async Task SeedOtherData(ApplicationDbContext context)
         {
-            // TO DO in the feature if needed
+            
+        }
+
+        private static async Task SeedSpecializations(ApplicationDbContext context)
+        {
+            if (await context.Specializations.CountAsync() > 2)
+            {
+                return;
+            }
+
+            await context.AddAsync(new Specialization
+            {
+                Name = "Dentysta"
+            });
+
+            await context.AddAsync(new Specialization
+            {
+                Name = "Okulista"
+            });
+
+            await context.AddAsync(new Specialization
+            {
+                Name = "Psychiatra"
+            });
+
+            await context.SaveChangesAsync();
+        }
+
+        private static async Task SeedHarmonograms(ApplicationDbContext context)
+        {
+            if (await context.Harmonograms.CountAsync() > 4)
+            {
+                return;
+            }
+
+            var start10am = new TimeSpan(10, 0, 0);
+            var end4pm = new TimeSpan(16, 0, 0);
+
+            for (int i=0; i < 5; i++)
+            {
+                await context.AddAsync(new Harmonogram
+                {
+                    MondayStart = start10am,
+                    MondayEnd = end4pm,
+                    TuesdayStart = start10am,
+                    TuesdayEnd = end4pm,
+                    WednesdayStart = start10am,
+                    WednesdayEnd = end4pm,
+                    ThursdayStart = start10am,
+                    ThursdayEnd = end4pm,
+                    FridayStart = start10am,
+                    FridayEnd = end4pm,
+                });
+            }
+
+            await context.SaveChangesAsync();
         }
 
         private static async Task SeedPatient(UserManager<ApplicationUser> userManager,
@@ -176,9 +211,47 @@ namespace Hospital.Repository.Concrete
             await context.SaveChangesAsync();
         }
 
-        private static async Task SeedDoctor(UserManager<ApplicationUser> userManager,
-                                             ApplicationDbContext context)
+        private static async Task SeedDoctors(UserManager<ApplicationUser> userManager,
+                                              ApplicationDbContext context)
         {
+            var doctors = await userManager.GetUsersInRoleAsync(SystemRoleType.Nurse.ToString());
+
+            if (doctors.Count > 4)
+            {
+                return;
+            }
+
+            await SeedDoctor(userManager, context, "Jan", "Nowak", 1, 1, "doctor@test.com");
+            await SeedDoctor(userManager, context, "Janina", "Bąk", 2, 2, "doctor2@test.com");
+            await SeedDoctor(userManager, context, "Piotr", "Kowalski", 3, 3, "doctor3@test.com");
+            await SeedDoctor(userManager, context, "Mateusz", "Wiśniewski", 2, 4, "doctor4@test.com");
+            await SeedDoctor(userManager, context, "Kamil", "Kowalczyk", 1, 5, "doctor5@test.com");
+        }
+
+        private static async Task SeedDoctor(UserManager<ApplicationUser> userManager,
+                                             ApplicationDbContext context,
+                                             string firstName,
+                                             string lastName,
+                                             int specializationId,
+                                             int harmonogramId,
+                                             string email)
+        {
+            ApplicationUser doctor = new ApplicationUser
+            {
+                UserName = email,
+                Email = email,
+                FirstName = firstName,
+                LastName = lastName,
+                City = "Toruń",
+                DateOfBirth = DateTime.UtcNow,
+                Gender = GenderType.Male,
+                PESEL = "11111111111",
+                PhoneNumber = "123456789",
+                Province = "Kujawsko Pomorskie",
+                PostalCode = "87-100",
+                Street = "Szeroka 10"
+            };
+
             var createdUserDoctor = await AssignUserToRole(userManager, doctor, SystemRoleType.Doctor);
 
             if (createdUserDoctor == null)
@@ -187,13 +260,14 @@ namespace Hospital.Repository.Concrete
             }
 
             createdUserDoctor.EmailConfirmed = true;
+
             await userManager.UpdateAsync(createdUserDoctor);
 
             context.Add(new Doctor
             {
                 UserId = createdUserDoctor.Id,
-                SpecializationId = 1,
-                HarmonogramId = 1
+                SpecializationId = specializationId,
+                HarmonogramId = harmonogramId
             });
 
             await context.SaveChangesAsync();

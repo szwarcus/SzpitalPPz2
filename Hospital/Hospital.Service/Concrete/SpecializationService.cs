@@ -22,7 +22,21 @@ namespace Hospital.Service.Concrete
 
         public async Task<ICollection<SpecializationOutDto>> GetAllAsync()
         {
-            return await _specializationRepository.GetAllAsync<SpecializationOutDto>(x => new SpecializationOutDto { Name = x.Name });
+            return await _specializationRepository.GetAllAsync<SpecializationOutDto>(x => new SpecializationOutDto
+                                                                                        {
+                                                                                            SpecializationId = x.Id,
+                                                                                            Name = x.Name
+                                                                                        });
+        }
+
+        public async Task<ICollection<SpecializationOutDto>> GetByNameAsync(string specializationName)
+        {
+            return await _specializationRepository.GetAsync<SpecializationOutDto>(x => new SpecializationOutDto
+                                                                                       {
+                                                                                            Name = x.Name,
+                                                                                            SpecializationId = x.Id
+                                                                                       },
+                                                                                  filter: x => x.Name == specializationName);
         }
     }
 }

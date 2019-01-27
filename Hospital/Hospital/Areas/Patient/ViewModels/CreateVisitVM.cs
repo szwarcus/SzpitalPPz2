@@ -5,9 +5,9 @@ namespace Hospital.Areas.Patient.ViewModels
 {
     public class CreateVisitVM
     {
-        [DataType(DataType.Date)]
-        [Display(Name = "Data wizyty")]
-        public DateTime VisitDate { get; set; }
+        public DateTime VisitDay { get; set; }
+
+        public TimeSpan VisitHour { get; set; }
 
         public string Description { get; set; }
 

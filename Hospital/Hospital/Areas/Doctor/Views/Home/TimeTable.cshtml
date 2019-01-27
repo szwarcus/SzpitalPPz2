@@ -1,0 +1,7 @@
+﻿@using Hospital.Model.Entities;
+@model ICollection<Visit>
+@{
+    Layout = "_DoctorLayout";
+}
+
+<Calendar events="Model" event-time-in-minutes="30" start-hour="8" stop-hour="20"></Calendar>

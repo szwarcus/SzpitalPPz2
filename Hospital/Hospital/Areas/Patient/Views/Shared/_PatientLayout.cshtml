@@ -12,7 +12,7 @@
     <script asp-src-include="lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script asp-src-include="lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-hero.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
@@ -23,16 +23,17 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-md mb-auto">
         <div class="container">
-            <div class="navbar-header">
-                <a asp-area="Patient" asp-controller="Home" asp-action="Index" class="navbar-brand">Hospital</a>
-            </div>
+            <a asp-area="Patient" asp-controller="Home" asp-action="Index" class="navbar-brand">Hospital</a>
             @if (SignInManager.IsSignedIn(User) && User.IsInRole(nameof(SystemRoleType.Patient)))
             {
-                <div class="navbar-header">
-                    <a asp-area="Patient" asp-controller="Visits" asp-action="Visits" class="navbar-brand">Wizyty</a>
-                </div>
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Patient" asp-controller="Visits" asp-action="Visits"> Wizyty </a>
+                    </li>
+                </ul>
+      
             }
             <div class="navbar-collapse collapse">
                 <partial name="_LoginPartial" />

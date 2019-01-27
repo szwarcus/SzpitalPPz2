@@ -13,7 +13,7 @@
     <script asp-src-include="lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script asp-src-include="lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-hero.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
@@ -24,36 +24,31 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-md mb-auto">
         <div class="container">
-            <div class="navbar-header">
-                <a asp-area="Doctor" asp-controller="Home" asp-action="Index" class="navbar-brand">Hospital</a>
-            </div>
+            <a asp-area="Doctor" asp-controller="Home" asp-action="Index" class="navbar-brand"> Hospital </a>
             @if (SignInManager.IsSignedIn(User) && User.IsInRole(nameof(SystemRoleType.Doctor)))
             {
+                <ul class="nav navbar-nav ml-auto" >
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Twoje Konto</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" asp-area="Doctor" asp-controller="Account" asp-action="Account">Twoje Dane</a>
+                            <a class="dropdown-item" asp-area="Doctor" asp-controller="Account" asp-action="ChangePassword">Zmiana Hasła</a>
+                            <div class="dropdown-divider" ></div>
+                            <a class="dropdown-item" asp-area="Doctor" asp-controller="Account" asp-action="ChangeEmail">Zmiana Emaila</a>
+                        </div>
+                    </li>
+                </ul>
 
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a asp-controller="Home" asp-area="Doctor" asp-action="Index"
-                       class="dropdown-toggle" data-toggle="dropdown">Twoje Konto<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a asp-area="Doctor" asp-controller="Account" asp-action="Account">Twoje Dane</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a asp-area="Doctor" asp-controller="Account" asp-action="ChangePassword">Zmiana Hasła</a>
-                        </li>
-                        <li>
-                            <a asp-area="Doctor" asp-controller="Account" asp-action="ChangeEmail">Zmiana Emaila</a>
-                        </li>
-                    </ul>
-                </li>
-                <li><a href="#">Wizyty</a></li>
-            </ul>
+
+                <ul class="nav navbar-nav ml-auto">
+                    <a class="nav-link" asp-area="Doctor" asp-controller="Home" asp-action="TimeTable">Wizyty</a>
+                </ul>
+
             }
             <div class="navbar-collapse collapse">
-                <partial name="_LoginPartial" />
+                <partial name="_LoginPartial">
             </div>
         </div>
     </nav>
@@ -68,7 +63,7 @@
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap-hero.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">

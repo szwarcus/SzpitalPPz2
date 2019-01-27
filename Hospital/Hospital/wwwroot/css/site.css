@@ -1,9 +1,6 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
 for details on configuring this project to bundle and minify static web assets. */
-body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
+
 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
@@ -27,29 +24,44 @@ body {
 #qrCode {
     margin: 15px;
 }
-.admin-header{
+#admin-header{
     padding-top:15px;
 
 }
 
-.admin-header>li>a {
-    text-decoration: none;
-    background-color: #e2e2e2;
-    border-bottom: 3px solid #1468b2;
+#admin-header > li > a {
+        text-decoration: none;
+        background-color: #e2e2e2;
+        border-bottom: 3px solid #1468b2;
+        color: #1468b2 !important;
 }
-.admin-header>li{
+
+#admin-header>li{
     float:left;
 }
 
-.admin-header > li > a:hover,
-.admin-header > li > a:focus {
-    text-decoration: none;
-    background-color: #1468b2;
-    color: white;
-    border-bottom: 3px solid white;
+    #admin-header > li > a:hover,
+    #admin-header > li > a:focus{
+        text-decoration: none;
+        background-color: #1468b2;
+        border-bottom: 3px solid white;
+        color: white !important;
+    }
+    #admin-header > li{
+        width:25% !important;
+        text-align:center !important;
+    }
+    .dataTables_filter {
+        float: right
+    }
+
+.footer {
+    overflow: hidden;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+
 }
-.dataTables_filter
-{float:right}
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */

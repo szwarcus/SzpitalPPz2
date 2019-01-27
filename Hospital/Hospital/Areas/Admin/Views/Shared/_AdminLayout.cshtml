@@ -8,34 +8,69 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Hospital</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- 3. BOOTSTRAP v4.0.0         JS !-->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    
     <script src="~/lib/MDB/js/jquery-3.3.1.min.js"></script>
     <script src="~/lib/MDB/js/popper.min.js"></script>
     <script src="~/lib/MDB/js/bootstrap.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/lib/MDB/js/mdb.min.js"></script>
     <script src="~/lib/MDB/js/addons/datatables.min.js"></script>
 
     <script type="text/javascript" asp-src-include="js/Chart.js"></script>
     <script>
+        $('#admin-header .nav a').on('click', function () {
+            $('#admin-header ').find('li.active').removeClass('active');
+            $(this).parent('li').addClass('active');
+        });</script>
+    <script>
+
         $(document).ready(function () {
-            $('#dtBasicExample').DataTable({
+            $('#dt').DataTable({
+                language: {
+                    "processing": "Przetwarzanie...",
+                    "search": "Szukaj:",
+                    "lengthMenu": "Pokaż _MENU_ pozycji",
+                    "info": "Pozycje od _START_ do _END_ z _TOTAL_ łącznie",
+                    "infoEmpty": "Pozycji 0 z 0 dostępnych",
+                    "infoFiltered": "(filtrowanie spośród _MAX_ dostępnych pozycji)",
+                    "infoPostFix": "",
+                    "loadingRecords": "Wczytywanie...",
+                    "zeroRecords": "Nie znaleziono pasujących pozycji",
+                    "emptyTable": "Brak danych",
+                    "paginate": {
+                        "first": "Pierwsza",
+                        "previous": "Poprzednia",
+                        "next": "Następna",
+                        "last": "Ostatnia"
+                    },
+                    "aria": {
+                        "sortAscending": ": aktywuj, by posortować kolumnę rosnąco",
+                        "sortDescending": ": aktywuj, by posortować kolumnę malejąco"
+                    }
+                },
                 "ordering": true,
                 "paging": true,
                 "pagingType": "numbers"// false to disable sorting (or any other option)
             });
             $('.dataTables_length').addClass('bs-select');
-        });</script>
+        });
+
+    </script>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        
+        <link href="~/lib/MDB/css/bootstrap.css" rel="stylesheet" />
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~lib/MDB/css/datatables.min.css" />
+
+
+        <!-- 2. GOOGLE JQUERY JS v3.2.1  JS !-->
+
     </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -45,48 +80,37 @@
 
 
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-header">
                 <partial name="_LoginPartial" />
             </div>
         </div>
     </nav>
 
-    <div class="container body-content">
 
+    <div class="container">
         @if (SignInManager.IsSignedIn(User) && User.IsInRole(nameof(SystemRoleType.Admin)))
         {
-            <div class="row">
-                <div class="col-lg-3">
 
-                </div>
-                <div class="col-lg-7">
-                       <ul class="nav admin-header">
-                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">Statystyki</a></li>
-                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-action="PatientBase">Baza pacjentów</a></li>
-                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Admin" asp-action="Visits">Baza doktorów</a></li>
+            <ul class="nav" id="admin-header">
+                <li class="nav-item active"><a class="nav-link " asp-area="Admin" asp-controller="Home" asp-action="Index">Statystyki</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="PatientBase">Baza pacjentów</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="DoctorBase">Baza doktorów</a></li>
                 <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Admin" asp-action="Visits">Baza medykamentów</a></li>
             </ul>
 
-                </div>
-                <div class="col-lg-2"></div>
-            </div>
 
-         
 
 
         }
-
-
-
-    </div>
-    <div class="container">
         <br />
         @RenderBody()
     </div>
-        <div class="footer-copyright text-center py-3">
+    <footer class="footer page-footer font-small indigo">
+        <div class="footer-copyright text-center ">
             <hr />
             <p>&copy; 2018 - Hospital</p>
         </div>
+        </footer>
 
         <environment include="Development">
             <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>

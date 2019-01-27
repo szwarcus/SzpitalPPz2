@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Hospital.Areas.Admin.ViewModels;
 using Hospital.Areas.Doctor.ViewModels;
 using Hospital.Areas.Patient.ViewModels;
 using Hospital.Service.InDTOs;
+using Hospital.Service.OutDTOs;
 using Hospital.ViewModel;
 
 namespace Hospital.Mappers.Infrastructure
@@ -14,6 +16,7 @@ namespace Hospital.Mappers.Infrastructure
             CreateMap<CreateVisitVM, ArrangeVisitInDTO>()
                 .ForMember(dest => dest.Date, opts => opts.MapFrom(dest => dest.VisitDate));
             CreateMap<ChangePasswordVM, ChangePasswordInDTO>();
+            CreateMap<ApplicationUserAccountDataVM, ApplicationUserDTO>();
         }
     }
 }

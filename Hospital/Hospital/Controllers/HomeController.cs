@@ -27,7 +27,8 @@ namespace Hospital.Controllers
                      return RedirectToAction("Index", "Home", new { area = "Doctor" });
                if(User.IsInRole(nameof(SystemRoleType.Patient)))
                     return RedirectToAction("Index", "Home", new { area = "Patient" });
-
+                if (User.IsInRole(nameof(SystemRoleType.Admin)))
+                    return RedirectToAction("Index", "Home", new { area = "Admin" });
             }
             
             return View();

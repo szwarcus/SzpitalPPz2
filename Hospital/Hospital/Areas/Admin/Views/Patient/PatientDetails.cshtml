@@ -1,0 +1,116 @@
+﻿@model Hospital.Areas.Admin.ViewModels.ApplicationUserAccountDataVM
+
+@{
+    Layout = "_AdminLayout";
+}
+
+<form asp-area="Admin" asp-action="PatientDetails" asp-controller="Patient" class="form-horizontal">
+
+
+    <div class="form-group row">
+        <label asp-for="FirstName" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="FirstName" disabled class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="col-md-auto">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="LastName" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="LastName" disabled class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="col-md-auto">
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="DateOfBirth" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="DateOfBirth" disabled class="form-control" />
+            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+        </div>
+        <div class="col-md-auto">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="PESEL" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="PESEL" disabled class="form-control" />
+            <span asp-validation-for="PESEL" class="text-danger"></span>
+        </div>
+        <div class="col-md-auto">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="PostalCode" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="PostalCode" disabled class="form-control" />
+            <span asp-validation-for="PostalCode" class="text-danger"></span>
+        </div>
+        <div class="col-md-auto">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="City" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="City" disabled class="form-control" />
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
+        <div class="col-md-auto">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Street" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Street" disabled class="form-control" />
+            <span asp-validation-for="Street" class="text-danger"></span>
+        </div>
+        <div class="col-md-auto">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Province" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Province" disabled class="form-control" />
+            <span asp-validation-for="Province" class="text-danger"></span>
+        </div>
+        <div class="col-md-auto">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Email" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Email" disabled class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="col-md-auto">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="PhoneNumber" disabled class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+        </div>
+        <div class="col-md-auto">
+        </div>
+    </div>
+
+
+    <div class="col-md-offset-2 col-md-10">
+        <button asp-area="Admin" asp-controller="Home" asp-action="PatientBase" class="btn btn-primary" >Powrót</button>
+    </div>
+
+</form>

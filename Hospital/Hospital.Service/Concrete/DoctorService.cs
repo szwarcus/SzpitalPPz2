@@ -27,10 +27,11 @@ namespace Hospital.Service.Concrete
         {
             var result = await _doctorRepository.GetAllAsync<DoctorOutDTO>(x => new DoctorOutDTO
                                                                                 {
-                                                                                    DoctorId = x.Id,
+                                                                                    UserID = x.Id,
                                                                                     FirstName = x.User.FirstName,
                                                                                     LastName = x.User.LastName
                                                                                 });
+
 
             return result;
         } 

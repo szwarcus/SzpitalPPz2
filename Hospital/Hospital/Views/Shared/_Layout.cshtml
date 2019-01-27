@@ -12,6 +12,7 @@
     <script asp-src-include="lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
@@ -48,9 +49,11 @@
 
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2018 - Hospital</p>
+        <footer class="footer page-footer font-small indigo">
+            <div class="footer-copyright text-center ">
+                <hr />
+                <p>&copy; 2018 - Hospital</p>
+            </div>
         </footer>
     </div>
 

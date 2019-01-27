@@ -5,8 +5,8 @@ for details on configuring this project to bundle and minify static web assets. 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+padding: 70px 15px 0px 15px;
+
 }
 
 /* Carousel */
@@ -30,34 +30,33 @@ for details on configuring this project to bundle and minify static web assets. 
 }
 
 #admin-header > li > a {
-        text-decoration: none;
-        background-color: #e2e2e2;
-        border-bottom: 3px solid #1468b2;
-        color: #1468b2 !important;
+    text-decoration: none;
+    background-color: #e2e2e2;
+    border-bottom: 3px solid #1468b2;
+    color: #1468b2 !important;
 }
 
 #admin-header>li{
     float:left;
 }
 
-    #admin-header > li > a:hover,
-    #admin-header > li > a:focus{
-        text-decoration: none;
-        background-color: #1468b2;
-        border-bottom: 3px solid white;
-        color: white !important;
+#admin-header > li > a:hover,
+#admin-header > li > a:focus{
+    text-decoration: none;
+    background-color: #1468b2;
+    border-bottom: 3px solid white;
+    color: white !important;
     }
-    #admin-header > li{
-        width:25% !important;
-        text-align:center !important;
-    }
-    .dataTables_filter {
-        float: right
-    }
+#admin-header > li{
+    width:25% !important;
+    text-align:center !important;
+}
+.dataTables_filter {
+    float: right
+}
 
 .footer {
     overflow: hidden;
-    position: absolute;
     bottom: 0px;
     width: 100%;
 

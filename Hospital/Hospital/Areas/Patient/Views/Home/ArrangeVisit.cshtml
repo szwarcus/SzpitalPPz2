@@ -1,25 +1,40 @@
 ﻿@model Hospital.Areas.Patient.ViewModels.ArrangeVisitVM
-
 @*styles to some less file*@
 <div class="row">
-    <div class="col-lg-4">
-        <form asp-action="CreateVisit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="VisitDate" class="col-form-label"></label>
-                <input asp-for="VisitDate" class="form-control"> <span asp-validation-for="VisitDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="col-form-label"></label>
-                <input asp-for="Description" class="form-control"> <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="col-form-label">Doktorzy:</label>
-                <select class="form-control" asp-for="DoctorId" asp-items="@Model.Doctors"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-secondary">
-            </div>
-        </form>
+    <div class="col-md-12">
+        <div class="row-md-3">
+            <label class="control-label col-md-3 label label-primary">Specjalizacje</label>
+            <label class="control-label col-md-3 label label-primary">Dzień wizyty</label>
+            <label class="control-label col-md-3 label label-primary">Doktorzy</label>
+            <label class="control-label col-md-3 label label-primary">Godzina wizyty</label>
+        </div>
+        <div class="row-md-9">
+
+        </div>
     </div>
-</div>*@
+</div>
+
+@*<div class="row">
+        <div class="col-md-4">
+            <form asp-action="CreateVisit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="VisitDate" class="control-label"></label>
+                    <input asp-for="VisitDate" class="form-control" />
+                    <span asp-validation-for="VisitDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Doktorzy:</label>
+                    <select class="form-control" asp-for="DoctorId" asp-items="@Model.Doctors"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </form>
+        </div>
+    </div>*@

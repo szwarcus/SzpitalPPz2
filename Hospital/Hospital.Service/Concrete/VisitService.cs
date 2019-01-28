@@ -44,7 +44,8 @@ namespace Hospital.Service.Concrete
                                                                       filter: x => x.Id == model.DoctorId);
             if (doctorList.Count == 0) return false;
 
-            var numberInDay = VisitDateTimeHelper.DateTimeToVisitNumberInDay(model.Date);
+            var hour = new TimeSpan(model.Date.Hour, model.Date.Minute, model.Date.Second);
+            var numberInDay = VisitDateTimeHelper.DateTimeToVisitNumberInDay(hour);
 
             var visit = new Visit
             {

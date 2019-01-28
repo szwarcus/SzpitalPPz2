@@ -1,6 +1,7 @@
 ﻿@model Hospital.Areas.Patient.ViewModels.ArrangeVisitVM
-@*styles to some less file*@
-<div class="row">
+
+@using (Html.BeginForm("Visit", "Home", new { area = "Patient" }, FormMethod.Post))
+{
     <div class="col-md-12">
         <div class="row-md-3">
             <label class="control-label col-md-3 label label-primary">Specjalizacje</label>
@@ -8,33 +9,111 @@
             <label class="control-label col-md-3 label label-primary">Doktorzy</label>
             <label class="control-label col-md-3 label label-primary">Godzina wizyty</label>
         </div>
-        <div class="row-md-9">
-
+        <div class="row-md-8">
+            <div class="hidden form-group col-md-3" style="float: left">
+                <input class="hidden" name="Description" value="Nowa wizyta" />
+            </div>
+            <div class="form-group col-md-3" style="float: left">
+                <select class="form-control" name="SpecializationName" id="SpecializationName"
+                        asp-items="@Model.Specializations"></select>
+            </div>
+            <div class="form-group col-md-3" style="float: left">
+                <input type='text' class="form-control" name="VisitDay" id="VisitDay" />
+            </div>
+            <div class="form-group col-md-3" style="float: left">
+                <select class="form-control" name="DoctorId" id="DoctorId" disabled="disabled"></select>
+            </div>
+            <div class="form-group col-md-3" style="float: left">
+                <select class="form-control" name="VisitHour" id="VisitHour" disabled="disabled"></select>
+            </div>
+        </div>
+        <div class="row-md-1">
+            <input type="submit" class="btn btn-primary" id="ArrangeVisit" value="Umów wizytę" />
         </div>
     </div>
-</div>
+}
 
-@*<div class="row">
-        <div class="col-md-4">
-            <form asp-action="CreateVisit">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="VisitDate" class="control-label"></label>
-                    <input asp-for="VisitDate" class="form-control" />
-                    <span asp-validation-for="VisitDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label"></label>
-                    <input asp-for="Description" class="form-control" />
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Doktorzy:</label>
-                    <select class="form-control" asp-for="DoctorId" asp-items="@Model.Doctors"></select>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
-            </form>
-        </div>
-    </div>*@
+<script >
+    var doctorsWithAvailableVisits = [];
+
+    $('#SpecializationName, #VisitDay').on('change', () =>
+     {
+         var selectedSpecializationName = $('#SpecializationName').val();
+         var selectedVisitDay = $('#VisitDay').val();
+
+         if (selectedVisitDay === null || selectedSpecializationName === null
+             || selectedVisitDay === "" || selectedSpecializationName === "")
+         {
+
+            $('#DoctorId').attr('disabled', true);
+            $('#VisitHour').attr('disabled', true);
+             resetDoctorsWithAvailableVisits();
+             return;
+         }
+
+        $.getJSON('Patient/Home/Doctors', { day: selectedVisitDay, specializationName: selectedSpecializationName }, (doctors) =>
+        {
+             if (doctors === null || doctors.length < 1)
+             {
+                 return;
+             }
+
+             resetDoctorsWithAvailableVisits();
+
+             doctors.forEach((doctor) =>
+             {
+                 var doctorWithAvailableVisits = { };
+
+                 doctorWithAvailableVisits['DoctorId'] = doctor.doctorId;
+                 doctorWithAvailableVisits['Name'] = doctor.firstName + ' ' + doctor.lastName;
+                 doctorWithAvailableVisits['AvailableVisitsHours'] = doctor.availableVisits;
+
+                 doctorsWithAvailableVisits.push(doctorWithAvailableVisits);
+
+                 var option = new Option(doctorWithAvailableVisits['Name'], doctorWithAvailableVisits['DoctorId']);
+                $(option).html(doctorWithAvailableVisits['Name']);
+                $('#DoctorId').append(option);
+             });
+
+             setAvailableHours(0);
+
+            $('#DoctorId').removeAttr('disabled');
+            $('#VisitHour').removeAttr('disabled');
+         });
+    });
+
+    $('#DoctorId').on('change', () => {
+        var selectedDoctorId = $('#DoctorId').val();
+
+        var index = doctorsWithAvailableVisits.findIndex((doctorWithAvailableVisits) =>
+        {
+            return doctorWithAvailableVisits['DoctorId'] == selectedDoctorId;
+        });
+
+        setAvailableHours(index);
+    });
+
+    var setAvailableHours = (indexDoctorsWithAvailableVisits) =>
+    {
+        if (indexDoctorsWithAvailableVisits < 0 || indexDoctorsWithAvailableVisits >= doctorsWithAvailableVisits.length)
+        {
+            return;
+        }
+
+        $('#VisitHour').empty();
+
+        doctorsWithAvailableVisits[indexDoctorsWithAvailableVisits]['AvailableVisitsHours'].forEach((availableVisit) =>
+        {
+            var option = new Option(availableVisit, availableVisit);
+            $(option).html(availableVisit);
+            $('#VisitHour').append(option);
+        });
+    };
+
+        var resetDoctorsWithAvailableVisits = () =>
+        {
+        $('#DoctorId').empty();
+        $('#VisitHour').empty();
+            doctorsWithAvailableVisits = [];
+        };
+</script>

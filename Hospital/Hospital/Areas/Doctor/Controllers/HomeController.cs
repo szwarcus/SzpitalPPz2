@@ -32,7 +32,6 @@ namespace Hospital.Areas.Doctor.Controllers
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var doctor = await _doctorService.GetDoctorById(user.Id);
             var visits = await _doctorService.GetAllDoctorVisitsByDoctorID(doctor.Id);
-
             return View(visits);
         }
     }

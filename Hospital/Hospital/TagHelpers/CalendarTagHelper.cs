@@ -28,7 +28,14 @@ namespace Hospital.TagHelpers
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            
+            if (Events != null)
+            {
+                foreach (var item in Events)
+                {
+                    item.Date = item.Date.AddSeconds(1);
+                }
+            }
+
             StartTime = DateTime.Today.DayOfWeek == DayOfWeek.Monday ? DateTime.Now.SetHour(startHour).SetMinute(0).SetSecond(0) :  DateTime.Now.Previous(DayOfWeek.Monday).SetHour(startHour).SetMinute(0).SetSecond(0);
             StopTime = DateTime.Now.SetHour(stopHour);
             output.TagName = "section";
@@ -102,9 +109,9 @@ namespace Hospital.TagHelpers
                     if (i % 8 == 0)
                     {
                         yield return new XElement("div",
-                                     new XAttribute("class", $"day col-lg p-2 border border-left-0 border-top-0 text-truncate  bg-dark text-white text-center "),
+                                     new XAttribute("class", $"col-lg p-2 border border-left-0 border-top-0 text-truncate  bg-dark text-white text-center "),
                                           new XElement("h5",
-                                          new XAttribute("class", " col-1 text-center"),
+                                          new XAttribute("class", "text-center"),
                                            $"{GetHourWork()}"));
                     }
                     else
@@ -113,7 +120,7 @@ namespace Hospital.TagHelpers
                         var mutedClasses = "d-none d-lg-inline-block bg-light text-muted";
                         var currentClass = ".bg-success";
                         yield return new XElement("div",
-                                     new XAttribute("class", $"day {((DateTime.Now >= StartTime && DateTime.Now < StartTime.AddMinutes(30)) ? currentClass : null)} col-lg p-2 border border-left-0 border-top-0 text-truncate {((i % 8 == 6 || i % 8 == 7) ? mutedClasses : null)}"),
+                                     new XAttribute("class", $"{((DateTime.Now >= StartTime && DateTime.Now < StartTime.AddMinutes(30)) ? currentClass : null)} col-lg p-2 border border-left-0 border-top-0 text-truncate {((i % 8 == 6 || i % 8 == 7) ? mutedClasses : null)}"),
                                          GetEventHtml(StartTime.AddMinutes(-30))
                             
                                      );
@@ -124,7 +131,9 @@ namespace Hospital.TagHelpers
 
             XElement GetEventHtml(DateTime d)
             {
-                var existEvent = Events.FirstOrDefault(el => el.Date >= d && el.Date<d.AddMinutes(30));
+                Visit existEvent = null;
+                if (Events != null)
+                     existEvent = Events.FirstOrDefault(el => el.Date >= d && el.Date<d.AddMinutes(30));
                 if (existEvent == null)
                 {                
                     return new XElement("h6",
@@ -133,10 +142,10 @@ namespace Hospital.TagHelpers
                                        );
                 }
                 else
-                {                  
+                {
                     return
                            new XElement("a",
-                                    new XAttribute("class", $"btn {((DateTime.Now >= StartTime && DateTime.Now < StartTime.AddMinutes(30)) ? "btn-success" : "btn-secondary")} b btn-lg active d-flex "),
+                                    new XAttribute("class", $"btn {((DateTime.Now >= d && DateTime.Now < d.AddMinutes(30)) ? "btn-success" : "btn-secondary")} b btn-lg active d-flex "),
                                     new XAttribute("role", "button"),
                                     new XAttribute("href", "#"),
                                     "Wizyta"

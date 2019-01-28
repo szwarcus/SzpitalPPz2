@@ -2,35 +2,43 @@
 
 @using (Html.BeginForm("Visit", "Home", new { area = "Patient" }, FormMethod.Post))
 {
-    <div class="col-md-12">
-        <div class="row-md-3">
-            <label class="control-label col-md-3 label label-primary">Specjalizacje</label>
-            <label class="control-label col-md-3 label label-primary">Dzień wizyty</label>
-            <label class="control-label col-md-3 label label-primary">Doktorzy</label>
-            <label class="control-label col-md-3 label label-primary">Godzina wizyty</label>
+<div class="col-md-12">
+    <div class="row-md-3">
+        <div class="col-md-3" style="float: left">
+            <label class="control-label label label-primary">Specjalizacje</label>
         </div>
-        <div class="row-md-8">
-            <div class="hidden form-group col-md-3" style="float: left">
-                <input class="hidden" name="Description" value="Nowa wizyta" />
-            </div>
-            <div class="form-group col-md-3" style="float: left">
-                <select class="form-control" name="SpecializationName" id="SpecializationName"
-                        asp-items="@Model.Specializations"></select>
-            </div>
-            <div class="form-group col-md-3" style="float: left">
-                <input type='text' class="form-control" name="VisitDay" id="VisitDay" />
-            </div>
-            <div class="form-group col-md-3" style="float: left">
-                <select class="form-control" name="DoctorId" id="DoctorId" disabled="disabled"></select>
-            </div>
-            <div class="form-group col-md-3" style="float: left">
-                <select class="form-control" name="VisitHour" id="VisitHour" disabled="disabled"></select>
-            </div>
+        <div class="col-md-3" style="float: left">
+            <label class="control-label label label-primary">Dzień wizyty</label>
         </div>
-        <div class="row-md-1">
-            <input type="submit" class="btn btn-primary" id="ArrangeVisit" value="Umów wizytę" />
+        <div class="col-md-3" style="float: left">
+            <label class="control-label label label-primary">Doktorzy</label>
+        </div>
+        <div class="col-md-3" style="float: left">
+            <label class="control-label label label-primary">Godzina wizyty</label>
         </div>
     </div>
+    <div class="row-md-8">
+        <div class="form-group col-md-3" style="float: left">
+            <select class="form-control" name="SpecializationName" id="SpecializationName"
+                    asp-items="@Model.Specializations"></select>
+        </div>
+        <div class="form-group col-md-3" style="float: left">
+            <input type='text' class="form-control" name="VisitDay" id="VisitDay" />
+        </div>
+        <div class="form-group col-md-3" style="float: left">
+            <select class="form-control" name="DoctorId" id="DoctorId" disabled="disabled"></select>
+        </div>
+        <div class="form-group col-md-3" style="float: left">
+            <select class="form-control" name="VisitHour" id="VisitHour" disabled="disabled"></select>
+        </div>
+    </div>
+    <div class="invisible form-group col-md-3" style="float: left; display: none">
+        <input class="hidden" name="Description" value="Nowa wizyta" />
+    </div>        
+    <div class="row-md-1">
+        <input type="submit" class="btn btn-primary" id="ArrangeVisit" value="Umów wizytę" />
+    </div>
+</div>
 }
 
 <script >

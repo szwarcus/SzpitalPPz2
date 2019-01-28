@@ -8,6 +8,8 @@ namespace Hospital.UnitTests.Core.Helpers
     [TestClass]
     public class VisitDateTimeHelperUnitTests
     {
+        private static int _visitMinutes = 30;
+
         [TestMethod]
         public void DateTimeToVisitNumberInDay_IsCorrect()
         {
@@ -16,24 +18,24 @@ namespace Hospital.UnitTests.Core.Helpers
             var result = VisitDateTimeHelper.DateTimeToVisitNumberInDay(hour);
 
             // sixth visit in day from 8:00 am and 30 minutes interval between next visits
-            Assert.AreEqual(result, 6);
+            Assert.AreEqual(6, result);
         }
 
         [TestMethod]
         public void DateTimeToVisitNumberInDay_IncorrectDate()
         {
             var dateBefore = new TimeSpan(7, 30, 0);
-            var dateAfter = new TimeSpan(20, 0, 0);
+            var dateAfter = new TimeSpan(20, 30, 0);
 
             var resultBefore = VisitDateTimeHelper.DateTimeToVisitNumberInDay(dateBefore);
             var resultAfter = VisitDateTimeHelper.DateTimeToVisitNumberInDay(dateAfter);
 
-            Assert.AreEqual(resultBefore, 0);
-            Assert.AreEqual(resultAfter, 0);
+            Assert.AreEqual(0, resultBefore);
+            Assert.AreEqual(0, resultAfter);
         }
 
         [TestMethod]
-        public void GetAvailableDateTimesInDay_IncorrectDate()
+        public void GetAvailableDateTimesInDay_IsCorrect()
         {
             DateTime day = new DateTime(2019, 01, 01);
 
@@ -47,23 +49,60 @@ namespace Hospital.UnitTests.Core.Helpers
             var result = VisitDateTimeHelper.GetAvailableDateTimesInDay(day, numbersOfArrangedVisits,
                                                                         startWorkHour, endWorkHour);
 
-            Assert.AreEqual(result.Count, 4);
+            Assert.AreEqual(4, result.Count);
 
             // first visit
-            Assert.AreEqual(result[0].Hours, 10);
-            Assert.AreEqual(result[0].Minutes, 0);
+            Assert.AreEqual(10, result[0].Hours);
+            Assert.AreEqual(0, result[0].Minutes);
 
             // second visit
-            Assert.AreEqual(result[1].Hours, 11);
-            Assert.AreEqual(result[1].Minutes, 0);
+            Assert.AreEqual(11, result[1].Hours);
+            Assert.AreEqual(0, result[1].Minutes);
 
             // third visit
-            Assert.AreEqual(result[2].Hours, 12);
-            Assert.AreEqual(result[2].Minutes, 0);
+            Assert.AreEqual(12, result[2].Hours);
+            Assert.AreEqual(0, result[2].Minutes);
 
             // fourth visit
-            Assert.AreEqual(result[3].Hours, 13);
-            Assert.AreEqual(result[3].Minutes, 30);
+            Assert.AreEqual(13, result[3].Hours);
+            Assert.AreEqual(30, result[3].Minutes);
+        }
+
+        [TestMethod]
+        public void GetAvailableDateTimesInDay_CheckAllDateTimesFor12WorkHours()
+        {
+            DateTime day = new DateTime(2019, 01, 01);
+
+            // only hours and minutes are important here
+            var startWorkHour = new TimeSpan(8, 0, 0);
+            var endWorkHour = new TimeSpan(20, 0, 0);
+            var numbersOfArrangedVisits = new List<int>();
+
+            var result = VisitDateTimeHelper.GetAvailableDateTimesInDay(day, numbersOfArrangedVisits,
+                                                                        startWorkHour, endWorkHour);
+
+            Assert.AreEqual(24, result.Count);
+            for (int i = 0; i < 24; i++)
+            {
+                var diff = TimeSpan.FromMinutes(i * _visitMinutes);
+                Assert.AreEqual(startWorkHour.Add(diff), result[i]);
+            }
+        }
+
+        [TestMethod]
+        public void GetAvailableDateTimesInDay_IncorrectHarmonogram()
+        {
+            DateTime day = new DateTime(2019, 01, 01);
+
+            // only hours and minutes are important here
+            var startWorkHour = new TimeSpan(7, 30, 0);
+            var endWorkHour = new TimeSpan(20, 0, 0);
+            var numbersOfArrangedVisits = new List<int>();
+
+            var result = VisitDateTimeHelper.GetAvailableDateTimesInDay(day, numbersOfArrangedVisits,
+                                                                        startWorkHour, endWorkHour);
+
+            Assert.AreEqual(0, result.Count);
         }
     }
 }

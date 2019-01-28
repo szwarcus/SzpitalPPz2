@@ -3,9 +3,12 @@
 @{
     Layout = "_AdminLayout";
 }
-<button asp-controller="Patient" asp-action="PatientCreate" disabled class="btn btn-success">Dodaj pacjenta</button>
 
-<table id="dt" class="table table-borderless table-responsive-md table-striped " cellspacing="0" width="100%">
+<button asp-controller="Doctor" asp-action="Create" disabled class="btn btn-success">Dodaj doktora</button>
+
+
+
+<table id="dt" class="table table-striped table-responsive-md" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th class="th-sm">
@@ -14,7 +17,7 @@
             <th class="th-sm">
                 Nazwisko
             </th>
-            <th/>
+            <th />
         </tr>
     </thead>
     <tbody>
@@ -28,12 +31,13 @@
                     @Html.DisplayFor(modelItem => item.LastName)
                 </td>
                 <td>
-                    <a asp-controller="Patient" asp-action="PatientEdit"  asp-route-id="@item.userId">Edytuj</a> |
-                    <a asp-controller="Patient" asp-action="PatientDetails" asp-route-id="@item.userId">Detale</a> |
-                    <a asp-action="/Delete" id="myLink" asp-route-id="@item.userId">Usuń</a>
+                    <a asp-controller="Doctor" asp-action="DoctorEdit" asp-route-id="@item.userId">Edytuj</a> |
+                    <a asp-controller="Doctor" asp-action="DoctorDetails" asp-route-id="@item.userId">Detale</a> |
+                    <a asp-page="/Delete" asp-route-id="@item.userId">Usuń</a>
                 </td>
             </tr>
         }
     </tbody>
-        
+
 </table>
+</div>

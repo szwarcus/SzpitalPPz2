@@ -20,14 +20,15 @@ namespace Hospital.Areas.Admin.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
-
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMapper _mapper;
 
         public HomeController(UserManager<ApplicationUser> userManager,
-                              IUserService userService)
+                              IUserService userService, IMapper mapper)
         {
             _userService = userService;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
@@ -50,13 +51,31 @@ namespace Hospital.Areas.Admin.Controllers
             var vModel = new HomeVM();
 
             var activePatients = await _userService.GetAllUsersByRole("PATIENT");
-            vModel.applicationUsers = new List<ApplicationUserDTO>();
-            activePatients.ForEach(patient => vModel.applicationUsers.Add(patient));
+            vModel.applicationUsersDTO = new List<ApplicationUserDTO>();
+            activePatients.ForEach(patient => vModel.applicationUsersDTO.Add(patient));
             return View(vModel);
         }
 
+        public async Task<IActionResult> DoctorBase()
+        {
+            var vModel = new HomeVM();
+
+            var activeDoctors = await _userService.GetAllUsersByRole("DOCTOR");
+            vModel.applicationUsersDTO = new List<ApplicationUserDTO>();
+            activeDoctors.ForEach(doctor => vModel.applicationUsersDTO.Add(doctor));
+            return View(vModel);
+        }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            var vModel = new HomeVM();
+            var user = await _userManager.FindByIdAsync(id);
+            await _userManager.DeleteAsync(user);
+            return View(vModel);
+        }
+        
+   
 
 
-
-    }   
+    }
 }

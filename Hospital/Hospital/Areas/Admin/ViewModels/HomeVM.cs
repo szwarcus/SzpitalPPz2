@@ -1,4 +1,5 @@
-﻿using Hospital.Service.OutDTOs;
+﻿using Hospital.Model.Identity;
+using Hospital.Service.OutDTOs;
 using System.Collections.Generic;
 
 namespace Hospital.Areas.Admin.ViewModels
@@ -6,6 +7,7 @@ namespace Hospital.Areas.Admin.ViewModels
     public class HomeVM
     {
         public StatisticsVM StatisticsVM { get; set; }
-        public List<ApplicationUserDTO> applicationUsers{ get; set;}
+        public List<ApplicationUserDTO> applicationUsersDTO{ get; set;}
+        public ApplicationUser applicationUser;
     }
 }

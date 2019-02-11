@@ -73,35 +73,32 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-md mb-auto">
         <div class="container">
-            <div class="navbar-header">
+           
                 <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="navbar-brand">Hospital</a>
+                @if (SignInManager.IsSignedIn(User) && User.IsInRole(nameof(SystemRoleType.Admin)))
+                {
 
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link " asp-area="Admin" asp-controller="Home" asp-action="Index">Statystyki</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="PatientBase">Baza pacjentów</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="DoctorBase">Baza doktorów</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Admin" asp-action="Visits">Baza medykamentów</a></li>
+                    </ul>
 
-            </div>
-            <div class="navbar-header">
+                }
+
+            <div class="navbar-collapse collapse">
                 <partial name="_LoginPartial" />
             </div>
+
         </div>
     </nav>
 
 
-    <div class="container">
-        @if (SignInManager.IsSignedIn(User) && User.IsInRole(nameof(SystemRoleType.Admin)))
-        {
-
-            <ul class="nav" id="admin-header">
-                <li class="nav-item active"><a class="nav-link " asp-area="Admin" asp-controller="Home" asp-action="Index">Statystyki</a></li>
-                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="PatientBase">Baza pacjentów</a></li>
-                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="DoctorBase">Baza doktorów</a></li>
-                <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Admin" asp-action="Visits">Baza medykamentów</a></li>
-            </ul>
-
-
-
-
-        }
+    <div class="container body-content">
+       
         <br />
         @RenderBody()
 

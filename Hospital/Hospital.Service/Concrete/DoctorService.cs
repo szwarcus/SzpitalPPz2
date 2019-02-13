@@ -130,7 +130,7 @@ namespace Hospital.Service.Concrete
 
         public async Task<List<Visit>> GetAllDoctorVisitsByDoctorID(long DoctorID)
         {
-            var result = await _visitRepository.GetAsync<Visit>(x => x, x => x.DoctorId == DoctorID);
+            var result = await _visitRepository.GetAllAsync<Visit>(x => x, x => x.DoctorId == DoctorID);
             return result;
         }
         #endregion

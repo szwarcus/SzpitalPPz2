@@ -1,0 +1,58 @@
+[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/site.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery-ui/dist/css/jquery-ui.min.css",
+    "inputFiles": [
+      "wwwroot/lib/jquery-ui/dist/css/jquery-ui.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [
+      "wwwroot/js/site.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/lib/moment/dist/js/moment.min.js",
+    "inputFiles": [
+      "wwwroot/lib/moment/dist/js/moment.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/Patient/arrangeVisit.min.js",
+    "inputFiles": [
+      "wwwroot/js/Patient/arrangeVisit.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery-ui/dist/js/jquery-ui.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery-ui/dist/js/jquery-ui.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  }
+]

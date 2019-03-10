@@ -12,7 +12,6 @@ namespace Hospital.TagHelpers
     [HtmlTargetElement("Calendar", TagStructure = TagStructure.NormalOrSelfClosing)]
     public class CalendarTagHelper : TagHelper
     {
-
         public string Area { get; set; }
         public string Controller { get; set; }
         public string Action { get; set; }
@@ -24,7 +23,6 @@ namespace Hospital.TagHelpers
         private List<string> headers = new List<string>() { "Godziny", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela" };
         private DateTime StartTime;
         private DateTime StopTime;
-       
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
@@ -43,10 +41,12 @@ namespace Hospital.TagHelpers
             output.Content.SetHtmlContent(GetHtml());
             output.TagMode = TagMode.StartTagAndEndTag;
         }
+
         private string GetHref()
         {
             return $"/{Area}/{Controller}/{Action}";
         }
+
         private string GetHourWork()
         {
             string from = "";
@@ -59,12 +59,10 @@ namespace Hospital.TagHelpers
             to = to[to.Length - 2] == ':' ? to + "0" : to;
 
             return from + " - " + to;
-
         }
        
         private string GetHtml()
         {
-                     
             var html = new XDocument(
                 new XElement("div",
                     new XAttribute("class", "container-fluid "),
@@ -151,8 +149,6 @@ namespace Hospital.TagHelpers
                                     "Wizyta"
                         );
                 }
-
-
             }
         }
     }

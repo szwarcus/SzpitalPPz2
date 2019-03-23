@@ -2,40 +2,35 @@
 
 @using (Html.BeginForm("Visit", "Home", new { area = "Patient" }, FormMethod.Post))
 {
-    <div class="col-md-12">
-        <div class="row-md-3">
-            <div class="col-md-3" style="float: left">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-3 float-left">
                 <label class="control-label label label-primary">Specjalizacje</label>
-            </div>
-            <div class="col-md-3" style="float: left">
-                <label class="control-label label label-primary">Dzień wizyty</label>
-            </div>
-            <div class="col-md-3" style="float: left">
-                <label class="control-label label label-primary">Doktorzy</label>
-            </div>
-            <div class="col-md-3" style="float: left">
-                <label class="control-label label label-primary">Godzina wizyty</label>
-            </div>
-        </div>
-        <div class="row-md-8">
-            <div class="form-group col-md-3" style="float: left">
                 <select class="form-control" name="specializationName" id="specializationName"
                         asp-items="@Model.Specializations"></select>
             </div>
-            <div class="form-group col-md-3" style="float: left">
+            <div class="col-md-3 float-left">
+                <label class="control-label label label-primary">Dzień wizyty</label>
                 <input type='text' class="form-control" name="visitDay" id="visitDay" />
             </div>
-            <div class="form-group col-md-3" style="float: left">
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-3 float-left">
+                <label class="control-label label label-primary">Doktorzy</label>
                 <select class="form-control" name="doctorId" id="doctorId" disabled="disabled"></select>
             </div>
-            <div class="form-group col-md-3" style="float: left">
+            <div class="col-md-3 float-left">
+                <label class="control-label label label-primary">Godzina wizyty</label>
                 <select class="form-control" name="visitHour" id="visitHour" disabled="disabled"></select>
             </div>
         </div>
-        <div class="invisible form-group col-md-3" style="float: left; display: none">
-            <input class="hidden" name="description" value="Nowa wizyta" />
+        <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+                <label class="control-label label label-primary col-md-auto">Opis wizyty</label>
+                <input name="description" type="text" class="form-control" />
+            </div>
         </div>
-        <div class="row-md-1">
+        <div class="row justify-content-center">
             <input type="submit" class="btn btn-primary" id="arrangeVisit" value="Umów wizytę" />
         </div>
     </div>

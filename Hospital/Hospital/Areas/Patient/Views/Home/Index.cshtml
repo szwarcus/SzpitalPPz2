@@ -4,11 +4,18 @@
     Layout = "_PatientLayout";
 }
 
-@*
-    TODO
-    Display actual visits
-    Display history visits
-    Display another info like Prescriptions
-*@
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li><a data-toggle="tab" href="#visits">Wizyty</a></li>
+        <li class="active"><a data-toggle="tab" href="#arrangeVisit">Umów wizytę</a></li>
+    </ul>
 
-<partial model="@Model.ArrangeVisitVM" name="../Home/ArrangeVisit.cshtml"/>
+    <div class="tab-content">
+        <div id="visits" class="tab-pane">
+            Wizyty
+        </div>
+        <div id="arrangeVisit" class="tab-pane in active">
+            <partial model="@Model.ArrangeVisitVM" name="../Home/ArrangeVisit.cshtml" />
+        </div>
+    </div>
+</div>

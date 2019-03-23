@@ -3,7 +3,7 @@
 @using (Html.BeginForm("Visit", "Home", new { area = "Patient" }, FormMethod.Post))
 {
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row mb-3 justify-content-center">
             <div class="col-md-3 float-left">
                 <label class="control-label label label-primary">Specjalizacje</label>
                 <select class="form-control" name="specializationName" id="specializationName"
@@ -14,7 +14,7 @@
                 <input type='text' class="form-control" name="visitDay" id="visitDay" />
             </div>
         </div>
-        <div class="row justify-content-center">
+        <div class="row mb-3 justify-content-center">
             <div class="col-md-3 float-left">
                 <label class="control-label label label-primary">Doktorzy</label>
                 <select class="form-control" name="doctorId" id="doctorId" disabled="disabled"></select>
@@ -24,13 +24,13 @@
                 <select class="form-control" name="visitHour" id="visitHour" disabled="disabled"></select>
             </div>
         </div>
-        <div class="row justify-content-center">
+        <div class="row mb-3 justify-content-center">
             <div class="form-group col-md-6">
                 <label class="control-label label label-primary col-md-auto">Opis wizyty</label>
                 <input name="description" type="text" class="form-control" />
             </div>
         </div>
-        <div class="row justify-content-center">
+        <div class="row mb-3 justify-content-center">
             <input type="submit" class="btn btn-primary" id="arrangeVisit" value="Umów wizytę" />
         </div>
     </div>

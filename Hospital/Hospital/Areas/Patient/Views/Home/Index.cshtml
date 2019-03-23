@@ -5,17 +5,41 @@
 }
 
 <div class="container">
-    <ul class="nav nav-tabs">
-        <li><a data-toggle="tab" href="#visits">Wizyty</a></li>
-        <li class="active"><a data-toggle="tab" href="#arrangeVisit">Umów wizytę</a></li>
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="pills-start-tab" data-toggle="pill" href="#start" role="tab" aria-controls="start" aria-selected="true">
+                Start
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-visits-tab" data-toggle="pill" href="#visits" role="tab" aria-controls="visits" aria-selected="false">
+                Wizyty
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-medical-tests-results-tab" data-toggle="pill" href="#medical-tests-results" role="tab" aria-controls="medical-tests-results" aria-selected="false">
+                Wyniki badań
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-arrange-visit-tab" data-toggle="pill" href="#arrange-visit" role="tab" aria-controls="arrange-visit" aria-selected="false">
+                Umów wizytę
+            </a>
+        </li>
     </ul>
 
-    <div class="tab-content">
-        <div id="visits" class="tab-pane">
-            Wizyty
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="start" role="tabpanel" aria-labelledby="pills-start-tab">
+            <partial name="../NavTabPartials/Start.cshtml" />
         </div>
-        <div id="arrangeVisit" class="tab-pane in active">
-            <partial model="@Model.ArrangeVisitVM" name="../Home/ArrangeVisit.cshtml" />
+        <div class="tab-pane fade" id="visits" role="tabpanel" aria-labelledby="pills-visits-tab">
+            <partial name="../NavTabPartials/Visits.cshtml" />
+        </div>
+        <div class="tab-pane fade" id="medical-tests-results" role="tabpanel" aria-labelledby="pills-medical-tests-results-tab">
+            <partial name="../NavTabPartials/MedicalTestsResults.cshtml" />
+        </div>
+        <div class="tab-pane fade" id="arrange-visit" role="tabpanel" aria-labelledby="pills-arrange-visit-tab">
+            <partial model="@Model.ArrangeVisitVM" name="../Partials/ArrangeVisit.cshtml" />
         </div>
     </div>
 </div>

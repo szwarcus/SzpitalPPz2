@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
-using Hospital.Core.Helpers;
-using Hospital.Model.Entities;
-using Hospital.Repository.Abstract;
-using Hospital.Service.Abstract;
-using Hospital.Service.InDTOs;
-
-namespace Hospital.Service.Concrete
+﻿namespace Hospital.Service.Concrete
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using AutoMapper;
+    using Hospital.Core.Helpers;
+    using Hospital.Model.Entities;
+    using Hospital.Repository.Abstract;
+    using Hospital.Service.Abstract;
+    using Hospital.Service.InDTOs;
+    using Hospital.Service.OutDTOs;
+    using Microsoft.EntityFrameworkCore;
+
     public class VisitService : IVisitService
     {
         private IMapper _mapper;
@@ -32,17 +34,76 @@ namespace Hospital.Service.Concrete
             _mapper = mapper;
         }
 
+        public async Task<PastAndNextVisitsOutDTO> GetBaseInfoVisitsInPastAndNext30DaysAsync(string userId)
+        {
+            PastAndNextVisitsOutDTO result = null;
+            var minDay = DateTime.UtcNow.AddDays(-30);
+            var maxDay = DateTime.UtcNow.AddDays(30);
+
+            if (userId == null)
+            {
+                return result;
+            }
+
+            var patientList = await _patientRepository.GetAsync<Patient>(x => x,
+                                                                         filter: x => x.UserId == userId);
+            if (patientList.Count == 0)
+            {
+                return result;
+            }
+
+            result = new PastAndNextVisitsOutDTO();
+            var patient = patientList.First();
+            var visits = await _visitRepository.GetAllAsync<VisitOutDTO>(x => new VisitOutDTO
+                                                                              {
+                                                                                  DoctorName = $"{x.Doctor.User.FirstName} {x.Doctor.User.LastName}",
+                                                                                  Date = x.Date,
+                                                                                  Specialization = x.Doctor.Specialization.Name
+                                                                              },
+                                                                         filter: x => x.PatientId == patient.Id
+                                                                                      && (x.Date > minDay && x.Date < maxDay),
+                                                                         includes: x => x.Include(y => y.Doctor).ThenInclude(y => y.User)
+                                                                                         .Include(y => y.Doctor).ThenInclude(y => y.Specialization)
+                                                                         );
+
+            visits.ForEach(visit =>
+            {
+                if (visit.Date > DateTime.UtcNow)
+                {
+                    result.UpcomingVisits.Add(visit);
+                }
+                else
+                {
+                    result.RealizedVisits.Add(visit);
+                }
+            });
+
+            result.UpcomingVisits = result.UpcomingVisits.OrderBy(visit => visit.Date).ToList();
+            result.RealizedVisits = result.RealizedVisits.OrderByDescending(visit => visit.Date).ToList();
+
+            return result;
+        }
+
         public async Task<bool> ArrangeVisit(ArrangeVisitInDTO model)
-        { 
-            if (model == null || model.Date <= DateTime.UtcNow) return false;
+        {
+            if (model == null || model.Date <= DateTime.UtcNow)
+            {
+                return false;
+            }
 
             var patientList = await _patientRepository.GetAsync<Patient>(x => x, 
                                                                          filter: x => x.UserId == model.PatientUserId);
-            if (patientList.Count == 0) return false;
+            if (patientList.Count == 0)
+            {
+                return false;
+            }
 
             var doctorList = await _doctorRepository.GetAsync<Doctor>(x => x, 
                                                                       filter: x => x.Id == model.DoctorId);
-            if (doctorList.Count == 0) return false;
+            if (doctorList.Count == 0)
+            {
+                return false;
+            }
 
             var hour = new TimeSpan(model.Date.Hour, model.Date.Minute, model.Date.Second);
             var numberInDay = VisitDateTimeHelper.DateTimeToVisitNumberInDay(hour);

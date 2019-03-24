@@ -2,11 +2,14 @@
 {
     public class HomeIndexVM
     {
-        public ArrangeVisitVM ArrangeVisitVM { get; set; }
-
         public HomeIndexVM()
         {
-            ArrangeVisitVM = new ArrangeVisitVM();
+            Visits = new BaseInfoPastAndLastVisitsVM();
+            ArrangeVisit = new ArrangeVisitVM();
         }
+
+        public BaseInfoPastAndLastVisitsVM Visits { get; set; }
+
+        public ArrangeVisitVM ArrangeVisit { get; set; }
     }
 }

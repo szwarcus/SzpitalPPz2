@@ -152,7 +152,6 @@ namespace Hospital.Controllers
                                     // nie wiem jakie zachowanie, admin powinien inna stronka sie logowac, wiec jakis error raczej
                                     return RedirectToAction("Index", "Home", new { area = "Admin" });
                                     //ModelState.AddModelError(nameof(model.Email), "Your account is admin account"); // do zmiany
-                                    break;
                                 default:
                                     return RedirectToAction("Index", "Home");
                             }

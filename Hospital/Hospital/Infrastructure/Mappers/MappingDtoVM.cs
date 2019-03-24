@@ -23,6 +23,7 @@ namespace Hospital.Mappers.Infrastructure
                                                                                      x.VisitHour.Seconds)));
             CreateMap<ChangePasswordVM, ChangePasswordInDTO>();
             CreateMap<ApplicationUserAccountDataVM, ApplicationUserDTO>();
+            CreateMap<BaseInfoPastAndLastVisitsVM, PastAndNextVisitsOutDTO>();
         }
     }
 }

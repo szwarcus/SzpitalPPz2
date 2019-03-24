@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -47,11 +45,19 @@ namespace Hospital.Areas.Patient.Controllers
         {
             var vModel = new HomeIndexVM();
 
-            var specializationOutDto = await _specializationService.GetAllAsync();
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return View(vModel);
+            }
 
+            var visits = await _visitService.GetBaseInfoVisitsInPastAndNext30DaysAsync(user.Id);
+            vModel.Visits = _mapper.Map<BaseInfoPastAndLastVisitsVM>(visits);
+
+            var specializationOutDto = await _specializationService.GetAllAsync();
             specializationOutDto.Select(x => x.Name).ToList().ForEach(name =>
             {
-                vModel.ArrangeVisitVM.Specializations.Add(new SelectListItem
+                vModel.ArrangeVisit.Specializations.Add(new SelectListItem
                 {
                     Text = name,
                     Value = name
@@ -96,6 +102,7 @@ namespace Hospital.Areas.Patient.Controllers
 
             var dtoModel = _mapper.Map<ArrangeVisitInDTO>(model);
             dtoModel.PatientUserId = user.Id;
+            dtoModel.Description = dtoModel.Description ?? "";
 
             await _visitService.ArrangeVisit(dtoModel);
 

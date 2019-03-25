@@ -43,8 +43,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Doctor\Controllers\" />
-    <Folder Include="Areas\Doctor\ViewModels\" />
-    <Folder Include="Areas\Doctor\Views\Home\" />
     <Folder Include="wwwroot\lib\MDB\scss\bootstrap\" />
   </ItemGroup>
 

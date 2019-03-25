@@ -6,5 +6,6 @@ namespace Hospital.Service.Abstract
     public interface IVisitService
     {
         Task<bool> ArrangeVisit(ArrangeVisitInDTO model);
+        Task UpdateVisit(UpdateVisitInDTO model);
     }
 }

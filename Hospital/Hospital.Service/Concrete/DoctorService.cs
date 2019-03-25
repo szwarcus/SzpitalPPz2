@@ -133,6 +133,16 @@ namespace Hospital.Service.Concrete
             var result = await _visitRepository.GetAllAsync<Visit>(x => x, x => x.DoctorId == DoctorID);
             return result;
         }
+        public async Task<VisitOutDTO> GetCurrnetVisitByDoctorID(string doctorID)
+        {
+            var doctor = await _doctorRepository.GetAsync<Doctor>(x => x, x => x.UserId == doctorID);
+            var doctorIntId = doctor.FirstOrDefault().Id;
+
+            var visit = await _visitRepository.GetAsync(x => x, x => x.DoctorId == doctorIntId && (DateTime.Now >= x.Date && DateTime.Now < x.Date.AddMinutes(30)));
+          //  var visit = await _visitRepository.GetAsync(x => x, x => x.DoctorId == doctorIntId && x.Id == 12);
+            var result = _mapper.Map<VisitOutDTO>(visit.FirstOrDefault());
+            return result;
+        }
         #endregion
 
         #region Private methods

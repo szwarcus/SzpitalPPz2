@@ -145,9 +145,10 @@ namespace Hospital.TagHelpers
                            new XElement("a",
                                     new XAttribute("class", $"btn {((DateTime.Now >= d && DateTime.Now < d.AddMinutes(30)) ? "btn-success" : "btn-secondary")} b btn-lg active d-flex "),
                                     new XAttribute("role", "button"),
-                                    new XAttribute("href", "#"),
+                                    new XAttribute("href", $"{((DateTime.Now >= d && DateTime.Now < d.AddMinutes(30)) ? GetHref() : "#")}"),
                                     "Wizyta"
                         );
+                   
                 }
             }
         }

@@ -122,5 +122,14 @@
 
             return true;
         }
+
+        public async Task UpdateVisit(UpdateVisitInDTO model)
+        {
+            var visits = await _visitRepository.GetAsync(x => x, x => x.Id == model.Id);
+            var visit = visits.FirstOrDefault();
+            visit.Description = model.Description;
+
+            await _visitRepository.UpdateAsync(visit);
+        }
     }
 }

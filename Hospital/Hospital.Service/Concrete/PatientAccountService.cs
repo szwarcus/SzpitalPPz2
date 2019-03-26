@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Hospital.Model.Entities;
 using Hospital.Model.Identity;
 using Hospital.Repository.Abstract;
 using Hospital.Service.Abstract;
 using Hospital.Service.InDTOs;
+using Hospital.Service.OutDTOs;
 
 namespace Hospital.Service.Concrete
 {
@@ -52,6 +54,18 @@ namespace Hospital.Service.Concrete
                 return false;
 
             return await _userRepository.ConfirmEmailAsync(model.user, model.token);
+        }
+
+        public async Task<PatientOutDTO> GetPatientById(long id)
+        {
+            var user = await _patientRepository.GetAsync(x => x.User, x => x.Id == id);
+            var result = new PatientOutDTO()
+            {
+                FirstName = user.FirstOrDefault().FirstName,
+                LastName = user.FirstOrDefault().LastName,
+                UserID = id
+            };
+            return result;
         }
     }
 }

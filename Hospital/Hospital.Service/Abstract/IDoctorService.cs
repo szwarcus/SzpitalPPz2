@@ -11,5 +11,6 @@ namespace Hospital.Service.Abstract
         Task<Doctor> GetDoctorById(string DoctorID);
         Task<List<Visit>> GetAllDoctorVisitsByDoctorID(long DoctorID);
         Task<List<DoctorAvailableVisitsOutDTO>> GetActiveDoctorsByDayAndSpecializationAsync(string specializationName, string day, string format);
+        Task<CurrentVisitOutDTO> GetCurrnetVisitByDoctorID(string doctorID);
     }
 }

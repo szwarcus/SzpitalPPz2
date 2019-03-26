@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Hospital.Service.InDTOs;
+using Hospital.Service.OutDTOs;
 
 namespace Hospital.Service.Abstract
 {
@@ -7,5 +8,6 @@ namespace Hospital.Service.Abstract
     {
         Task<bool> Register(RegisterPatientInDTO model);
         Task<bool> ConfirmEmail(ConfirmEmailPatientInDTO model);
+        Task<PatientOutDTO> GetPatientById(long id);
     }
 }

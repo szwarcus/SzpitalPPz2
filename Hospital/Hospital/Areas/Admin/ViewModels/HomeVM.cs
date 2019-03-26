@@ -9,5 +9,7 @@ namespace Hospital.Areas.Admin.ViewModels
         public StatisticsVM StatisticsVM { get; set; }
         public List<ApplicationUserDTO> applicationUsersDTO{ get; set;}
         public ApplicationUser applicationUser;
+        public List<MedicamentVM> medicamentsVM { get; set; }
+
     }
 }

@@ -24,6 +24,8 @@ namespace Hospital.Mappers.Infrastructure
             CreateMap<ChangePasswordVM, ChangePasswordInDTO>();
             CreateMap<ApplicationUserAccountDataVM, ApplicationUserDTO>();
             CreateMap<BaseInfoPastAndLastVisitsVM, PastAndNextVisitsOutDTO>();
+            CreateMap<MedicamentVM, MedicamentOutDTO>();
+
         }
     }
 }

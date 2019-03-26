@@ -20,14 +20,16 @@ namespace Hospital.Areas.Admin.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IMedicamentService _medicamentService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
 
         public HomeController(UserManager<ApplicationUser> userManager,
-                              IUserService userService, IMapper mapper)
+                              IUserService userService,IMedicamentService medicamentService, IMapper mapper)
         {
             _userService = userService;
             _userManager = userManager;
+            _medicamentService = medicamentService;
             _mapper = mapper;
         }
 
@@ -64,6 +66,22 @@ namespace Hospital.Areas.Admin.Controllers
             vModel.applicationUsersDTO = new List<ApplicationUserDTO>();
             activeDoctors.ForEach(doctor => vModel.applicationUsersDTO.Add(doctor));
             return View(vModel);
+        }
+
+        public async Task<IActionResult> MedicamentBase()
+        {
+
+            var vModel = new HomeVM();
+
+            var medicaments = await _medicamentService.GetAllAsync();
+            vModel.medicamentsVM = new List<MedicamentVM>();
+            foreach (var med in medicaments)
+             {
+                vModel.medicamentsVM.Add(_mapper.Map<MedicamentVM>(med));
+            }
+
+            return View(vModel);
+
         }
 
         public async Task<IActionResult> Delete(string id)

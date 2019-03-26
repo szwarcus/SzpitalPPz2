@@ -1,0 +1,40 @@
+﻿@model Hospital.Areas.Admin.ViewModels.HomeVM
+
+@{
+    Layout = "_AdminLayout";
+}
+
+<button asp-controller="Medicament" asp-action="Create" disabled class="btn btn-success">Dodaj lek</button>
+
+
+
+<table id="dt" class="table table-striped table-responsive-md" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th class="th-sm">
+                Imię
+            </th>
+            <th class="th-sm">
+                Nazwisko
+            </th>
+            <th />
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.medicamentsVM)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

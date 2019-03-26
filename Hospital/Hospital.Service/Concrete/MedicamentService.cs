@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Hospital.Service.OutDTOs;
 
 namespace Hospital.Service.Concrete
 {
@@ -31,6 +32,14 @@ namespace Hospital.Service.Concrete
                 medicaments.Add(one.FirstOrDefault());
             }
             return medicaments;
+        }
+        public async Task<ICollection<MedicamentOutDTO>> GetAllAsync()
+        {
+            return await _repository.GetAllAsync<MedicamentOutDTO>(x => new MedicamentOutDTO
+            {
+                Name = x.Name,
+                Description = x.Description
+            });
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Hospital.Service.OutDTOs;
 
 namespace Hospital.Service.Abstract
 {
@@ -10,5 +11,6 @@ namespace Hospital.Service.Abstract
     {
         Task<List<Medicament>> GetAllMedicament();
         Task<List<Medicament>> GetMedicamentByName(List<string> names);
+        Task<ICollection<MedicamentOutDTO>> GetAllAsync();
     }
 }

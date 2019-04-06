@@ -34,11 +34,12 @@
             _mapper = mapper;
         }
 
-        public async Task<PastAndNextVisitsOutDTO> GetBaseInfoVisitsInPastAndNext30DaysAsync(string userId)
+        public async Task<PastAndNextVisitsOutDTO> GetBaseInfoVisitsInPastAndNextDaysAsync(string userId)
         {
             PastAndNextVisitsOutDTO result = null;
-            var minDay = DateTime.UtcNow.AddDays(-30);
-            var maxDay = DateTime.UtcNow.AddDays(30);
+            var days = 30;
+            var minDay = DateTime.UtcNow.AddDays(days * (-1));
+            var maxDay = DateTime.UtcNow.AddDays(days);
 
             if (userId == null)
             {
@@ -58,7 +59,8 @@
                                                                               {
                                                                                   DoctorName = $"{x.Doctor.User.FirstName} {x.Doctor.User.LastName}",
                                                                                   Date = x.Date,
-                                                                                  Specialization = x.Doctor.Specialization.Name
+                                                                                  Specialization = x.Doctor.Specialization.Name,
+                                                                                  Description = x.Description
                                                                               },
                                                                          filter: x => x.PatientId == patient.Id
                                                                                       && (x.Date > minDay && x.Date < maxDay),

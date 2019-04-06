@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
-namespace Hospital.Areas.Patient.ViewModels
+﻿namespace Hospital.Areas.Patient.ViewModels.Home.ArrangeVisit
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+
     public class ArrangeVisitVM
     {
         [Required(ErrorMessage = "Data wizyty jest wymagana")]

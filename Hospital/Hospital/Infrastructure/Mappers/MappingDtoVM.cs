@@ -1,14 +1,16 @@
-﻿using AutoMapper;
-using Hospital.Areas.Admin.ViewModels;
-using Hospital.Areas.Doctor.ViewModels;
-using Hospital.Areas.Patient.ViewModels;
-using Hospital.Service.InDTOs;
-using Hospital.Service.OutDTOs;
-using Hospital.ViewModel;
-using System;
-
-namespace Hospital.Mappers.Infrastructure
+﻿namespace Hospital.Mappers.Infrastructure
 {
+    using System;
+    using AutoMapper;
+    using Hospital.Areas.Admin.ViewModels;
+    using Hospital.Areas.Doctor.ViewModels;
+    using Hospital.Areas.Patient.ViewModels;
+    using Hospital.Areas.Patient.ViewModels.Home.Index;
+    using Hospital.Areas.Patient.ViewModels.Home.Visits;
+    using Hospital.Service.InDTOs;
+    using Hospital.Service.OutDTOs;
+    using Hospital.ViewModel;
+
     public class MappingDtoVM : Profile
     {
         public MappingDtoVM()
@@ -24,8 +26,8 @@ namespace Hospital.Mappers.Infrastructure
             CreateMap<ChangePasswordVM, ChangePasswordInDTO>();
             CreateMap<ApplicationUserAccountDataVM, ApplicationUserDTO>();
             CreateMap<BaseInfoPastAndLastVisitsVM, PastAndNextVisitsOutDTO>();
+            CreateMap<DescriptionPastAndLastVisitsVM, PastAndNextVisitsOutDTO>();
             CreateMap<MedicamentVM, MedicamentOutDTO>();
-
         }
     }
 }

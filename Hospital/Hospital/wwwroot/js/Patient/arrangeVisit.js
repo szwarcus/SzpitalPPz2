@@ -13,7 +13,7 @@ $('#specializationName, #visitDay').on('change', () => {
         return;
     }
 
-    $.getJSON('Patient/Home/Doctors', { day: selectedVisitDay, specializationName: selectedSpecializationName }, (doctors) => {
+    $.getJSON('/Patient/Home/Doctors', { day: selectedVisitDay, specializationName: selectedSpecializationName }, (doctors) => {
         if (doctors === null || doctors.length < 1) {
             return;
         }

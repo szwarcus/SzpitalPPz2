@@ -8,6 +8,6 @@ namespace Hospital.Service.Abstract
     {
         Task<bool> ArrangeVisit(ArrangeVisitInDTO model);
         Task UpdateVisit(UpdateVisitInDTO model);
-        Task<PastAndNextVisitsOutDTO> GetBaseInfoVisitsInPastAndNext30DaysAsync(string userId);
+        Task<PastAndNextVisitsOutDTO> GetBaseInfoVisitsInPastAndNextDaysAsync(string userId);
     }
 }

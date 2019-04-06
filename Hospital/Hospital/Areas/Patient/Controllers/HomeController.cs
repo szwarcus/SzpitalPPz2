@@ -1,20 +1,22 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Hospital.Areas.Patient.ViewModels;
-using Hospital.Core.Enums;
-using Hospital.Infrastructure.Attributes;
-using Hospital.Model.Identity;
-using Hospital.Service.Abstract;
-using Hospital.Service.InDTOs;
-using Hospital.Service.OutDTOs;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
-namespace Hospital.Areas.Patient.Controllers
+﻿namespace Hospital.Areas.Patient.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using AutoMapper;
+    using Hospital.Areas.Patient.ViewModels;
+    using Hospital.Areas.Patient.ViewModels.Home.ArrangeVisit;
+    using Hospital.Areas.Patient.ViewModels.Home.Index;
+    using Hospital.Areas.Patient.ViewModels.Home.Visits;
+    using Hospital.Core.Enums;
+    using Hospital.Infrastructure.Attributes;
+    using Hospital.Model.Identity;
+    using Hospital.Service.Abstract;
+    using Hospital.Service.InDTOs;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+
     [Area("Patient")]
     [Roles(SystemRoleType.Patient)]
     public class HomeController : Controller
@@ -40,24 +42,42 @@ namespace Hospital.Areas.Patient.Controllers
             _userManager = userManager;
         }
 
-        #region Get Methods
+        #region GetMethods - Views
         public async Task<IActionResult> Index()
         {
-            var vModel = new HomeIndexVM();
+            var vModel = new IndexVM();
+            ViewBag.TabName = "Start";
 
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            if (user == null)
-            {
-                return View(vModel);
-            }
 
-            var visits = await _visitService.GetBaseInfoVisitsInPastAndNext30DaysAsync(user.Id);
+            var visits = await _visitService.GetBaseInfoVisitsInPastAndNextDaysAsync(user.Id);
             vModel.Visits = _mapper.Map<BaseInfoPastAndLastVisitsVM>(visits);
+
+            return View(vModel);
+        }
+
+        public async Task<IActionResult> Visits()
+        {
+            var vModel = new VisitsVM();
+            ViewBag.TabName = "Wizyty";
+
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            var visits = await _visitService.GetBaseInfoVisitsInPastAndNextDaysAsync(user.Id);
+            vModel.Visits = _mapper.Map<DescriptionPastAndLastVisitsVM>(visits);
+
+            return View(vModel);
+        }
+
+        public async Task<IActionResult> ArrangeVisit()
+        {
+            var vModel = new ArrangeVisitVM();
+            ViewBag.TabName = null;
 
             var specializationOutDto = await _specializationService.GetAllAsync();
             specializationOutDto.Select(x => x.Name).ToList().ForEach(name =>
             {
-                vModel.ArrangeVisit.Specializations.Add(new SelectListItem
+                vModel.Specializations.Add(new SelectListItem
                 {
                     Text = name,
                     Value = name
@@ -66,7 +86,9 @@ namespace Hospital.Areas.Patient.Controllers
 
             return View(vModel);
         }
+        #endregion
 
+        #region GetMethods
         public async Task<IActionResult> Doctors(string day, string specializationName)
         {
             if (!ModelState.IsValid || String.IsNullOrEmpty(day) || String.IsNullOrEmpty(specializationName))

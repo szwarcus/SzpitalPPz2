@@ -1,15 +1,13 @@
-﻿namespace Hospital.Service.OutDTOs
+﻿namespace Hospital.Areas.Patient.ViewModels.Home.Index
 {
     using System;
 
-    public class VisitOutDTO
+    public class BaseInfoVisitVM
     {
         public string Specialization { get; set; }
 
         public string DoctorName { get; set; }
 
         public DateTime Date { get; set; }
-
-        public string Description { get; set; }
     }
 }

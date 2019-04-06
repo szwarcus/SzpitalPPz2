@@ -1,0 +1,66 @@
+﻿@model Hospital.Areas.Patient.ViewModels.Home.Visits.VisitsVM
+
+@{
+    Layout = "_PatientLayout";
+}
+
+<div class="card border w-100">
+    <div class="card-header">
+        <h4>Wizyty</h4>
+    </div>
+    <div class="card-body">
+        @if (Model.Visits.UpcomingVisits.Any())
+        {
+            @foreach (var visit in Model.Visits.UpcomingVisits)
+            {
+                <partial model="visit" name="../Partials/DescriptionVisit.cshtml" />
+            }
+        }
+        else
+        {
+            <p class="pl-2">
+                Brak umówionych wizyt
+            </p>
+        }
+    </div>
+</div>
+<div class="card border w-100 mt-3">
+    <div class="card-header">
+        <h4>Zrealizowane wizyty</h4>
+    </div>
+    <div class="card-body">
+        @if (Model.Visits.RealizedVisits.Any())
+        {
+            @foreach (var visit in Model.Visits.RealizedVisits)
+            {
+                <partial model="visit" name="../Partials/DescriptionVisit.cshtml" />
+            }
+        }
+        else
+        {
+            <p class="pl-2">
+                Brak zrealizowanych wizyt
+            </p>
+        }
+    </div>
+</div>
+<div class="card border w-100 mt-3">
+    <div class="card-header">
+        <h4>Nieodwołane</h4>
+    </div>
+    <div class="card-body">
+        @if (Model.Visits.IrrevocableVisits.Any())
+        {
+            @foreach (var visit in Model.Visits.IrrevocableVisits)
+            {
+                <partial model="visit" name="../Partials/DescriptionVisit.cshtml" />
+            }
+        }
+        else
+        {
+            <p class="pl-2">
+                Brak nieodwołanych wizyt
+            </p>
+        }
+    </div>
+</div>

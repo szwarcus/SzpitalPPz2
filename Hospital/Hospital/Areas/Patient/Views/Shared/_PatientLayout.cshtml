@@ -27,15 +27,6 @@
     <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-md mb-auto">
         <div class="container">
             <a asp-area="Patient" asp-controller="Home" asp-action="Index" class="navbar-brand">Hospital</a>
-            @if (SignInManager.IsSignedIn(User) && User.IsInRole(nameof(SystemRoleType.Patient)))
-            {
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="Patient" asp-controller="Visits" asp-action="Visits"> Wizyty </a>
-                    </li>
-                </ul>
-      
-            }
             <div class="navbar-collapse collapse">
                 <partial name="_LoginPartial" />
             </div>
@@ -43,7 +34,29 @@
     </nav>
 
     <div class="container body-content">
-        @RenderBody()
+        <nav class="navbar navbar-expand-md mb-auto">
+            <div class="container border-bottom mb-3 pb-2">
+                <a asp-area="Patient" asp-controller="Home" asp-action="Index" class="navbar-brand">Start</a>
+                <a asp-area="Patient" asp-controller="Home" asp-action="Visits" class="navbar-brand">Wizyty</a>
+                <a asp-area="Patient" asp-controller="Home" asp-action="Index" class="navbar-brand">Wyniki badań</a>
+                <a asp-area="Patient" asp-controller="Home" asp-action="Index" class="navbar-brand">Skierowania</a>
+                <a asp-area="Patient" asp-controller="Home" asp-action="Index" class="navbar-brand">Leki</a>
+                <a asp-area="Patient" asp-controller="Home" asp-action="Index" class="navbar-brand">Grafiki lekarzy</a>
+                <a asp-area="Patient" asp-controller="Home" asp-action="Index" class="navbar-brand">Dyżury</a>
+                <a asp-area="Patient" asp-controller="Home" asp-action="Index" class="navbar-brand">Dokumenty</a>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="row mb-3">
+                @if (ViewBag.TabName != null)
+                {
+                    <h2 class="col-md-3">@ViewBag.TabName</h2>
+                    @Html.ActionLink("Chcę umówić wizytę lub badanie", "ArrangeVisit", "Home", null, new { @class = "btn btn-success offset-md-6 col-md-3 float-right" })
+                }
+            </div>
+
+            @RenderBody()
+        </div>
         <hr />
         <footer>
             <p>&copy; 2018 - Hospital</p>

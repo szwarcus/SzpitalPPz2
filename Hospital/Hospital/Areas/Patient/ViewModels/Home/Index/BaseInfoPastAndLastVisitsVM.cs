@@ -1,4 +1,4 @@
-﻿namespace Hospital.Areas.Patient.ViewModels
+﻿namespace Hospital.Areas.Patient.ViewModels.Home.Index
 {
     using System.Collections.Generic;
 

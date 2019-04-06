@@ -1,4 +1,8 @@
-﻿@model Hospital.Areas.Patient.ViewModels.ArrangeVisitVM
+﻿@model Hospital.Areas.Patient.ViewModels.Home.ArrangeVisit.ArrangeVisitVM
+
+@{
+    Layout = "_PatientLayout";
+}
 
 @using (Html.BeginForm("Visit", "Home", new { area = "Patient" }, FormMethod.Post))
 {

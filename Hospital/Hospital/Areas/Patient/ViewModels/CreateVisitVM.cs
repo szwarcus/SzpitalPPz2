@@ -1,8 +1,7 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace Hospital.Areas.Patient.ViewModels
+﻿namespace Hospital.Areas.Patient.ViewModels
 {
+    using System;
+
     public class CreateVisitVM
     {
         public DateTime VisitDay { get; set; }

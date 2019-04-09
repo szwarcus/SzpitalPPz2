@@ -78,7 +78,7 @@ namespace Hospital.Repository.Concrete
             SeedUsers(userManager, context).Wait();
 
             SeedOtherData(context).Wait();
-            SeedMedicaments(context).Wait();
+            //SeedMedicaments(context).Wait();
         }
         #endregion
 
@@ -136,12 +136,12 @@ namespace Hospital.Repository.Concrete
             
         }
 
-        private static async Task SeedMedicaments(ApplicationDbContext context)
-        {
-            await SeedMedicament(context, "Apap", "Ból głowy");
-            await SeedMedicament(context, "No-spa", "Lek wywiera działanie rozkurczające na mięśnie gładkie przewodu pokarmowego, układu moczowo-płciowego, układu krążenia oraz dróg żółciowych");
-            await SeedMedicament(context, "Amoksiklav", "Amoksiklav to preparat bakteriobójczy, stosowany w zakażeniach różnego typu: dolnych i górnych dróg oddechowych, układu moczowego, skóry, kości, stawów. Preparat zawiera antybiotyk beta-laktamowy. Amoksiklav jest dostępny na receptę.");
-        }
+       // private static async Task SeedMedicaments(ApplicationDbContext context)
+       // {
+        //    await SeedMedicament(context, "Apap", "Ból głowy");
+     //       await SeedMedicament(context, "No-spa", "Lek wywiera działanie rozkurczające na mięśnie gładkie przewodu pokarmowego, układu moczowo-płciowego, układu krążenia oraz dróg żółciowych");
+      //      await SeedMedicament(context, "Amoksiklav", "Amoksiklav to preparat bakteriobójczy, stosowany w zakażeniach różnego typu: dolnych i górnych dróg oddechowych, układu moczowego, skóry, kości, stawów. Preparat zawiera antybiotyk beta-laktamowy. Amoksiklav jest dostępny na receptę.");
+      //  }
         private static async Task SeedMedicament(ApplicationDbContext context, string name , string description)
         {
             await context.AddAsync(new Medicament() {

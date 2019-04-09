@@ -40,10 +40,12 @@ namespace Hospital.Areas.Admin.Controllers
             var activePatients = await _userService.GetAllUsersByRole("PATIENT");
             var activeDoctors = await _userService.GetAllUsersByRole("DOCTOR");
             var activeNurses = await _userService.GetAllUsersByRole("NURSE");
+            var medicaments = await _medicamentService.CountAllMedicaments();
             vModel.StatisticsVM = new StatisticsVM();
             vModel.StatisticsVM.statisticsDictionary.Add("Doctor", activeDoctors.Count);
             vModel.StatisticsVM.statisticsDictionary.Add("Patient", activePatients.Count);
             vModel.StatisticsVM.statisticsDictionary.Add("Nurse", activeNurses.Count);
+            vModel.StatisticsVM.statisticsDictionary.Add("Medicament", medicaments);
 
             return View(vModel);
         }
@@ -67,22 +69,50 @@ namespace Hospital.Areas.Admin.Controllers
             activeDoctors.ForEach(doctor => vModel.applicationUsersDTO.Add(doctor));
             return View(vModel);
         }
-
-        public async Task<IActionResult> MedicamentBase()
+    
+        public async Task<IActionResult> MedicamentBase(string searchMedicament,string page="A",string length="10")
         {
+            var tmpLength = Request.Cookies["cookieLength"];
+
+            if (!String.IsNullOrEmpty(tmpLength))
+            {
+                length = tmpLength;
+            }
 
             var vModel = new HomeVM();
+            char charPage = page[0];
+            var medicaments = await _medicamentService.GetMedicamentsByLetter(charPage);
+            // Searching filter do not need to assign any page
+            if (!String.IsNullOrEmpty(searchMedicament))
+            {
+                medicaments = await _medicamentService.GetAllMedicament();
+                medicaments = medicaments.FindAll(s => s.Name.ToLower().Contains(searchMedicament.ToLower()));
+                vModel.medicamentsVM = new List<MedicamentVM>();
+                foreach (var med in medicaments)
+                {
+                    vModel.medicamentsVM.Add(_mapper.Map<MedicamentVM>(med));
+                }
+                return View(vModel);
 
-            var medicaments = await _medicamentService.GetAllAsync();
-            vModel.medicamentsVM = new List<MedicamentVM>();
+            }
+
+            // Without searching filter-normal view
+            vModel.medicamentsVM = new List<MedicamentVM>();         
+            var medCounts = await _medicamentService.CountAllMedicaments();
+
+            var medCountByLetter = medicaments.Count;
+            var pageCounts = medCountByLetter / Int32.Parse(length);
+
             foreach (var med in medicaments)
-             {
+            {
                 vModel.medicamentsVM.Add(_mapper.Map<MedicamentVM>(med));
             }
 
             return View(vModel);
 
         }
+
+
 
         public async Task<IActionResult> Delete(string id)
         {

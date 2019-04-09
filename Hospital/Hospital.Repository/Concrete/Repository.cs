@@ -31,6 +31,7 @@ namespace Hospital.Repository.Concrete
             return await QueryDb(filter, orderBy, includes).Select(select).ToListAsync();
         }
 
+
         public async Task<List<TResult>> GetAsync<TResult>(Expression<Func<TEntity, TResult>> select, 
                                                            Expression<Func<TEntity, bool>> filter = null,
                                                            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
@@ -58,6 +59,11 @@ namespace Hospital.Repository.Concrete
             if (IsEntityNull(entity)) return;
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> CountAllAsync()
+        {
+            return await QueryDb().CountAsync();
         }
 
         public async Task DeleteAsync(TEntity entity)

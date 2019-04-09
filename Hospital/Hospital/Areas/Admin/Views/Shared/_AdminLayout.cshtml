@@ -11,15 +11,41 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <!-- 3. BOOTSTRAP v4.0.0         JS !-->
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    
+
     <script src="~/lib/MDB/js/jquery-3.3.1.min.js"></script>
     <script src="~/lib/MDB/js/popper.min.js"></script>
     <script src="~/lib/MDB/js/bootstrap.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/lib/MDB/js/mdb.min.js"></script>
     <script src="~/lib/MDB/js/addons/datatables.min.js"></script>
+    <script src="~/lib/jquery/jquery.cookie.js"></script>
 
     <script type="text/javascript" asp-src-include="js/Chart.js"></script>
+    <script type="text/javascript">
+        function GetSelectedTextValue() {
+            var selectedOption = document.getElementById("combobox");
+            var selectedValue = selectedOption.value;
+            document.getElementById('hidValue').value = selectedValue;
+            document.getElementById("lengthForm").submit()
+            jQuery.cookie("cookieLength", selectedValue, { expires: 365, path: '/' })
+        }
+
+        function changeClassToActive()
+        {
+          
+        }
+    </script>
+    <script>
+        jQuery(document).ready(function () {
+            var selectedVal = jQuery.cookie("cookieLength");
+            if (selectedVal) {
+                jQuery("#combobox").val(selectedVal);
+                jQuery("#hidValue").val(selectedVal);
+            } 
+        });
+    </script>
+    <script>
+    </script>
     <script>
         $('#admin-header .nav a').on('click', function () {
             $('#admin-header ').find('li.active').removeClass('active');
@@ -28,6 +54,7 @@
     <script>
 
         $(document).ready(function () {
+
             $('#dt').DataTable({
                 language: {
                     "processing": "Przetwarzanie...",
@@ -53,15 +80,29 @@
                 },
                 "ordering": true,
                 "paging": true,
+                "deferRender": true,
+                "stateSave": true,
+                "processing": true,
+
+
                 "pagingType": "numbers"// false to disable sorting (or any other option)
             });
+
             $('.dataTables_length').addClass('bs-select');
+            //Set active to alphabetlists
+            var urlParams = new URLSearchParams(window.location.search);
+            var letter = urlParams.get('page')
+            var selected = document.getElementById(letter);   
+            selected.className += ' active';
+            
+            
+
         });
 
     </script>
 
     <environment include="Development">
-        
+
         <link href="~/lib/MDB/css/bootstrap.css" rel="stylesheet" />
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~lib/MDB/css/datatables.min.css" />
@@ -84,8 +125,8 @@
                         <li class="nav-item"><a class="nav-link " asp-area="Admin" asp-controller="Home" asp-action="Index">Statystyki</a></li>
                         <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="PatientBase">Baza pacjentów</a></li>
                         <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="DoctorBase">Baza doktorów</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="MedicamentBase">Baza medykamentów</a></li>
-                    </ul>
+                        <li class="nav-item"><a class="nav-link" runat="server" asp-area="Admin" asp-controller="Home" asp-action="MedicamentBase" asp-route-page="A">Baza medykamentów</a></li>
+</ul>
 
                 }
 

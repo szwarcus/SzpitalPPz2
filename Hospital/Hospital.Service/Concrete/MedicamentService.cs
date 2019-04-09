@@ -23,6 +23,19 @@ namespace Hospital.Service.Concrete
             return await _repository.GetAllAsync(x => x);
         }
 
+        public async Task<List<Medicament>> GetMedicamentsByLetter(char page)
+        {
+            List<Medicament> medicaments = new List<Medicament>();
+            return await _repository.GetAllAsync(x => x, x => x.Name[0] == page);
+        }
+
+        public async Task<int> CountAllMedicaments()
+        {
+
+            var one = await _repository.CountAllAsync();
+            return one;
+        }
+
         public async Task<List<Medicament>> GetMedicamentByName(List<string> names)
         {
             List<Medicament> medicaments = new List<Medicament>();
@@ -33,13 +46,7 @@ namespace Hospital.Service.Concrete
             }
             return medicaments;
         }
-        public async Task<ICollection<MedicamentOutDTO>> GetAllAsync()
-        {
-            return await _repository.GetAllAsync<MedicamentOutDTO>(x => new MedicamentOutDTO
-            {
-                Name = x.Name,
-                Description = x.Description
-            });
-        }
+      
+        
     }
 }

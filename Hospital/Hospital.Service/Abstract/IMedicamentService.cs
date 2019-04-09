@@ -11,6 +11,7 @@ namespace Hospital.Service.Abstract
     {
         Task<List<Medicament>> GetAllMedicament();
         Task<List<Medicament>> GetMedicamentByName(List<string> names);
-        Task<ICollection<MedicamentOutDTO>> GetAllAsync();
+        Task<List<Medicament>> GetMedicamentsByLetter(char page);
+        Task<int> CountAllMedicaments();
     }
 }

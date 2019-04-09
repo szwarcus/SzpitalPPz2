@@ -4,11 +4,17 @@
     Layout = "_AdminLayout";
 }
 
-<button asp-controller="Medicament" asp-action="Create" disabled class="btn btn-success">Dodaj lek</button>
+<div class="row">
+    <div class="col-sm-12 col-md-2">
+        <button asp-controller="Medicament" asp-action="Create" disabled class="btn btn-success">Dodaj lek</button>
+    </div>
+</div>
 
 
 
-<table id="dt" class="table table-striped table-responsive-md" cellspacing="0" width="100%">
+
+
+<table class="table table-striped table-responsive-md" id="dt" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th class="th-sm">
@@ -21,20 +27,70 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.medicamentsVM)
+        @if (Model.medicamentsVM.Count > 0)
+        {
+            @foreach (var item in Model.medicamentsVM)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td></td>
+                </tr>
+            }
+        }
+        else
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
+                <td colspan="3">@Html.Raw("Brak rekordów do wyświetlenia.")</td>
 
-                </td>
             </tr>
         }
     </tbody>
-
 </table>
+
+<form asp-action="Index" method="get">
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+
+        <div class="col-md-10">
+            <div class="dataTables_paginate paging_numbers">
+                <hr />
+                <ul class="pagination">
+                    @for (char c = 'A'; c <= 'Z'; c++)
+                    {
+                        <li id="@(c)" class="paginate_button page-item"><a aria-controls="dt" data-dt-idx="0" tabindex="0" class="page-link " href="/Admin/Home/MedicamentBase?page=@(c)">@(c)</a></li>
+                    }
+                </ul>
+                <hr />
+            </div>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+</form>
+
+
+<div class="row">
+
+
+    <div class="col-sm-12 col-md-12">
+        <div style="width:100%;" id="filter" class="dataTables_filter">
+            <form id="lengthForm" asp-action="Index" method="get">
+
+                Wyszukaj w całej bazie: <input type="text" class="form-control form-control-sm" name="searchMedicament" value="@ViewData["currentFilter"]" />
+
+                <input asp-area="Admin" asp-controller="Home" asp-action="MedicamentBase" type="submit" value="Wyszukaj" style="margin-top:10px;width:100%;" class="btn btn-default" />
+                <!--<a asp-area="Admin" asp-controller="Home" asp-action="MedicamentBase">Wróć do pełnej listy</a>-->
+
+            </form>
+        </div>
+    </div>
+</div>
+

@@ -24,6 +24,7 @@ namespace Hospital.Repository.Abstract
                                               int take = 1)
                                               where TResult : class;
 
+        Task<int> CountAllAsync();
         Task InsertAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
         Task DeleteAsync(TEntity entity);

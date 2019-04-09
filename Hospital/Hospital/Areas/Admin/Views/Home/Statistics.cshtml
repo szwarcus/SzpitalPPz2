@@ -2,11 +2,12 @@
 
 <h1>Statystyki bazy szpitala</h1>
 <div class="row">
-    <div class="col-md-4">
-        <p class="text-primary">Ilość doktorów:@Model.statisticsDictionary["Doctor"]</p>
-        <p class="text-primary">Ilość pielęgniarek:@Model.statisticsDictionary["Nurse"]</p>
-        <p class="text-success">Ilość pracowników szpitala: @(Model.statisticsDictionary["Nurse"] + Model.statisticsDictionary["Doctor"])</p><br />
-        <p class="text-primary">Ilość zarejestrowanych pacjentów:@Model.statisticsDictionary["Patient"]</p>
+    <div class="col-md-6">
+        <h4 class="text-primary">Ilość doktorów: @Model.statisticsDictionary["Doctor"]</h4>
+        <h4 class="text-primary">Ilość pielęgniarek: @Model.statisticsDictionary["Nurse"]</h4>
+        <h4 class="text-primary">Ilość pracowników szpitala: @(Model.statisticsDictionary["Nurse"] + Model.statisticsDictionary["Doctor"])</h4>
+        <h4 class="text-primary">Ilość zarejestrowanych pacjentów: @Model.statisticsDictionary["Patient"]</h4>
+        <h4 class="text-primary">Ilość medykamentów: @Model.statisticsDictionary["Medicament"]</h4>
 
     </div>
     <div class="col-md-4">

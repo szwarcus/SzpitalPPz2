@@ -1,0 +1,37 @@
+﻿.upComingVisits {
+    background-color: #10b98a;
+    cursor: pointer;
+    filter: brightness(70%);
+}
+
+    .upComingVisits:hover {
+        filter: brightness(100%);
+    }
+
+.completedVisits {
+    background-color: #ff6a00;
+}
+
+.NextPreviousWeek {
+    cursor: pointer;
+    filter: opacity(0.7);
+    margin: 8px 0px 8px 0px;
+}
+
+    .NextPreviousWeek:hover {
+        filter: opacity(1);
+    }
+
+#selectDateWrapper {
+    height: 70px;
+}
+
+.ui-datepicker-trigger {
+    margin: 8px 0px 8px 0px;
+    cursor: pointer;
+    filter: opacity(0.8);
+}
+
+    .ui-datepicker-trigger:hover {
+        filter: opacity(1);
+    }

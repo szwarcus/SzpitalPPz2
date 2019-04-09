@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hospital.Core.Enums;
+using System;
 
 namespace Hospital.Model.Entities
 {
@@ -18,5 +19,6 @@ namespace Hospital.Model.Entities
         public string Description { get; set; }
 
         public Prescription Prescription { get; set; }
+        public StateVisit State { get; set; }
     }
 }

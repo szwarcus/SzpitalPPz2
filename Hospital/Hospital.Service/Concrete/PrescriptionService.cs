@@ -28,11 +28,10 @@ namespace Hospital.Service.Concrete
             Prescription prescription = new Prescription()
             {
                 Comments = prescriptionInDTO.Comments,
-                DueDate = prescriptionInDTO.DueDate,
+                DueDate = DateTime.Now.AddDays(30),
                 VisitId = prescriptionInDTO.VisitId,
                 Visit = visit,
-                PrescriptionMedicaments = new List<PrescriptionMedicament>()
-                
+                PrescriptionMedicaments = new List<PrescriptionMedicament>()             
             };
 
             foreach (var item in prescriptionInDTO.Medicaments)

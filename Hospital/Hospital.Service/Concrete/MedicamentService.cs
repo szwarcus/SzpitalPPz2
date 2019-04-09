@@ -1,6 +1,8 @@
 ﻿using Hospital.Model.Entities;
 using Hospital.Repository.Abstract;
 using Hospital.Service.Abstract;
+using Hospital.Service.OutDTOs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;

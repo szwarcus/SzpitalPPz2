@@ -1,5 +1,5 @@
 ﻿$(function () {
     $("#multiSelectDropDown").chosen({
-        width: "100%"
+        width: "50%"
     });
 });

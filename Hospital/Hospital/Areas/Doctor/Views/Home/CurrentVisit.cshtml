@@ -4,10 +4,10 @@
     Layout = "_DoctorLayout";
 }
 
-<script src="~/js/Doctor/MultiSelectDropDown.js" asp-append-version="true"></script>
 
 <form asp-area="Doctor" asp-action="CurrentVisit" asp-controller="Home" method="post" class="form-horizontal">
-
+    
+    <input type="hidden" asp-for="VisitID" />
 
     <div class="form-group">
         <label asp-for="FirstName" class="col-md-2 control-label">Imię</label>
@@ -30,7 +30,7 @@
     <div class="form-group">
         <label asp-for="DescriptionVisit" class="col-md-5 control-label">Przebieg Wizyty</label>
         <div class="col-md-10">
-            <textarea asp-for="DescriptionVisit" class="form-control" rows="5"></textarea>
+            <textarea asp-for="DescriptionVisit"  class="form-control" rows="5"></textarea>
             <span asp-validation-for="DescriptionVisit" class="text-danger"></span>
 
         </div>
@@ -43,17 +43,18 @@
 
         </div>
     </div>
-    <div class="form-group col-md-5">
-        @Html.ListBoxFor(m => m.selectedMedicaments, new MultiSelectList(Model.Medicaments, "Name", "Name"), new { id = "multiSelectDropDown", multiple = "multiple" })
+    <div class="form-group col-md-5" >
+        @Html.ListBoxFor(m => m.selectedMedicaments, new MultiSelectList(Model.Medicaments, "Name", "Name"), new { id = "multiSelectDropDown", name= "multiSelectDropDown", multiple = "multiple" })
     </div>
 
-        <div class="form-group">
+    <div class="form-group">
 
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" class="btn btn-primary" value="Zatwierdź" />
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="Zatwierdź" />
 
-            </div>
         </div>
+    </div>
 
 
 </form>
+<script src="~/js/Doctor/MultiSelectDropDown.js" asp-append-version="true"></script>

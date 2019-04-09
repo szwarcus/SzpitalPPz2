@@ -1,4 +1,5 @@
 ﻿using Hospital.Model.Entities;
+using Hospital.Service.OutDTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;

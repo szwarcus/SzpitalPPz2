@@ -114,7 +114,8 @@
                 DoctorId = doctorList[0].Id,
                 Date = model.Date,
                 Description = model.Description,
-                NumberInDay = numberInDay
+                NumberInDay = numberInDay,
+                State = Core.Enums.StateVisit.Created
                 //Prescription = new Prescription { } // to do
             };
 
@@ -128,8 +129,15 @@
             var visits = await _visitRepository.GetAsync(x => x, x => x.Id == model.Id);
             var visit = visits.FirstOrDefault();
             visit.Description = model.Description;
+            visit.State = model.State;
 
             await _visitRepository.UpdateAsync(visit);
+        }
+
+        public async Task<Visit> GetById(long Id)
+        {
+            var visits = await _visitRepository.GetAsync(x => x, x => x.Id ==Id,null, x => x.Include(z => z.Prescription));
+            return visits.FirstOrDefault();
         }
     }
 }

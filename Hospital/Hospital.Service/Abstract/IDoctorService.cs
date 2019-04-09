@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Hospital.Model.Entities;
 using Hospital.Service.OutDTOs;
@@ -11,6 +12,6 @@ namespace Hospital.Service.Abstract
         Task<Doctor> GetDoctorById(string DoctorID);
         Task<List<Visit>> GetAllDoctorVisitsByDoctorID(long DoctorID);
         Task<List<DoctorAvailableVisitsOutDTO>> GetActiveDoctorsByDayAndSpecializationAsync(string specializationName, string day, string format);
-        Task<CurrentVisitOutDTO> GetCurrnetVisitByDoctorID(string doctorID);
+       // Task<CurrentVisitOutDTO> GetVisitByDoctorIdAndDatetime(string doctorID, DateTime dateTime);
     }
 }

@@ -1,7 +1,8 @@
 ﻿@using Hospital.Model.Entities;
-@model ICollection<Visit>
+@model Hospital.Areas.Doctor.ViewModels.TimeTableVM;
 @{
     Layout = "_DoctorLayout";
 }
 
-<Calendar events="Model" event-time-in-minutes="30" start-hour="8" stop-hour="20" area="Doctor" controller="Home" action="CurrentVisit"></Calendar>
+<Calendar events="@Model.Visits" event-time-in-minutes="30" start-hour="8" stop-hour="20" start-time="@Model.DateTime" area="Doctor" controller="Home" action="CurrentVisit"></Calendar>
+<script src="~/js/Doctor/TimeTable.js" asp-append-version="true"></script>

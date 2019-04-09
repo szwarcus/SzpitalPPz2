@@ -8,7 +8,6 @@ namespace Hospital.Service.InDTOs
    public class PrescriptionInDTO
     {
         public string Comments { get; set; }
-        public DateTime DueDate { get; set; }
         public long VisitId { get; set; }
         public ICollection<Medicament> Medicaments { get; set; }
     }

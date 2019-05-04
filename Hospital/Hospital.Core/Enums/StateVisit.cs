@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Hospital.Core.Enums
+﻿namespace Hospital.Core.Enums
 {
     public enum StateVisit {
-        Created,
-        Canceled,
-        Completed
+        Created = 0,
+        Canceled = 1,
+        Completed = 2
     }
 }

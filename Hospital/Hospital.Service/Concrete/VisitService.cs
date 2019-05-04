@@ -4,13 +4,14 @@
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
+    using Microsoft.EntityFrameworkCore;
+    using Hospital.Core.Enums;
     using Hospital.Core.Helpers;
     using Hospital.Model.Entities;
     using Hospital.Repository.Abstract;
     using Hospital.Service.Abstract;
     using Hospital.Service.InDTOs;
     using Hospital.Service.OutDTOs;
-    using Microsoft.EntityFrameworkCore;
 
     public class VisitService : IVisitService
     {
@@ -55,18 +56,20 @@
 
             result = new PastAndNextVisitsOutDTO();
             var patient = patientList.First();
-            var visits = await _visitRepository.GetAllAsync<VisitOutDTO>(x => new VisitOutDTO
-                                                                              {
-                                                                                  DoctorName = $"{x.Doctor.User.FirstName} {x.Doctor.User.LastName}",
-                                                                                  Date = x.Date,
-                                                                                  Specialization = x.Doctor.Specialization.Name,
-                                                                                  Description = x.Description
-                                                                              },
-                                                                         filter: x => x.PatientId == patient.Id
-                                                                                      && (x.Date > minDay && x.Date < maxDay),
-                                                                         includes: x => x.Include(y => y.Doctor).ThenInclude(y => y.User)
-                                                                                         .Include(y => y.Doctor).ThenInclude(y => y.Specialization)
-                                                                         );
+            var visits = await _visitRepository.GetAllAsync<VisitOutDTO>(
+                x => new VisitOutDTO
+                     {
+                         DoctorName = $"{x.Doctor.User.FirstName} {x.Doctor.User.LastName}",
+                         Date = x.Date,
+                         Specialization = x.Doctor.Specialization.Name,
+                         Description = x.Description,
+                         State = x.State
+                     },
+                filter: x => x.PatientId == patient.Id
+                             && (x.Date > minDay && x.Date < maxDay),
+                includes: x => x.Include(y => y.Doctor).ThenInclude(y => y.User)
+                                .Include(y => y.Doctor).ThenInclude(y => y.Specialization)
+                );
 
             visits.ForEach(visit =>
             {
@@ -76,7 +79,14 @@
                 }
                 else
                 {
-                    result.RealizedVisits.Add(visit);
+                    if (visit.State == StateVisit.Completed)
+                    {
+                        result.RealizedVisits.Add(visit);
+                    }
+                    else
+                    {
+                        result.IrrevocableVisits.Add(visit);
+                    }
                 }
             });
 

@@ -112,6 +112,48 @@
 
             return View(vModel);
         }
+
+        public async Task<IActionResult> MedicalTestResults()
+        {
+            ViewBag.TabName = "Wyniki badań";
+
+            return View();
+        }
+
+        public async Task<IActionResult> Referrals()
+        {
+            ViewBag.TabName = "Skierowania";
+
+            return View();
+        }
+
+        public async Task<IActionResult> Medicines()
+        {
+            ViewBag.TabName = "Leki";
+
+            return View();
+        }
+
+        public async Task<IActionResult> DoctorsGraphics()
+        {
+            ViewBag.TabName = "Grafiki lekarzy";
+
+            return View();
+        }
+
+        public async Task<IActionResult> DoctorsWorkHours()
+        {
+            ViewBag.TabName = "Dyżury";
+
+            return View();
+        }
+
+        public async Task<IActionResult> Documents()
+        {
+            ViewBag.TabName = "Dokumenty";
+
+            return View();
+        }
         #endregion
 
         #region GetMethods

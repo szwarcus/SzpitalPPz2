@@ -10,6 +10,7 @@ using Hospital.Model.Entities;
 using Hospital.Model.Identity;
 using Hospital.Service.Abstract;
 using Hospital.Service.InDTOs;
+using Hospital.Service.InDTOs.Shared;
 using Hospital.Service.OutDTOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -57,10 +58,16 @@ namespace Hospital.Areas.Doctor.Controllers
             };
             return View(dto);
         }
+
         [HttpGet]
         public async Task<IActionResult> CurrentVisit(long VisitId)
         {
-            var currentVisit = await _visitService.GetById(VisitId);
+            var currentVisit = await _visitService.GetById(new GetByIdInDTO
+            {
+                Id = VisitId,
+                UserId = _userManager.GetUserAsync(HttpContext.User).Result.Id
+            });
+
             if(currentVisit == null || currentVisit.State == StateVisit.Completed)
                 return RedirectToAction("TimeTable", "Home", new { area = "Doctor" });
 

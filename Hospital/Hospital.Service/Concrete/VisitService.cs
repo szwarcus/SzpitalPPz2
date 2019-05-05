@@ -12,6 +12,7 @@
     using Hospital.Service.Abstract;
     using Hospital.Service.InDTOs;
     using Hospital.Service.OutDTOs;
+    using Hospital.Service.InDTOs.Shared;
 
     public class VisitService : IVisitService
     {
@@ -35,10 +36,9 @@
             _mapper = mapper;
         }
 
-        public async Task<PastAndNextVisitsOutDTO> GetBaseInfoVisitsInPastAndNextDaysAsync(string userId)
+        public async Task<PastAndNextVisitsOutDTO> GetBaseInfoVisitsInPastAndNextDaysAsync(string userId, int days = 30)
         {
             PastAndNextVisitsOutDTO result = null;
-            var days = 30;
             var minDay = DateTime.UtcNow.AddDays(days * (-1));
             var maxDay = DateTime.UtcNow.AddDays(days);
 
@@ -47,8 +47,11 @@
                 return result;
             }
 
-            var patientList = await _patientRepository.GetAsync<Patient>(x => x,
-                                                                         filter: x => x.UserId == userId);
+            var patientList = await _patientRepository.GetAsync<Patient>(
+                x => x,
+                filter: x => x.UserId == userId
+            );
+
             if (patientList.Count == 0)
             {
                 return result;
@@ -59,6 +62,7 @@
             var visits = await _visitRepository.GetAllAsync<VisitOutDTO>(
                 x => new VisitOutDTO
                      {
+                         Id = x.Id,
                          DoctorName = $"{x.Doctor.User.FirstName} {x.Doctor.User.LastName}",
                          Date = x.Date,
                          Specialization = x.Doctor.Specialization.Name,
@@ -69,7 +73,7 @@
                              && (x.Date > minDay && x.Date < maxDay),
                 includes: x => x.Include(y => y.Doctor).ThenInclude(y => y.User)
                                 .Include(y => y.Doctor).ThenInclude(y => y.Specialization)
-                );
+            );
 
             visits.ForEach(visit =>
             {
@@ -146,9 +150,18 @@
             await _visitRepository.UpdateAsync(visit);
         }
 
-        public async Task<Visit> GetById(long Id)
+        /*I guess it should be in patient/doctor service*/
+        public async Task<Visit> GetById(GetByIdInDTO model)
         {
-            var visits = await _visitRepository.GetAsync(x => x, x => x.Id ==Id,null, x => x.Include(z => z.Prescription));
+            var visits = await _visitRepository.GetAsync(
+                select: x => x, 
+                filter: x => x.Id.Equals(model.Id) 
+                             && (x.Patient.UserId.Equals(model.UserId) || x.Doctor.UserId.Equals(model.UserId)),
+                includes: x => x.Include(y => y.Prescription)
+                                .Include(y => y.Doctor).ThenInclude(y => y.User)
+                                .Include(y => y.Doctor).ThenInclude(y => y.Specialization)
+            );
+
             return visits.FirstOrDefault();
         }
     }

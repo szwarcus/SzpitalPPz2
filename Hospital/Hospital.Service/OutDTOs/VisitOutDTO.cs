@@ -5,6 +5,8 @@
 
     public class VisitOutDTO
     {
+        public long Id { get; set; }
+
         public string Specialization { get; set; }
 
         public string DoctorName { get; set; }

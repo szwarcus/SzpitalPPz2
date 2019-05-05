@@ -7,7 +7,7 @@ namespace Hospital.Service.Abstract
 {
     public interface IUserService
     {
-       Task<List<ApplicationUserDTO>> GetAllUsersByRole(string roleName);
+        Task<List<ApplicationUserDTO>> GetAllUsersByRole(string roleName);
         Task<bool> ChangeEmail(ChangeEmailInDTO model);
         Task<bool> ChangePhoneNumber(ChangePhoneInDTO model);
         Task<bool> ChangePassword(ChangePasswordInDTO model);

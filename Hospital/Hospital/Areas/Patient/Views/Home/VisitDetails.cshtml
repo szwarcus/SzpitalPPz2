@@ -1,0 +1,61 @@
+﻿@model Hospital.Areas.Patient.ViewModels.Home.VisitDetails.VisitDetailsVM
+
+@{
+    Layout = "_PatientLayout";
+    string referer = Context.Request.Headers["Referer"].ToString();
+    Uri returnUri = new Uri(referer);
+}
+
+<div class="mb-3">
+    <a href="@returnUri.AbsolutePath">< Wróć</a>
+</div>
+
+<div>
+    <h3><b>Umówienie wizyty u @Model.BaseInfo.Specialization</b></h3>
+    <h3><b>lek. @Model.BaseInfo.DoctorName</b></h3>
+    <h3><b>@Model.BaseInfo.Date.ToString("yyyy-MM-dd, HH:mm")</b></h3>
+</div>
+
+<div class="mx-3">
+    <div class="card border w-100 mt-3">
+        <div class="card-header">
+            <h4>Odpowiedzi na pytania do wizyty</h4>
+        </div>
+        <div class="card-body">
+            @if (Model.ResponseFromQuestions.Any())
+            {
+                @foreach (var response in Model.ResponseFromQuestions)
+                {
+                    <div>@response</div>
+                }
+            }
+            else
+            {
+                <p class="pl-2">
+                    Brak pytań i odpowiedzi od lekarzy
+                </p>
+            }
+        </div>
+    </div>
+
+    <div class="card border w-100 mt-3">
+        <div class="card-header">
+            <h4>Skierowania</h4>
+        </div>
+        <div class="card-body">
+            @if (Model.ResponseFromQuestions.Any())
+            {
+                @foreach (var referral in Model.Referrals)
+                {
+                    <div>@referral.Description</div>
+                }
+            }
+            else
+            {
+                <p class="pl-2">
+                    Brak skierowań związanych z tą wizytą
+                </p>
+            }
+        </div>
+    </div>
+</div>

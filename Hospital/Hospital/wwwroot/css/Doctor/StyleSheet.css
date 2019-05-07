@@ -35,3 +35,61 @@
     .ui-datepicker-trigger:hover {
         filter: opacity(1);
     }
+
+.bg-modal {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    
+}
+
+.modal-content {
+    width: 600px;
+    height: 400px;
+    background-color: white;
+    border-radius: 4px;
+    text-align: center;
+    position: relative;
+    padding: 10px;
+}
+
+.injection-Input {
+    width: 50%;
+    display: block;
+    margin: 15px auto;
+}
+
+.closeX {
+    position: absolute;
+    top: 0;
+    right: 14px;
+    font-size: 42px;
+    transform: rotate(45deg);
+    cursor: pointer;
+    z-index: 10;
+
+}
+label {
+    width: 150px;
+}
+#historicVisits > div:hover {
+    background-color: gray;
+    
+}
+#historicVisits {
+max-height: 100px;
+overflow: auto;
+    cursor: pointer;
+}
+.center {
+    margin: auto;
+}

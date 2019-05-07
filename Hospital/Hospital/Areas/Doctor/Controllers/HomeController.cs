@@ -28,8 +28,9 @@ namespace Hospital.Areas.Doctor.Controllers
         private readonly IPrescriptionService _prescriptionService;
         private readonly IPatientAccountService _patientAccountService;
         private readonly IVisitService _visitService;
-        
-        public HomeController(UserManager<ApplicationUser> userManager, IDoctorService doctorService, IMedicamentService medicamentService, IPrescriptionService prescriptionService, IPatientAccountService patientAccountService, IVisitService visitService)
+        private readonly ISpecializationService _specializationService;
+
+        public HomeController(UserManager<ApplicationUser> userManager, IDoctorService doctorService, IMedicamentService medicamentService, IPrescriptionService prescriptionService, IPatientAccountService patientAccountService, IVisitService visitService, ISpecializationService specializationService)
         {
             _userManager = userManager;
             _doctorService = doctorService;
@@ -37,6 +38,7 @@ namespace Hospital.Areas.Doctor.Controllers
             _prescriptionService = prescriptionService;
             _patientAccountService = patientAccountService;
             _visitService = visitService;
+            _specializationService = specializationService;
         }
         public IActionResult Index()
         {
@@ -44,7 +46,11 @@ namespace Hospital.Areas.Doctor.Controllers
         }
         public async Task<IActionResult> TimeTable(string dateTime)
         {
-            DateTime dateTime1 = DateTime.Parse(dateTime);
+            DateTime dateTime1;
+            DateTime.TryParse(dateTime,out dateTime1);
+            if (dateTime1 == null)
+                return RedirectToAction("TimeTable", "Home", new { area = "Doctor" });
+
             DateTime StartTime = dateTime1.DayOfWeek == DayOfWeek.Monday ? dateTime1.SetHour(8).SetMinute(0).SetSecond(0) : dateTime1.Previous(DayOfWeek.Monday).SetHour(8).SetMinute(0).SetSecond(0);
 
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -60,6 +66,15 @@ namespace Hospital.Areas.Doctor.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> VisitDetails(string date, long patientID)
+        {
+            DateTime dateTime ;
+            DateTime.TryParse(date,out dateTime);
+            if(dateTime == null)
+                return Json(null);
+            var result = await _visitService.GetVisitDetails(patientID, dateTime);
+            return Json(result);
+        }
         public async Task<IActionResult> CurrentVisit(long VisitId)
         {
             var currentVisit = await _visitService.GetById(new GetByIdInDTO
@@ -75,15 +90,32 @@ namespace Hospital.Areas.Doctor.Controllers
 
             var patient = await _patientAccountService.GetPatientById(currentVisit.PatientId);
 
+            var visits = await _visitService.GetCompletedVisits(currentVisit.PatientId);
+            visits.Reverse();
+
+   
 
             CurrentVisitVM viewModel = new CurrentVisitVM()
             {
                 Medicaments = allMedicament,
                 FirstName = patient.FirstName,
                 LastName = patient.LastName,
+                Birth = patient.Birth,
                 VisitID = currentVisit.Id,
-                State = currentVisit.State
+                State = currentVisit.State,
+                Visits = visits,
+                PatientID = patient.UserID
+                              
             };
+            var specializationOutDto = await _specializationService.GetAllAsync();
+            specializationOutDto.Select(x => x.Name).ToList().ForEach(name =>
+            {
+                viewModel.Specializations.Add(new SelectListItem
+                {
+                    Text = name,
+                    Value = name
+                });
+            });
 
             return View(viewModel);
         }

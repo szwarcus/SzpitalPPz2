@@ -63,6 +63,7 @@ namespace Hospital.Service.Concrete
             {
                 FirstName = user.FirstOrDefault().FirstName,
                 LastName = user.FirstOrDefault().LastName,
+                Birth = user.FirstOrDefault().DateOfBirth,
                 UserID = id
             };
             return result;

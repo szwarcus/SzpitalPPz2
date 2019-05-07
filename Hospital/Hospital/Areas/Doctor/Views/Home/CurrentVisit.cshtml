@@ -1,60 +1,148 @@
 ﻿@using Hospital.Areas.Doctor.ViewModels;
+@using Newtonsoft.Json;
 @model CurrentVisitVM;
 @{
     Layout = "_DoctorLayout";
 }
 
 
-<form asp-area="Doctor" asp-action="CurrentVisit" asp-controller="Home" method="post" class="form-horizontal">
-    
-    <input type="hidden" asp-for="VisitID" />
+<input type="hidden" value="@Model.PatientID" id="patientId" />
 
-    <div class="form-group">
-        <label asp-for="FirstName" class="col-md-2 control-label">Imię</label>
-        <div class="col-md-10">
-            <input asp-for="FirstName" disabled class="form-control" />
-            <span asp-validation-for="FirstName" class="text-danger"></span>
+<div class="row mb-3">
+    <div class="card border w-100">
+        <div class="card-header">
+            <text class="font-weight-bold">Pacjent</text>
+        </div>
+        <div class="card-body pb-0">
+            <div class="border-bottom pb-4">
+                <div class="pt-2">
+                    <text class="font-weight-bold d-block">Dane</text>
+                    <div>
+                        <label>Imię: </label>
+                        <input asp-for="FirstName" disabled />
+                    </div>
+                    <div>
+                        <label>Nazwisko: </label>
+                        <input asp-for="LastName" disabled />
+                    </div>
 
+                    <div>
+                        <label>Data urodzin:</label>
+                        <text> @Model.Birth.ToShortDateString() </text>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <text class="font-weight-bold d-block">Historia</text>
+            @if (Model.Visits.Count == 0)
+            {
+                <p>
+                    Brak ...
+                </p>
+            }
+            else
+            {
+                <div id="historicVisits">
+                    @foreach (var visit in Model.Visits)
+                    {
+                        <div class="row w-100">
+                            <text class="col font-weight-bold pl-2 text-center">@visit.Date.ToString("yyyy-MM-dd HH:mm")</text>
+                            <text class="col text-center">@visit.Specialization</text>
+                            <text class="col  text-center">@visit.DoctorName</text>
+                        </div>
+                    }
+                </div>
+            }
         </div>
     </div>
+</div>
 
-    <div class="form-group">
-        <label asp-for="LastName" class="col-md-2 control-label">Nazwisko</label>
-        <div class="col-md-10">
-            <input asp-for="LastName" disabled class="form-control" />
-            <span asp-validation-for="LastName" class="text-danger"></span>
+<div class="row ">
+    <div class="card border w-100">
+        <form asp-area="Doctor" asp-action="CurrentVisit" asp-controller="Home" method="post" class="form-horizontal">
+            <input type="hidden" asp-for="VisitID" />
+            <div class="card-header">
+                <text class="font-weight-bold">Wizyta</text>
+            </div>
 
+            <div class="card-body pb-0">
+                <div class="border-bottom pb-4">
+                    <text class="font-weight-bold">Opis</text>
+                    <textarea asp-for="DescriptionVisit" class="form-control " rows="5"></textarea>
+                </div>
+            </div>
+
+
+            <div class="card-body pb-0">
+                <div class="border-bottom pb-4">
+                    <text class="font-weight-bold">Recpeta</text>
+                    <div class="form-group mb-3">
+                        @Html.ListBoxFor(m => m.selectedMedicaments, new MultiSelectList(Model.Medicaments, "Name", "Name"), new { id = "multiSelectDropDown", name = "multiSelectDropDown", multiple = "multiple" })
+                    </div>
+                    <textarea asp-for="DescriptionPrescription" class="form-control rounded-0" placeholder="Uwagi dotyczące recepty" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="card-body mb-2">
+
+                <text class="font-weight-bold">Skierowanie</text>
+                <div class="form-group mb-3">
+                    <select id="singleSelectDropDown" asp-for="selectedSpecialization" asp-items="Model.Specializations"></select>
+
+
+                </div>
+                <textarea asp-for="DescriptionVisit" class="form-control" placeholder="Opis" rows="5"></textarea>
+
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-sm-12 text-center">
+                    <button type="submit" class="btn btn-primary">Zatwierdź</button>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+<div class="bg-modal">
+    <div class="modal-content">
+        <div class="closeX">
+            +
         </div>
+        <form action="">
+            <div class="card border w-100">
+
+                <div class="card-header">
+                    <text class="font-weight-bold" id="VisitDate">Szczegóły wizyty</text>
+                </div>
+
+                <div class="card-body pb-0">
+                    <text class="font-weight-bold">Pełen opis</text>
+                    <text class="form-control" id="DescriptionContent"> Zawartośd opisu </text>
+                </div>
+
+                <div class="card-body pb-0">
+                    <text class="font-weight-bold">Recpeta</text>
+                    <div class="form-group mb-3">
+                        <text class="form-control" id="MedicamentsContent"> Brak przepisanych leków</text>
+                    </div>
+                    <text class="form-control" id="DescriptionPrescriptionContent"> Brak dawkowania </text>
+                </div>
+
+                <div class="card-body">
+                    <text class="font-weight-bold">Skierowania</text>
+                    <text class="form-control" id="ReferralContent"> Brak skierowań </text>
+                </div>
+
+
+            </div>
+        </form>
     </div>
+</div>
 
-    <div class="form-group">
-        <label asp-for="DescriptionVisit" class="col-md-5 control-label">Przebieg Wizyty</label>
-        <div class="col-md-10">
-            <textarea asp-for="DescriptionVisit"  class="form-control" rows="5"></textarea>
-            <span asp-validation-for="DescriptionVisit" class="text-danger"></span>
-
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="DescriptionPrescription" class="col-md-5 control-label"> Uwagi dotyczące recpety</label>
-        <div class="col-md-10">
-            <textarea asp-for="DescriptionPrescription" class="form-control rounded-0" rows="3"></textarea>
-            <span asp-validation-for="DescriptionPrescription" class="text-danger"></span>
-
-        </div>
-    </div>
-    <div class="form-group col-md-5" >
-        @Html.ListBoxFor(m => m.selectedMedicaments, new MultiSelectList(Model.Medicaments, "Name", "Name"), new { id = "multiSelectDropDown", name= "multiSelectDropDown", multiple = "multiple" })
-    </div>
-
-    <div class="form-group">
-
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-primary" value="Zatwierdź" />
-
-        </div>
-    </div>
-
-
-</form>
-<script src="~/js/Doctor/MultiSelectDropDown.js" asp-append-version="true"></script>
+<script src="~/js/Doctor/CurrentVisit.js" asp-append-version="true"></script>

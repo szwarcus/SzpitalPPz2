@@ -1,0 +1,12 @@
+﻿@model Hospital.Service.OutDTOs.Prescriptions.PrescriptionsOutDTO
+
+@{
+    Layout = "_PatientLayout";
+}
+
+<div>
+    @foreach (var prescription in Model.Prescriptions)
+    {
+        <partial model="prescription" name="../Partials/Prescription.cshtml" />
+    }
+</div>

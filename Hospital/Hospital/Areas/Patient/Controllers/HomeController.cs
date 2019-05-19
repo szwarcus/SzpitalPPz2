@@ -24,9 +24,10 @@
     public class HomeController : Controller
     {
         private readonly IMapper _mapper;
-        private readonly IVisitService _visitService;
         private readonly IDoctorService _doctorService;
+        private readonly IPatientService _patientService;
         private readonly ISpecializationService _specializationService;
+        private readonly IVisitService _visitService;
 
         private readonly UserManager<ApplicationUser> _userManager;
 
@@ -34,11 +35,13 @@
                               IMapper mapper,
                               IVisitService visitService,
                               IDoctorService doctorService,
-                              ISpecializationService specializationService)
+                              ISpecializationService specializationService,
+                              IPatientService patientService)
         {
             _visitService = visitService;
             _doctorService = doctorService;
             _specializationService = specializationService;
+            _patientService = patientService;
             _mapper = mapper;
 
             _userManager = userManager;
@@ -120,11 +123,14 @@
             return View();
         }
 
-        public async Task<IActionResult> Referrals()
+        public async Task<IActionResult> Prescriptions()
         {
-            ViewBag.TabName = "Skierowania";
+            ViewBag.TabName = "Recepty";
 
-            return View();
+            var userId = _userManager.GetUserAsync(HttpContext.User).Result.Id;
+            var vModel = await _patientService.GetPrescriptions(userId);
+
+            return View(vModel);
         }
 
         public async Task<IActionResult> Medicines()

@@ -7,16 +7,18 @@ using Hospital.Repository.Abstract;
 using Hospital.Service.Abstract;
 using Hospital.Service.InDTOs;
 using Hospital.Service.OutDTOs;
+using Hospital.Service.OutDTOs.Prescriptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hospital.Service.Concrete
 {
-    public class PatientAccountService : IPatientAccountService
+    public class PatientService : IPatientService
     {
         private IUserRepository _userRepository;
         private IRepository<Patient> _patientRepository;
         private IMapper _mapper;
 
-        public PatientAccountService(IMapper mapper,
+        public PatientService(IMapper mapper,
                                      IUserRepository userRepository,
                                      IRepository<Patient> patientRepository)
         {
@@ -66,6 +68,41 @@ namespace Hospital.Service.Concrete
                 Birth = user.FirstOrDefault().DateOfBirth,
                 UserID = id
             };
+            return result;
+        }
+
+        public async Task<PrescriptionsOutDTO> GetPrescriptions(string userId, int count = 25)
+        {
+            var result = new PrescriptionsOutDTO();
+
+            var patients = await _patientRepository.GetAsync(
+                select: x => x,
+                take: count,
+                filter: x => x.UserId.Equals(userId),
+                includes: x => x.Include(y => y.Visits).ThenInclude(y => y.Prescription)
+                                .Include(y => y.Visits).ThenInclude(y => y.Doctor).ThenInclude(y => y.User));
+
+            var patient = patients.FirstOrDefault();
+
+            foreach (var visit in patient.Visits)
+            {
+                var prescription = visit.Prescription;
+
+                if (prescription != null)
+                {
+                    var prescriptionToAdd = new PrescriptionOutDTO
+                    {
+                        Comments = prescription.Comments,
+                        DoctorName = $"{visit.Doctor.User.FirstName} {visit.Doctor.User.LastName}",
+                        DueDate = prescription.DueDate,
+                    };
+
+                    result.Prescriptions.Add(prescriptionToAdd);
+                }
+            }
+
+            result.Prescriptions = result.Prescriptions.OrderByDescending(x => x.DueDate).ToList();
+
             return result;
         }
     }

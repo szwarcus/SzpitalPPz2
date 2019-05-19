@@ -26,11 +26,11 @@ namespace Hospital.Areas.Doctor.Controllers
         private readonly IDoctorService _doctorService;
         private readonly IMedicamentService _medicamentService;
         private readonly IPrescriptionService _prescriptionService;
-        private readonly IPatientAccountService _patientAccountService;
+        private readonly IPatientService _patientAccountService;
         private readonly IVisitService _visitService;
         private readonly ISpecializationService _specializationService;
 
-        public HomeController(UserManager<ApplicationUser> userManager, IDoctorService doctorService, IMedicamentService medicamentService, IPrescriptionService prescriptionService, IPatientAccountService patientAccountService, IVisitService visitService, ISpecializationService specializationService)
+        public HomeController(UserManager<ApplicationUser> userManager, IDoctorService doctorService, IMedicamentService medicamentService, IPrescriptionService prescriptionService, IPatientService patientAccountService, IVisitService visitService, ISpecializationService specializationService)
         {
             _userManager = userManager;
             _doctorService = doctorService;

@@ -73,7 +73,7 @@ namespace Hospital
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             // api services
-            services.AddScoped<IPatientAccountService, PatientAccountService>();
+            services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IVisitService, VisitService>();
             services.AddScoped<IDoctorService, DoctorService>();
             services.AddScoped<IUserService, UserService>();

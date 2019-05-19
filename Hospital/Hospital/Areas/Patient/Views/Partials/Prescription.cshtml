@@ -1,0 +1,13 @@
+﻿@model Hospital.Service.OutDTOs.Prescriptions.PrescriptionOutDTO
+
+<div class="row w-100 pt-2 border">
+    <text class="col-12 font-weight-bold pl-2 text-center">
+        Data ważności: @Model.DueDate.ToString("yyyy-MM-dd")
+    </text>
+    <text class="col-12 text-center">
+        Doktor: @Model.DoctorName
+    </text>
+    <text class="col-12 text-center">
+        Komentarz: @Model.Comments
+    </text>
+</div>

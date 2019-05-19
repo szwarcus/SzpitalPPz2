@@ -25,13 +25,13 @@ namespace Hospital.Controllers
         private readonly IMapper _mapper;
         private readonly IEmailSender _emailSender;
 
-        private IPatientAccountService _patientAccountService;
+        private IPatientService _patientAccountService;
 
         public AccountController(SignInManager<ApplicationUser> signInManager, 
                                  UserManager<ApplicationUser> userManager,
                                  RoleManager<ApplicationIdentityRole> roleManager,
                                  IMapper mapper,
-                                 IPatientAccountService patientAccountService,
+                                 IPatientService patientAccountService,
                                  IEmailSender emailSender
                                  )
         {

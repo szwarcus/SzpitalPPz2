@@ -149,5 +149,20 @@ namespace Hospital.Areas.Admin.Controllers
             TempData["Result"] = "Pomyślnie dodano użytkownika";
             return RedirectToAction("PatientBase", "Home", new { area = "Admin" });
         }
+        [HttpGet]
+        public async Task<IActionResult> PatientDelete(string id)
+        {
+            var vModel = new ApplicationUserAccountDataVM();
+            var user = await _userManager.FindByIdAsync(id);
+            var doctorsToDelete = await _patientRepository.GetAsync(user1 => user1, user1 => user1.UserId == user.Id);
+
+
+            var doctor = doctorsToDelete.FirstOrDefault();
+
+            await _patientRepository.DeleteAsync(doctor);
+
+            await _userManager.DeleteAsync(user);
+            return RedirectToAction("PatientBase", "Home", new { area = "Admin" });
+        }
     }
 }

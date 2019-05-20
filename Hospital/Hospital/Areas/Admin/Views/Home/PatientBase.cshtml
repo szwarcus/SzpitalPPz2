@@ -3,7 +3,7 @@
 @{
     Layout = "_AdminLayout";
 }
-<button asp-controller="Patient" asp-action="PatientCreate" disabled class="btn btn-success">Dodaj pacjenta</button>
+<!--<button asp-controller="Patient" asp-action="PatientCreate"  class="btn btn-success">Dodaj pacjenta</button>-->
 
 <table id="dt" class="table table-borderless table-responsive-md table-striped " cellspacing="0" width="100%">
     <thead>
@@ -14,7 +14,7 @@
             <th class="th-sm">
                 Nazwisko
             </th>
-            <th/>
+            <th />
         </tr>
     </thead>
     <tbody>
@@ -28,12 +28,12 @@
                     @Html.DisplayFor(modelItem => item.LastName)
                 </td>
                 <td>
-                    <a asp-controller="Patient" asp-action="PatientEdit"  asp-route-id="@item.userId">Edytuj</a> |
+                    <a asp-controller="Patient" asp-action="PatientEdit" asp-route-id="@item.userId">Edytuj</a> |
                     <a asp-controller="Patient" asp-action="PatientDetails" asp-route-id="@item.userId">Detale</a> |
-                    <a asp-action="/Delete" id="myLink" asp-route-id="@item.userId">Usuń</a>
+                    <a asp-controller="Patient" asp-action="PatientDelete" asp-route-id="@item.userId" onclick="return confirm('Czy chcesz usunąć ten rekord: @item.FirstName @item.LastName?')">Usuń</a>
                 </td>
             </tr>
         }
     </tbody>
-        
+
 </table>

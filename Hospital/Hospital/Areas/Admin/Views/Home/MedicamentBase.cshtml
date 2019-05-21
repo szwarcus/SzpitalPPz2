@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-sm-12 col-md-2">
-        <button asp-controller="Medicament" asp-action="Create" disabled class="btn btn-success">Dodaj lek</button>
+        <!--<button asp-controller="Medicament" asp-action="Create" disabled class="btn btn-success">Dodaj lek</button>-->
     </div>
 </div>
 
@@ -38,7 +38,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
-                    <td></td>
+                    <td><a asp-controller="Medicament" asp-action="MedicamentDelete" asp-route-id="@item.Id" onclick="return confirm('Czy chcesz usunąć ten rekord: @item.Name?')">Usuń</a></td>
                 </tr>
             }
         }

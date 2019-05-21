@@ -9,6 +9,8 @@ namespace Hospital.Areas.Admin.ViewModels
 {
     public class MedicamentVM
     {
+        public int Id { get; set;}
+
         [Display(Name = "Nazwa")]
         [Required]
         public string Name { get; set; }

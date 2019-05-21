@@ -26,14 +26,17 @@ namespace Hospital.Areas.Admin.Controllers
         private readonly IMapper _mapper;
         private IRepository<Model.Entities.Doctor> _doctorRepository;
         private IUserRepository _userRepository;
+        private ISpecializationService _specializationService;
         public DoctorController(UserManager<ApplicationUser> userManager,
-                              IUserService userService, IMapper mapper, IRepository<Hospital.Model.Entities.Doctor> doctorRepository, IUserRepository userRepository)
+                              IUserService userService, IMapper mapper, IRepository<Hospital.Model.Entities.Doctor> doctorRepository, IUserRepository userRepository,
+                              ISpecializationService specializationService )
         {
             _userService = userService;
             _userManager = userManager;
             _mapper = mapper;
             _doctorRepository = doctorRepository;
             _userRepository = userRepository;
+            _specializationService = specializationService;
         }
 
         [HttpGet]
@@ -58,6 +61,21 @@ namespace Hospital.Areas.Admin.Controllers
 
 
             return View(vModel);
+        }
+        [HttpGet]
+        public async Task<IActionResult> DoctorDelete(string id)
+        {
+            var vModel = new ApplicationUserAccountDataVM();
+            var user = await _userManager.FindByIdAsync(id);
+            var doctorsToDelete = await _doctorRepository.GetAsync(user1=>user1,user1 => user1.UserId == user.Id);
+
+
+            var doctor = doctorsToDelete.FirstOrDefault();
+
+            await _doctorRepository.DeleteAsync(doctor);
+
+            await _userManager.DeleteAsync(user);
+            return RedirectToAction("DoctorBase", "Home", new { area = "Admin" });
         }
         [HttpPost]
         public async Task<IActionResult> DoctorEdit(ApplicationUserAccountDataVM user)
@@ -120,9 +138,16 @@ namespace Hospital.Areas.Admin.Controllers
             return RedirectToAction("DoctorBase", "Home", new { area = "Admin" });
         }
         [HttpGet]
-        public  IActionResult DoctorCreate()
+        public async Task<IActionResult> DoctorCreate()
         {
-             return View();
+            var vModel = new DoctorApplicationUserAccountVM();
+            var specializations= await _specializationService.GetAllAsync();
+            vModel.SpecializationList = new List<string>();
+            foreach (var specialization in specializations)
+            {
+                vModel.SpecializationList.Add(specialization.Name);
+            }
+            return View(vModel);
         }
         [HttpPost]
         public async Task<IActionResult> DoctorCreate(ApplicationUserAccountDataVM user)

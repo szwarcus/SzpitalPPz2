@@ -1,4 +1,4 @@
-﻿@model Hospital.Areas.Admin.ViewModels.ApplicationUserAccountDataVM
+﻿@model Hospital.Areas.Admin.ViewModels.DoctorApplicationUserAccountVM
 
 @{
     Layout = "_AdminLayout";
@@ -22,6 +22,17 @@
         <div class="col-md-5">
             <input asp-for="LastName" class="form-control" />
             <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="col-md-auto">
+        </div>
+
+    </div>
+    <div class="form-group row">
+        <label asp-for="Specialization" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            @Html.DropDownListFor(x => x.Specialization,
+    new SelectList(Model.SpecializationList, "Name"))
+            <span asp-validation-for="Specialization" class="text-danger"></span>
         </div>
         <div class="col-md-auto">
         </div>

@@ -4,7 +4,7 @@
     Layout = "_AdminLayout";
 }
 
-<button asp-controller="Doctor" asp-action="Create" disabled class="btn btn-success">Dodaj doktora</button>
+<a asp-controller="Doctor" asp-action="DoctorCreate"   class="btn btn-success">Dodaj doktora</a>
 
 
 
@@ -33,11 +33,10 @@
                 <td>
                     <a asp-controller="Doctor" asp-action="DoctorEdit" asp-route-id="@item.userId">Edytuj</a> |
                     <a asp-controller="Doctor" asp-action="DoctorDetails" asp-route-id="@item.userId">Detale</a> |
-                    <a asp-page="/Delete" asp-route-id="@item.userId">Usuń</a>
+                    <a asp-controller="Doctor" asp-action="DoctorDelete" asp-route-id="@item.userId"  onclick="return confirm('Czy chcesz usunąć ten rekord: @item.FirstName @item.LastName?')">Usuń</a>
                 </td>
             </tr>
         }
     </tbody>
 
 </table>
-</div>

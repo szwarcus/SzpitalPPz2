@@ -20,6 +20,7 @@ namespace Hospital.Repository.Concrete
         public DbSet<Prescription> Prescriptions{ get; set; }
         public DbSet<Medicament> Medicaments{ get; set; }
         public DbSet<PrescriptionMedicament> PrescriptionMedicaments{ get; set; }
+        public DbSet<Referral> Referrals{ get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -44,6 +45,7 @@ namespace Hospital.Repository.Concrete
             builder.ApplyConfiguration(new MedicamentConfiguration());
             builder.ApplyConfiguration(new PrescriptionConfiguration());
             builder.ApplyConfiguration(new PrescriptionMedicamentConfiguration());
+            builder.ApplyConfiguration(new ReferralConfiguration());
 
         }
     }

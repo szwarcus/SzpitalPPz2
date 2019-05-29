@@ -7,5 +7,6 @@ namespace Hospital.Model.Entities
         public string Name { get; set; }
 
         public virtual ICollection<Doctor> Doctors { get; set; }
+        public virtual ICollection<Referral> Referrals { get; set; }
     }
 }

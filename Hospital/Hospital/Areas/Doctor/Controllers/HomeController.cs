@@ -28,9 +28,10 @@ namespace Hospital.Areas.Doctor.Controllers
         private readonly IPrescriptionService _prescriptionService;
         private readonly IPatientService _patientAccountService;
         private readonly IVisitService _visitService;
+        private readonly IReferralService _referralService;
         private readonly ISpecializationService _specializationService;
 
-        public HomeController(UserManager<ApplicationUser> userManager, IDoctorService doctorService, IMedicamentService medicamentService, IPrescriptionService prescriptionService, IPatientService patientAccountService, IVisitService visitService, ISpecializationService specializationService)
+        public HomeController(UserManager<ApplicationUser> userManager, IDoctorService doctorService, IMedicamentService medicamentService, IPrescriptionService prescriptionService, IPatientService patientAccountService, IVisitService visitService, ISpecializationService specializationService, IReferralService referralService)
         {
             _userManager = userManager;
             _doctorService = doctorService;
@@ -39,6 +40,7 @@ namespace Hospital.Areas.Doctor.Controllers
             _patientAccountService = patientAccountService;
             _visitService = visitService;
             _specializationService = specializationService;
+            _referralService = referralService;
         }
         public IActionResult Index()
         {
@@ -47,7 +49,7 @@ namespace Hospital.Areas.Doctor.Controllers
         public async Task<IActionResult> TimeTable(string dateTime)
         {
             DateTime dateTime1;
-            DateTime.TryParse(dateTime,out dateTime1);
+            DateTime.TryParse(dateTime, out dateTime1);
             if (dateTime1 == null)
                 return RedirectToAction("TimeTable", "Home", new { area = "Doctor" });
 
@@ -68,9 +70,9 @@ namespace Hospital.Areas.Doctor.Controllers
         [HttpGet]
         public async Task<IActionResult> VisitDetails(string date, long patientID)
         {
-            DateTime dateTime ;
-            DateTime.TryParse(date,out dateTime);
-            if(dateTime == null)
+            DateTime dateTime;
+            DateTime.TryParse(date, out dateTime);
+            if (dateTime == null)
                 return Json(null);
             var result = await _visitService.GetVisitDetails(patientID, dateTime);
             return Json(result);
@@ -83,7 +85,7 @@ namespace Hospital.Areas.Doctor.Controllers
                 UserId = _userManager.GetUserAsync(HttpContext.User).Result.Id
             });
 
-            if(currentVisit == null || currentVisit.State == StateVisit.Completed)
+            if (currentVisit == null || currentVisit.State == StateVisit.Completed)
                 return RedirectToAction("TimeTable", "Home", new { area = "Doctor" });
 
             var allMedicament = await _medicamentService.GetAllMedicament();
@@ -93,7 +95,7 @@ namespace Hospital.Areas.Doctor.Controllers
             var visits = await _visitService.GetCompletedVisits(currentVisit.PatientId);
             visits.Reverse();
 
-   
+
 
             CurrentVisitVM viewModel = new CurrentVisitVM()
             {
@@ -105,7 +107,7 @@ namespace Hospital.Areas.Doctor.Controllers
                 State = currentVisit.State,
                 Visits = visits,
                 PatientID = patient.UserID
-                              
+
             };
             var specializationOutDto = await _specializationService.GetAllAsync();
             specializationOutDto.Select(x => x.Name).ToList().ForEach(name =>
@@ -123,17 +125,33 @@ namespace Hospital.Areas.Doctor.Controllers
         [HttpPost]
         public async Task<IActionResult> CurrentVisit(CurrentVisitVM vm)
         {
-            if(vm.State == StateVisit.Completed)
+            if (vm.State == StateVisit.Completed)
                 return RedirectToAction("TimeTable", "Home", new { area = "Doctor" });
-            var medicament = await _medicamentService.GetMedicamentByName(vm.selectedMedicaments);
 
-            var prescriptionInDTO = new PrescriptionInDTO()
+            if (vm.selectedMedicaments != null && vm.selectedMedicaments.Count > 0)
             {
-                Comments = vm.DescriptionPrescription,
-                VisitId = vm.VisitID,
-                Medicaments = medicament
-            };
-            await _prescriptionService.Create(prescriptionInDTO);
+                var medicament = await _medicamentService.GetMedicamentByName(vm.selectedMedicaments);
+                var prescriptionInDTO = new PrescriptionInDTO()
+                {
+                    Comments = vm.DescriptionPrescription,
+                    VisitId = vm.VisitID,
+                    Medicaments = medicament
+                };
+                await _prescriptionService.Create(prescriptionInDTO);
+            }
+
+            if (!string.IsNullOrEmpty(vm.selectedSpecialization))
+            {
+                var selectedSpecialization = await _specializationService.GetByNameAsync(vm.selectedSpecialization);
+                var referralInDTO = new ReferralInDTO()
+                {
+                    Description = vm.DescriptionReferral,
+                    VisitId = vm.VisitID,
+                    SpecializationId = selectedSpecialization.First().SpecializationId
+                };
+                await _referralService.Create(referralInDTO);
+            }
+
             await _visitService.UpdateVisit(new UpdateVisitInDTO() { Description = vm.DescriptionVisit, Id = vm.VisitID, State = StateVisit.Completed });
 
             return View("Index");

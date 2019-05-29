@@ -177,7 +177,7 @@
                 Date = x.Date,
                 Specialization = x.Doctor.Specialization.Name,
                 Description = x.Description
-            }, x => x.PatientId == userId, null, x => x.Include(y => y.Doctor).ThenInclude(y => y.User)
+            }, x => x.PatientId == userId && x.State == StateVisit.Completed, null, x => x.Include(y => y.Doctor).ThenInclude(y => y.User)
                                                                                          .Include(y => y.Doctor).ThenInclude(y => y.Specialization));
 
             return visits;

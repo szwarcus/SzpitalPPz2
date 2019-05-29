@@ -4,6 +4,7 @@ using Hospital.Service.OutDTOs;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,8 +13,11 @@ namespace Hospital.Areas.Doctor.ViewModels
     public class CurrentVisitVM
     {
         public long VisitID { get; set; }
+        [Required(ErrorMessage = "Opis jest wymagany!")]
+        [Display(Name = "Przebieg wizyty")]
         public string DescriptionVisit { get; set; }
         public string DescriptionPrescription { get; set; }
+        public string DescriptionReferral { get; set; }
         public string FirstName {get; set;}
         public string LastName { get; set; }
         public DateTime Birth { get; set; }

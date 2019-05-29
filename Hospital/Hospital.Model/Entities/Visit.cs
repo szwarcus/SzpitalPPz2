@@ -18,7 +18,8 @@ namespace Hospital.Model.Entities
         public DateTime Date { get; set; }
         public string Description { get; set; }
 
-        public Prescription Prescription { get; set; }
+        public virtual Prescription Prescription { get; set; }
+        public virtual Referral Referral { get; set; }
         public StateVisit State { get; set; }
     }
 }

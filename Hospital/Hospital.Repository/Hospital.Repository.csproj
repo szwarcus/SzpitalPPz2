@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190529170339_referral.cs" />
+    <Compile Remove="Migrations\20190529170339_referral.Designer.cs" />
+    <Compile Remove="Migrations\20190529170835_referral.cs" />
+    <Compile Remove="Migrations\20190529170835_referral.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Hospital.Core\Hospital.Core.csproj" />
     <ProjectReference Include="..\Hospital.Model\Hospital.Model.csproj" />
   </ItemGroup>

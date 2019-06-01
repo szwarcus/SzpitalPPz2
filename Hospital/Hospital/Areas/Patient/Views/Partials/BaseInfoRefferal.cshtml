@@ -1,0 +1,15 @@
+﻿@model Hospital.Areas.Patient.ViewModels.Home.Referrals.BaseInfoReferralVM
+
+<div class="row w-95 border m-1 p-4">
+    <div class="col-lg-6">
+        <text class="row font-weight-bold col-12">@Model.SpecializationName - @Model.Description</text>
+        <text class="row col-12">@Model.DoctorSpecialization @Model.DoctorName</text>
+    </div>
+    <div class="col-lg-4">
+        <text class="row font-weight-bold col-12">Termin ważności</text>
+        <text class="row col-12">@Model.ValidityTerm.ToString("yyyy-MM-dd")</text>
+    </div>
+    <div class="col-lg-2">
+        <a class="float-right" href="#">Jak umówić?</a>
+    </div>
+</div>

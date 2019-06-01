@@ -18,6 +18,8 @@
     using Hospital.Service.Abstract;
     using Hospital.Service.InDTOs;
     using Hospital.Service.InDTOs.Shared;
+    using Hospital.Areas.Patient.ViewModels.Home.Referrals;
+    using System.Collections.Generic;
 
     [Area("Patient")]
     [Roles(SystemRoleType.Patient)]
@@ -116,11 +118,17 @@
             return View(vModel);
         }
 
-        public async Task<IActionResult> MedicalTestResults()
+        public async Task<IActionResult> Referrals()
         {
-            ViewBag.TabName = "Wyniki badań";
+            var vModel = new ReferralsVM();
+            ViewBag.TabName = "Skierowania";
 
-            return View();
+            var userId = _userManager.GetUserAsync(HttpContext.User).Result.Id;
+            var referralsOutDTO = await _patientService.GetReferrals(userId);
+
+            vModel = _mapper.Map<ReferralsVM>(referralsOutDTO);
+
+            return View(vModel);
         }
 
         public async Task<IActionResult> Prescriptions()

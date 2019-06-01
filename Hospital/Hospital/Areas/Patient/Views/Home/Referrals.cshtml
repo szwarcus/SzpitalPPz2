@@ -1,0 +1,66 @@
+﻿@model Hospital.Areas.Patient.ViewModels.Home.Referrals.ReferralsVM
+
+@{
+    Layout = "_PatientLayout";
+}
+
+<div class="card border w-100 panel-group" id="present-referrals-parent">
+    <div class="panel panel-default">
+        <div class="panel-heading card-header">
+            <h4 class="panel-title">
+                <a class="no-text-decoration" data-toggle="collapse" data-parent="#present-referrals-parent" href="#present-referrals">
+                    <span class="glyphicon glyphicon-menu-right"></span> Aktualne skierowania
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse show" id="present-referrals">
+            <div class="panel-body">
+                @if (Model.PresentReferrals.Any())
+                {
+                    @foreach (var refferal in Model.PresentReferrals)
+                    {
+                        <partial model="refferal" name="../Partials/BaseInfoRefferal.cshtml" />
+                    }
+                }
+                else
+                {
+                    <div class="row w-95 m-1 p-4">
+                        <p>
+                            Brak skierowań.
+                        </p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card border w-100 mt-3 panel-group" id="overdue-referrals-parent">
+    <div class="panel panel-default">
+        <div class="panel-heading card-header">
+            <h4 class="panel-title">
+                <a class="no-text-decoration" data-toggle="collapse" data-parent="#overdue-referrals-parent" href="#overdue-referrals">
+                    <span class="glyphicon glyphicon-menu-right"></span> Przeterminowane skierowania
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse show" id="overdue-referrals">
+            <div class="panel-body">
+                @if (Model.OverdueReferrals.Any())
+                {
+                    @foreach (var refferal in Model.OverdueReferrals)
+                    {
+                        <partial model="refferal" name="../Partials/BaseInfoRefferal.cshtml" />
+                    }
+                }
+                else
+                {
+                    <div class="row w-95 m-1 p-4">
+                        <p>
+                            Brak skierowań.
+                        </p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

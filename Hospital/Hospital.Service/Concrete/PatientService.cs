@@ -1,17 +1,19 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Hospital.Model.Entities;
-using Hospital.Model.Identity;
-using Hospital.Repository.Abstract;
-using Hospital.Service.Abstract;
-using Hospital.Service.InDTOs;
-using Hospital.Service.OutDTOs;
-using Hospital.Service.OutDTOs.Prescriptions;
-using Microsoft.EntityFrameworkCore;
-
-namespace Hospital.Service.Concrete
+﻿namespace Hospital.Service.Concrete
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using AutoMapper;
+    using Microsoft.EntityFrameworkCore;
+    using Hospital.Model.Entities;
+    using Hospital.Model.Identity;
+    using Hospital.Repository.Abstract;
+    using Hospital.Service.Abstract;
+    using Hospital.Service.InDTOs;
+    using Hospital.Service.OutDTOs;
+    using Hospital.Service.OutDTOs.Prescriptions;
+    using Hospital.Service.OutDTOs.Referrals;
+
     public class PatientService : IPatientService
     {
         private IUserRepository _userRepository;
@@ -19,8 +21,8 @@ namespace Hospital.Service.Concrete
         private IMapper _mapper;
 
         public PatientService(IMapper mapper,
-                                     IUserRepository userRepository,
-                                     IRepository<Patient> patientRepository)
+                              IUserRepository userRepository,
+                              IRepository<Patient> patientRepository)
         {
             _userRepository = userRepository;
             _patientRepository = patientRepository;
@@ -71,13 +73,12 @@ namespace Hospital.Service.Concrete
             return result;
         }
 
-        public async Task<PrescriptionsOutDTO> GetPrescriptions(string userId, int count = 25)
+        public async Task<PrescriptionsOutDTO> GetPrescriptions(string userId)
         {
             var result = new PrescriptionsOutDTO();
 
             var patients = await _patientRepository.GetAsync(
                 select: x => x,
-                take: count,
                 filter: x => x.UserId.Equals(userId),
                 includes: x => x.Include(y => y.Visits).ThenInclude(y => y.Prescription)
                                 .Include(y => y.Visits).ThenInclude(y => y.Doctor).ThenInclude(y => y.User));
@@ -102,6 +103,56 @@ namespace Hospital.Service.Concrete
             }
 
             result.Prescriptions = result.Prescriptions.OrderByDescending(x => x.DueDate).ToList();
+
+            return result;
+        }
+
+        public async Task<ReferralsOutDTO> GetReferrals(string userId)
+        {
+            var result = new ReferralsOutDTO();
+
+            var users = await _patientRepository.GetAsync(
+                x => x,
+                filter: x => x.UserId.Equals(userId),
+                includes: x => x.Include(y => y.Visits).ThenInclude(y => y.Referral).ThenInclude(y => y.Specialization)
+                                .Include(y => y.Visits).ThenInclude(y => y.Doctor).ThenInclude(y => y.User)
+                                .Include(y => y.Visits).ThenInclude(y => y.Doctor).ThenInclude(y => y.Specialization));
+
+            var user = users.FirstOrDefault();
+
+            if (user == null)
+            {
+                return result;
+            }
+
+            foreach (var visit in user.Visits)
+            {
+                var referral = visit.Referral;
+
+                if (referral != null)
+                {
+                    var referralToAdd = new ReferralOutDTO
+                    {
+                        Description = referral.Description,
+                        DoctorName = $"{visit.Doctor.User.FirstName} {visit.Doctor.User.LastName}",
+                        DoctorSpecialization = visit.Doctor.Specialization.Name,
+                        SpecializationName = referral.Specialization.Name,
+                        ValidityTerm = referral.ExpiryDate
+                    };
+
+                    if (referral.ExpiryDate <= DateTime.UtcNow)
+                    {
+                        result.OverdueReferrals.Add(referralToAdd);
+                    }
+                    else
+                    {
+                        result.PresentReferrals.Add(referralToAdd);
+                    }
+                }
+            }
+
+            result.OverdueReferrals = result.OverdueReferrals.OrderByDescending(x => x.ValidityTerm).ToList();
+            result.PresentReferrals = result.PresentReferrals.OrderByDescending(x => x.ValidityTerm).ToList();
 
             return result;
         }

@@ -6,9 +6,11 @@
     using Hospital.Areas.Doctor.ViewModels;
     using Hospital.Areas.Patient.ViewModels;
     using Hospital.Areas.Patient.ViewModels.Home.Index;
+    using Hospital.Areas.Patient.ViewModels.Home.Referrals;
     using Hospital.Areas.Patient.ViewModels.Home.Visits;
     using Hospital.Service.InDTOs;
     using Hospital.Service.OutDTOs;
+    using Hospital.Service.OutDTOs.Referrals;
     using Hospital.ViewModel;
 
     public class MappingDtoVM : Profile
@@ -28,6 +30,8 @@
             CreateMap<BaseInfoPastAndLastVisitsVM, PastAndNextVisitsOutDTO>();
             CreateMap<DescriptionPastAndLastVisitsVM, PastAndNextVisitsOutDTO>();
             CreateMap<MedicamentVM, MedicamentOutDTO>();
+            CreateMap<ReferralOutDTO, BaseInfoReferralVM>();
+            CreateMap<ReferralsOutDTO, ReferralsVM>();
         }
     }
 }

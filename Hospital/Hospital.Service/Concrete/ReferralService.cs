@@ -21,6 +21,7 @@ namespace Hospital.Service.Concrete
             _repositoryVisit = repositoryVisit;
             _repositorySpecialization = repositorySpecialization;
         }
+
         public async Task Create(ReferralInDTO referral)
         {
             var visit =  await _repositoryVisit.GetAsync(x => x, x => x.Id == referral.VisitId);

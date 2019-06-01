@@ -68,3 +68,8 @@ padding: 70px 15px 0px 15px;
         display: none;
     }
 }
+
+a.no-text-decoration {
+    text-decoration: none;
+    color: inherit;
+}

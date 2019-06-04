@@ -2,4 +2,74 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div></div>
+<div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-interval="5000">
+
+    <div class="carousel-overlay">
+    </div>
+    <ol class="carousel-indicators">
+        <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselIndicators" data-slide-to="2"></li>
+        <li data-target="#carouselIndicators" data-slide-to="3"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img class="d-block w-100" src="~/images/carousel/happy-doctor-in-nursing.jpg" alt="Pierwszy slajd">
+            <div class="carousel-caption d-none d-md-block">
+                <h2>Profesjonaliści w swoim fachu</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget dapibus maurisnc tempor felis id gravida tincidunt.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img class="d-block w-100" src="~/images/carousel/doctors-conversation.jpg" alt="Drugi slajd">
+            <div class="carousel-caption d-none d-md-block">
+                <h2>Zdrowie to podstawa!</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget dapibus maurisnc tempor felis id gravida tincidunt.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img class="d-block w-100" src="~/images/carousel/adobe-stock.jpeg" alt="Trzeci slajd">
+            <div class="carousel-caption d-none d-md-block">
+                <h2>Oferujemy wam nasz wyszkolony personel</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget dapibus maurisnc tempor felis id gravida tincidunt.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img class="d-block w-100" src="~/images/carousel/okulary.jpg" alt="czwarty slajd">
+            <div class="carousel-caption d-none d-md-block">
+                <h2>A czy ty już zadbałeś o swój wzrok?</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget dapibus maurisnc tempor felis id gravida tincidunt.</p>
+            </div>
+        </div>
+    </div>
+
+    <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Poprzedni</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Następny</span>
+    </a>
+</div>
+
+<div class="row" style="padding-top:60px;">
+    <div class="col-md-4 ">
+        <h4>Nasi lekarze wygrywają konkurs ZnanyLekarz.pl</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur elit lacus, fringilla non purus ut, porta mattis leo. Pellentesque porttitor porttitor accumsan. Donec a massa diam. Nullam consectetur mauris est, ut tempor turpis mattis eget. Vivamus vitae tincidunt sem. Donec malesuada purus ac arcu finibus congue. Praesent ac ex augue. </p>
+        <button class="nav-link btn btn-link btn-white-border" asp-area="Identity" asp-controller="Account">Zobacz więcej</button>
+    </div>
+    <div class="col-md-4 ">
+        <h4>Zobacz już teraz nasze oferty!</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur elit lacus, fringilla non purus ut, porta mattis leo. Pellentesque porttitor porttitor accumsan. Donec a massa diam. Nullam consectetur mauris est, ut tempor turpis mattis eget. Vivamus vitae tincidunt sem. Donec malesuada purus ac arcu finibus congue. Praesent ac ex augue. </p>
+        <button class="nav-link btn btn-link btn-white-border" asp-area="Identity" asp-controller="Account">Zobacz więcej</button>
+    </div>
+    <div class="col-md-4">
+        <h4>STOP! Alergiom</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur elit lacus, fringilla non purus ut, porta mattis leo. Pellentesque porttitor porttitor accumsan. Donec a massa diam. Nullam consectetur mauris est, ut tempor turpis mattis eget. Vivamus vitae tincidunt sem. Donec malesuada purus ac arcu finibus congue. Praesent ac ex augue. </p>
+        <button class="nav-link btn btn-link btn-white-border" asp-area="Identity" asp-controller="Account">Zobacz więcej</button>
+    </div>
+</div>
+
+
+

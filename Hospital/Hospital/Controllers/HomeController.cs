@@ -33,7 +33,31 @@ namespace Hospital.Controllers
             
             return View();
         }
+        public IActionResult Interna()
+        {
+            
+            return View();
+        }
+        public IActionResult Surgery()
+        {
 
+            return View();
+        }
+        public IActionResult Opthamology()
+        {
+
+            return View();
+        }
+        public IActionResult Allergology()
+        {
+
+            return View();
+        }
+        public IActionResult Dentist()
+        {
+
+            return View();
+        }
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

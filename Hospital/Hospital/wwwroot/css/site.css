@@ -19,6 +19,23 @@ padding: 70px 15px 0px 15px;
 .carousel-inner .item img[src$=".svg"] {
     width: 100%;
 }
+.carousel-overlay {
+    background-color: rgba(0,68,148,0.5);
+    z-index: 1;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+.overlay {
+    background-color: rgba(0,68,148,0.2);
+    z-index: 1;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
 
 /* QR code generator */
 #qrCode {
@@ -29,6 +46,65 @@ padding: 70px 15px 0px 15px;
 
 }
 
+.header-col {
+    max-height:80px;
+    margin:10px 0px 15px 0px;
+}
+.logo{
+    height:85%;
+    width:85%;
+}
+
+.bg-navbar-blue {
+    background-color: #004494;
+}
+
+.statistic-col {
+    background-color: rgb(235, 235, 235);
+    border: 1px solid rgb(195, 195,195);
+    text-align: center;
+    padding:10px;
+}
+.statistic-text {
+    display: inline;
+    font-size: 3em;
+    font-weight:800;
+   color:rgb(95,95,95);
+}
+.text-grey-stat {
+    color: rgb(95,95,95);
+}
+.btn-yellow {
+    background-color: rgba(255,204,0,0.92) !important;
+    color: rgba(255,255,255,0.9) !important;
+}
+.btn-yellow:hover {
+    background-color: rgba(255,204,0,1) !important;
+    color: rgba(255,255,255,1) !important;
+}
+
+.btn-blue {
+    background-color: rgba(0,68,148,0.92) !important;
+    color: rgba(255,255,255,0.9) !important;
+}
+.btn-blue:hover {
+    background-color: rgba(0,68,148,1) !important;
+    color: rgba(255,255,255,1) !important;
+}
+
+.btn-white-border {
+    background-color: white;
+    color: rgba(0,68,148,1);
+    border: 1px solid rgba(0,68,148,1)
+}
+.btn-white-border:hover {
+        background-color: rgba(0,68,148,1);
+        color:white;
+}
+
+.offer-list {
+    padding-bottom: 5px;
+}
 #admin-header > li > a {
     text-decoration: none;
     background-color: #e2e2e2;

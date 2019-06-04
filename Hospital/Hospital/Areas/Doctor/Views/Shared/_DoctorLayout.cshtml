@@ -36,9 +36,24 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-md mb-auto">
+    <div class="container">
+        <div class="row">
+            <div class="col align-self-start header-col">
+                <a asp-area=""
+                   asp-controller="Home" asp-action="Index" class="navbar-brand"><img class="logo" src="~/images/logoHospital.png" /></a>
+
+            </div>
+            <div class="col-sm">
+
+            </div>
+            <div class="col-sm">
+
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-dark bg-navbar-blue navbar-expand-md mb-auto">
         <div class="container">
-            <a asp-area="Doctor" asp-controller="Home" asp-action="Index" class="navbar-brand"> Hospital </a>
+            <a asp-area="Doctor" asp-controller="Home" asp-action="Index" class="navbar-brand"> </a>
             @if (SignInManager.IsSignedIn(User) && User.IsInRole(nameof(SystemRoleType.Doctor)))
             {
                 <ul class="nav navbar-nav ml-auto">

@@ -13,32 +13,62 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-hero.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link href="~/fontawesome/css/all.css" rel="stylesheet" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-md">
+    <div class="container">
+        <div class="row">
+            <div class="col align-self-start header-col">
+                <a asp-area=""
+                   asp-controller="Home" asp-action="Index" class="navbar-brand"><img class="logo" src="~/images/logoHospital.png" /></a>
+                
+            </div>
+            <div class="col-sm">
+
+            </div>
+            <div class="col-sm">
+
+            </div>
+        </div>
+
+    </div>
+    <nav class="navbar navbar-dark navbar-expand-md bg-navbar-blue">
         <div class="container">
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
-             
-            </button> <a asp-area=""
-                         asp-controller="Home" asp-action="Index" class="navbar-brand">Hospital</a>
+            </button> 
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="nav-item">
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Strona Domowa</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Oferta
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" asp-controller="Home" asp-action="Interna">Interna</a>
+                            <a class="dropdown-item" asp-controller="Home" asp-action="Surgery">Chirurgia</a>
+                            <a class="dropdown-item" asp-controller="Home" asp-action="Opthamology">Okulistyka</a>
+                            <a class="dropdown-item"  asp-controller="Home" asp-action="Dentist">Stomatologia</a>
+                            <a class="dropdown-item" asp-controller="Home" asp-action="Allergology">Alergologia</a>
+                        </div>
+
+                    </li>
+
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Home" asp-action="About" class="nav-link">O nas</a>
                     </li>
                     <li class="nav-item">
-                        <a asp-area="" asp-controller="Home" asp-action="About" class="nav-link">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-area="" asp-controller="Home" asp-action="Contact" class="nav-link">Contact</a>
+                        <a asp-area="" asp-controller="Home" asp-action="Contact" class="nav-link">Kontakt</a>
                     </li>
                 </ul>
                 <partial name="_LoginPartial">

@@ -13,7 +13,7 @@
                    class="nav-link">Witaj @UserManager.GetUserName(User)!</a>
             </li>
             <li class="nav-item">
-                <button type="submit"  class="btn btn-link nav-item nav-link" asp-area="Identity" asp-controller="Account" asp-action="Logout"> Wyloguj</button>
+                <button type="submit"  class="nav-link btn btn-link btn-yellow" asp-area="Identity" asp-controller="Account" asp-action="Logout">Wyloguj</button>
             </li>
         </ul>
     </form>
@@ -22,8 +22,8 @@ else
 {
     <ul class="nav navbar-nav ml-auto">
         <li class="nav-item">
-            <a asp-area="Identity" asp-controller="Account" asp-action="Register"
-               class="nav-link">Rejestracja!</a>
+            <a type="submit" asp-area="Identity" asp-controller="Account" asp-action="Register"
+               class="btn btn-link nav-item nav-link btn-yellow">Rejestracja</a>
         </li>
         <li class="nav-item">
             <a asp-area="Identity" asp-controller="Account" asp-action="Login" class="nav-link">Logowanie</a>

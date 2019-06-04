@@ -1,18 +1,40 @@
 ﻿@model Hospital.Areas.Admin.ViewModels.StatisticsVM
 
-<h1>Statystyki bazy szpitala</h1>
+<h1 class="text-grey-stat">Statystyki bazy szpitala</h1>
+<hr />
+
+
+
 <div class="row">
-    <div class="col-md-6">
-        <h4 class="text-primary">Ilość doktorów: @Model.statisticsDictionary["Doctor"]</h4>
-        <h4 class="text-primary">Ilość pielęgniarek: @Model.statisticsDictionary["Nurse"]</h4>
-        <h4 class="text-primary">Ilość pracowników szpitala: @(Model.statisticsDictionary["Nurse"] + Model.statisticsDictionary["Doctor"])</h4>
-        <h4 class="text-primary">Ilość zarejestrowanych pacjentów: @Model.statisticsDictionary["Patient"]</h4>
-        <h4 class="text-primary">Ilość medykamentów: @Model.statisticsDictionary["Medicament"]</h4>
+    <div class="col-md-4 statistic-col" >
+            <h4 class="text-grey-stat">Doktorów</h4>
+            <i class="fas fa-user-md fa-4x text-grey-stat"></i>
+            <h4 class="statistic-text">  @Model.statisticsDictionary["Doctor"]</h4>
+        </div>
+        <div class="col-md-4 statistic-col">
+            <h4 class="text-grey-stat">Pielęgniarek</h4>
+            <i class="fas fa-user-nurse fa-4x text-grey-stat"></i>
+            <h4 class="statistic-text">  @Model.statisticsDictionary["Nurse"]</h4>
+        </div>
+        <div class="col-md-4 statistic-col" >
+            <h4 class="text-grey-stat">Pracowników szpitala</h4>
+            <i class="fas fa-clinic-medical fa-4x text-grey-stat"></i>
 
+            <h4 class="statistic-text">  @(Model.statisticsDictionary["Nurse"] + Model.statisticsDictionary["Doctor"])</h4>
+        </div>
     </div>
-    <div class="col-md-4">
+<div class="row" >
+    <div class="col-md-6 statistic-col">
+        <h4 class="text-grey-stat">Pacjentów</h4>
+        <i class="fas fa-user-injured fa-4x text-grey-stat"></i>
+        <h4 class="statistic-text">  @Model.statisticsDictionary["Patient"]</h4>
+    </div>
+    <div class="col-md-6 statistic-col" >
+        <h4 class="text-grey-stat">Medykamentów</h4>
+        <i class="fas fa-prescription-bottle-alt fa-4x text-grey-stat"></i>
+        <h4 class="statistic-text">  @Model.statisticsDictionary["Medicament"]</h4>
+    </div>
 
-    </div>
-    <div class="col-md-4"></div>
 </div>
+
 <partial name="StatisticPieChart" />

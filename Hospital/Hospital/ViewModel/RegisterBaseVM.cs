@@ -27,7 +27,7 @@ namespace Hospital.ViewModel
 
         [Required(ErrorMessage = "Podaj datę urodzin")]
         [DataType(DataType.Date)]
-        [Display(Name = "Data Urodzin")]
+        [Display(Name = "Data Urodzenia")]
         public DateTime DateBirth { get; set; }
 
         [DataType(DataType.PhoneNumber)]

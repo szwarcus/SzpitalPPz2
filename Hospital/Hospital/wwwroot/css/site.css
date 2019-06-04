@@ -5,7 +5,7 @@ for details on configuring this project to bundle and minify static web assets. 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
-padding: 70px 15px 0px 15px;
+padding: 30px 15px 0px 15px;
 
 }
 

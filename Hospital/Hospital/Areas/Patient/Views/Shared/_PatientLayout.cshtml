@@ -53,18 +53,14 @@
                     <li class="nav-item"><a asp-area="Patient" asp-controller="Home" asp-action="DoctorsWorkHours" class="nav-link">Dyżury</a></li>
                     <li class="nav-item"><a asp-area="Patient" asp-controller="Home" asp-action="Documents" class="nav-link">Dokumenty</a></li>
                 </ul>
-                    </nav>
-                    <div class="navbar-collapse collapse">
-                        <partial name="_LoginPartial" />
-                    </div>
-                </div>
             </nav>
-
-            <div class="container body-content">
-
-
+            <div class="navbar-collapse collapse">
+                <partial name="_LoginPartial" />
             </div>
-</nav>
+        </div>
+    </nav>
+
+    <div class="container body-content">
         <div class="container">
             <div class="row mb-3">
                 @if (ViewBag.TabName != null)
@@ -75,12 +71,20 @@
             </div>
 
             @RenderBody()
+
+            <footer class="footer page-footer font-small indigo">
+                <div class="footer-copyright text-center ">
+                    <hr />
+                    <p>&copy; 2018 - Hospital</p>
+                </div>
+            </footer>
         </div>
-        <hr />
-        <footer>
-            <p>&copy; 2018 - Hospital</p>
-        </footer>
+
     </div>
+
+    
+
+
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
